@@ -1,0 +1,12 @@
+@import '../core/index';
+
+.component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $font-size-small;
+    user-select: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
