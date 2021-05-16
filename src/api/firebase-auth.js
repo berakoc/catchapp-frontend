@@ -1,34 +1,45 @@
-import firebase from 'firebase/app'
-import { is } from '../lib/bool'
-
-const GET_REQUEST = {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-        Accept: 'application/json'
-    }
-}
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { is } from '../lib/bool';
 
 export default class FirebaseAuthAPI {
+    constructor() {
+        throw new Error('Cannot create an object of a static class.');
+    }
+
     static getInstance() {
-        let app = null
+        let app = null;
         if (is(firebase.apps.length, 0)) {
-            console.log(process.env)
             const config = {
                 apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
                 authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
                 databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
                 storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-                projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
-            }
-            app = firebase.initializeApp(config)
+                projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+            };
+            app = firebase.initializeApp(config);
         } else {
-            app = firebase.app()
+            app = firebase.app();
         }
-        return app
+        return app;
     }
 
-    static getSessionUser = async () => {
-        //const response = await fetch(FIREBASE_AUTH_API_URL, GET_REQUEST)
+    static init(fetchSessionUser) {
+        FirebaseAuthAPI.getInstance();
+        firebase.auth().onAuthStateChanged((firebaseUser) => {
+            if (firebaseUser) {
+                fetchSessionUser(firebaseUser);
+            }
+        });
+        console.log('Firebase Auth is ready.');
     }
+
+    static login = async (email, password) => await firebase.auth().signInWithEmailAndPassword(email, password)
+
+    static signUp = async (email, password) =>
+        await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+    static logout = async () => await firebase.auth().signOut();
 }
+
+Object.freeze(FirebaseAuthAPI.prototype);

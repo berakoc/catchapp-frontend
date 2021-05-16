@@ -1,10 +1,10 @@
-import { Session } from "./types";
+import { Session } from './types';
 
-const getSessionUser = (sessionUser) => ({
+export const getSessionUser = (sessionUser) => ({
     type: Session.FETCH_SESSION_USER,
-    payload: sessionUser
-})
+    payload: sessionUser,
+});
 
-export const fetchSessionUser = () => async (dispatch) => {
-    const sessionUser = 
-}
+export const logoutSession = () => ({
+    type: Session.REMOVE_SESSION_USER,
+});
