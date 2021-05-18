@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import combine from '../../lib/style-composer';
-import { receiveError } from '../../redux/actions/error';
+import { clearError, receiveError } from '../../redux/actions/error';
 import styles from '../../styles/pages/Login.module.scss';
 import { LoginForm } from '../components';
 import { values } from '../../lib/object'
@@ -13,9 +13,10 @@ const mapStateToProps = ({ error }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     updateError: (e) => dispatch(receiveError(e)),
+    clearError: () => dispatch(clearError())
 });
 
-function Login({ error, updateError }) {
+function Login({ error, updateError, clearError }) {
     const handleSubmit = async e => {
         e.preventDefault()
         const user = {
@@ -24,6 +25,7 @@ function Login({ error, updateError }) {
         }
         try {
             await FirebaseAuthAPI.login(...values(user))
+            clearError()
             console.log('Logged in')
         } catch (err) {
             updateError(err)
