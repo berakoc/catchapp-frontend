@@ -6,7 +6,7 @@ import AuthButton from '../atoms/AuthButton';
 import Spacer from '../atoms/Spacer';
 import { Input, RadioButton } from '../components';
 
-export default function LoginForm(props) {
+export default function SignupForm(props) {
     const [isPasswordHidden, setPasswordHidden] = useState(true);
     return (
         <form onSubmit={props.handleSubmit}>
@@ -20,6 +20,10 @@ export default function LoginForm(props) {
                 {props.title}
             </div>
             <Spacer size={32} />
+            <Input label='Name' placeholder='Enter your full name' />
+            <Spacer size={24} />
+            <Input label='Description' placeholder='Tell us about yourself' />
+            <Spacer size={24} />
             <Input label='Email' placeholder='Enter your email address' />
             <Spacer size={24} />
             <Input
@@ -46,7 +50,7 @@ export default function LoginForm(props) {
                 {props.error || 'No error'}
             </div>
             <Spacer size={24} />
-            <AuthButton text='Login' />
+            <AuthButton text='Sign up' />
             <Spacer size={32} />
             <Link
                 style={{
@@ -55,15 +59,15 @@ export default function LoginForm(props) {
                     paddingBottom: 2,
                     borderBottom: `2px solid ${Colors.primary}`,
                 }}
-                to='/signup'
+                to='/login'
             >
-                Not having an account?
+                Already have an account?
             </Link>
         </form>
     );
 }
 
-LoginForm.propTypes = {
+SignupForm.propTypes = {
     error: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,

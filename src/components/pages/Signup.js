@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import FirebaseAuthAPI from '../../api/firebase-auth';
-import { values } from '../../lib/object';
-import { receiveError } from '../../redux/actions/error';
+import { clearError, receiveError } from '../../redux/actions/error';
+import { SignupForm } from '../components';
+import styles from '../../styles/pages/Auth.module.scss';
+import combine from '../../lib/style-composer';
+import UserAPI from '../../api/user';
 
 const mapStateToProps = ({ error }) => ({
     error,
@@ -11,39 +13,37 @@ const mapStateToProps = ({ error }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     updateError: (e) => dispatch(receiveError(e)),
+    clearError: () => dispatch(clearError())
 });
 
 function Signup({ error, updateError }) {
+    useEffect(() => clearError())
     const handleSubmit = async (e) => {
+        clearError()
         e.preventDefault();
         const user = {
-            email: e.target[0].value,
-            password: e.target[1].value,
+            name: e.target[0].value,
+            description: e.target[1].value,
+            email: e.target[2].value,
+            password: e.target[3].value,
         };
         try {
-            await FirebaseAuthAPI.signUp(...values(user));
+            const { password, ...rest } = user;
+            await FirebaseAuthAPI.signUp(...[user.email, user.password]);
+            await UserAPI.createUser(rest);
             console.log('Signed up');
         } catch (err) {
             updateError(err);
         }
     };
     return (
-        <>
-            <h1>Signup</h1>
-            <p>{error}</p>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input type='email' name='email' />
-                </label>
-                <label>
-                    Password:
-                    <input type='password' name='password' />
-                </label>
-                <input type='submit' value='Submit' />
-            </form>
-            <Link to='/login'>Login</Link>
-        </>
+        <div className={combine(styles, 'component')}>
+            <SignupForm
+                title='Sign up'
+                handleSubmit={handleSubmit}
+                error={error}
+            />
+        </div>
     );
 }
 
