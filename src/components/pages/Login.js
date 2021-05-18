@@ -36,24 +36,6 @@ function Login({ error, updateError, clearError }) {
             <LoginForm title='Login' error={error} handleSubmit={handleSubmit} />
         </div>
     );
-    // return (
-    //     <>
-    //         <h1>Login</h1>
-    //         <p>{error }</p>
-    //         <form onSubmit={handleSubmit}>
-    //             <label>
-    //                 Email:
-    //                 <input type='email' name='email' />
-    //             </label>
-    //             <label>
-    //                 Password:
-    //                 <input type='password' name='password' />
-    //             </label>
-    //             <input type='submit' value='Login' />
-    //         </form>
-    //         <Link to='/signup'>Signup</Link>
-    //     </>
-    // );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

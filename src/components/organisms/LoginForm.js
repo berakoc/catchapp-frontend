@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Colors from '../../lib/colors'
 import AuthButton from '../atoms/AuthButton'
 import Spacer from '../atoms/Spacer'
@@ -31,6 +32,13 @@ export default function LoginForm(props) {
             }}>{props.error || 'No error'}</div>
             <Spacer size={24} />
             <AuthButton text='Login' />
+            <Spacer size={32} />
+            <Link style={{
+                color: Colors.primaryDark,
+                textDecoration: 'none',
+                paddingBottom: 2,
+                borderBottom: `2px solid ${Colors.primary}`
+            }} to='/signup'>Not having an account?</Link>
         </form>
     )
 }
