@@ -1,0 +1,30 @@
+@import '../core/index';
+
+.component {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: $font-size-normal;
+    color: $color-primary-dark;
+}
+
+.input {
+    font-size: $font-size-normal;
+    width: 400px;
+    padding: 16px;
+    color: $color-primary-dark;
+    border-radius: $border-radius;
+    border: 2px solid lighten($color-primary-light, 20%);
+}
+
+.input:focus {
+    border-color: $color-primary;
+}
+
+.input::placeholder {
+    color: lighten($color-primary-light, 0.1)
+}

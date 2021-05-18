@@ -1,6 +1,12 @@
-import { deleteRequest, fetchJSON, getRequest, injectQueryParams, postRequest } from '../lib/api';
+import {
+    deleteRequest,
+    fetchJSON,
+    getRequest,
+    injectQueryParams,
+    postRequest,
+} from '../lib/api';
 
-const USER_API_URL = 'https://catchapp-user.herokuapp.com/api/v1/user'
+const USER_API_URL = 'https://catchapp-user.herokuapp.com/api/v1/user';
 
 export default class UserAPI {
     constructor() {
@@ -11,22 +17,31 @@ export default class UserAPI {
      * @typedef {import('./models/User').default} User
      * @typedef {{code: Number}} StatusCode
      * Creates a user with given model
-     * @param {User} user 
+     * @param {User} user
      * @returns {Promise<StatusCode>}
      */
-    static createUser = async (user) => await fetchJSON(USER_API_URL, postRequest(user))
+    static createUser = async (user) =>
+        await fetchJSON(USER_API_URL, postRequest(user));
 
     /**
-     * @param {String} email 
+     * @param {String} email
      * @returns {Promise<User>}
      */
-    static getUser = async (email) => await fetchJSON(injectQueryParams(USER_API_URL, {email}), getRequest())
+    static getUser = async (email) =>
+        await fetchJSON(
+            injectQueryParams(USER_API_URL, { email }),
+            getRequest()
+        );
 
     /**
-     * @param {String} email 
+     * @param {String} email
      * @returns {Promise<StatusCode>}
      */
-    static deleteUser = async (email) => await fetchJSON(injectQueryParams(USER_API_URL, {email}), deleteRequest())
+    static deleteUser = async (email) =>
+        await fetchJSON(
+            injectQueryParams(USER_API_URL, { email }),
+            deleteRequest()
+        );
 }
 
-Object.freeze(UserAPI.prototype)
+Object.freeze(UserAPI.prototype);

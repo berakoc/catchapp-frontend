@@ -1,1 +1,1 @@
-export const values = o => Object.values(o)
+export const values = (o) => Object.values(o);

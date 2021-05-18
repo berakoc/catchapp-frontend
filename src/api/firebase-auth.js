@@ -34,7 +34,8 @@ export default class FirebaseAuthAPI {
         console.log('Firebase Auth is ready.');
     }
 
-    static login = async (email, password) => await firebase.auth().signInWithEmailAndPassword(email, password)
+    static login = async (email, password) =>
+        await firebase.auth().signInWithEmailAndPassword(email, password);
 
     static signUp = async (email, password) =>
         await firebase.auth().createUserWithEmailAndPassword(email, password);

@@ -6,12 +6,12 @@ import { values } from '../../lib/object';
 import { receiveError } from '../../redux/actions/error';
 
 const mapStateToProps = ({ error }) => ({
-    error
-})
+    error,
+});
 
-const mapDispatchToProps = dispatch => ({
-    updateError: e => dispatch(receiveError(e))
-})
+const mapDispatchToProps = (dispatch) => ({
+    updateError: (e) => dispatch(receiveError(e)),
+});
 
 function Signup({ error, updateError }) {
     const handleSubmit = async (e) => {
@@ -21,12 +21,10 @@ function Signup({ error, updateError }) {
             password: e.target[1].value,
         };
         try {
-            await FirebaseAuthAPI.signUp(
-                ...values(user)
-            );
-            console.log('Signed up')
+            await FirebaseAuthAPI.signUp(...values(user));
+            console.log('Signed up');
         } catch (err) {
-            updateError(err)
+            updateError(err);
         }
     };
     return (
@@ -49,4 +47,4 @@ function Signup({ error, updateError }) {
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

@@ -1,0 +1,18 @@
+@import '../core/index';
+
+.component {
+    opacity: 0.8;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    font-size: $font-size-small;
+    height: 48px;
+    color: white;
+    border: none;
+    background-color: $color-primary;
+    border-radius: $border-radius;
+}
+
+.component:hover {
+    opacity: 1;
+}

@@ -1,0 +1,29 @@
+@import '../core/index';
+
+.component {
+    display: flex;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 6px;
+    border: 1.4px solid lighten($color-primary-light, 20%);
+    background-color: white;
+    cursor: pointer;
+}
+
+.active {
+    background-color: $color-primary;
+    border-color: $color-primary;
+}
+
+.text {
+    user-select: none;
+    color: $color-primary-dark;
+    font-size: $font-size-small;
+}

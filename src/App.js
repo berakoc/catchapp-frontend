@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import FirebaseAuthAPI from './api/firebase-auth';
 import UserAPI from './api/user';
-import './App.css';
+import './App.scss';
 import Dashboard from './components/pages/Dashboard';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
@@ -19,7 +19,7 @@ function App(props) {
     const { fetchSessionUser } = props;
     useEffect(() => {
         FirebaseAuthAPI.init(fetchSessionUser);
-        (async () => await UserAPI.getUser('bera@gmail.com'))()
+        (async () => console.log(await UserAPI.getUser('bera@gmail.com')))();
     }, [fetchSessionUser]);
     return (
         <>
