@@ -53,6 +53,7 @@ export default function SignupForm(props) {
             <AuthButton text='Sign up' />
             <Spacer size={32} />
             <Link
+                onClick={() => props.clearError()}
                 style={{
                     color: Colors.primaryDark,
                     textDecoration: 'none',
@@ -71,4 +72,5 @@ SignupForm.propTypes = {
     error: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
+    clearError: PropTypes.func.isRequired
 };

@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Signup({ error, updateError }) {
-    useEffect(() => clearError())
+    useEffect(() => clearError(), [])
     const handleSubmit = async (e) => {
         clearError()
         e.preventDefault();
@@ -42,6 +42,7 @@ function Signup({ error, updateError }) {
                 title='Sign up'
                 handleSubmit={handleSubmit}
                 error={error}
+                clearError={clearError}
             />
         </div>
     );
