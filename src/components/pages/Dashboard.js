@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FirebaseAuthAPI from '../../api/firebase-auth';
+import combine from '../../lib/style-composer';
 import { logoutSession } from '../../redux/actions/session';
+import styles from '../../styles/pages/Dashboard.module.scss'
+import { UserCard } from '../components'
 
 const mapStateToProps = ({ session }) => ({
     session,
@@ -18,11 +21,10 @@ function Dashboard({ session, logout }) {
         console.log('Successfully logged out');
     };
     return (
-        <>
-            <h1>Hi {session.email}</h1>
-            <p>You are logged in!</p>
-            <button onClick={handleLogout}>Logout</button>
-        </>
+        <div className={combine(styles, 'component')}>
+            <div className={combine(styles, 'card')}><UserCard /></div>
+            <div className={combine(styles, 'events')}>Events</div>
+        </div>
     );
 }
 

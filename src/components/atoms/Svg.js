@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles/atoms/Svg.module.scss';
-import { combine } from '../../lib/style-resolver';
+import combine from '../../lib/style-composer';
 
 function Svg(props) {
     return (

@@ -7,6 +7,7 @@ import Spacer from './atoms/Spacer';
 import RadioButton from './atoms/RadioButton';
 import AuthButton from './atoms/AuthButton';
 import SignupForm from './organisms/SignupForm';
+import UserCard from './atoms/UserCard'
 
 export {
     Button,
@@ -18,4 +19,5 @@ export {
     RadioButton,
     AuthButton,
     SignupForm,
+    UserCard
 };

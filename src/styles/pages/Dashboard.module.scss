@@ -1,0 +1,17 @@
+@import '../core/index';
+
+.component {
+    min-height: 100vh;
+    display: flex;
+    background-color: $color-gray;
+    padding: 10vh 10vw;
+}
+
+.card {
+    flex: 1;
+}
+
+
+.events {
+    flex: 2;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from '../../styles/atoms/Button.module.scss';
-import { combine } from '../../lib/style-resolver';
+import combine from '../../lib/style-composer';
 import Radium from 'radium';
 
 const createStyle = (props) => ({
