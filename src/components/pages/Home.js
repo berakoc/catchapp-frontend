@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import useUserId from '../../hooks/useUserId';
 
 export default function Home() {
-    const userId = useUserId()
+    const userId = useUserId();
     return (
         <>
             <h1>Welcome!</h1>

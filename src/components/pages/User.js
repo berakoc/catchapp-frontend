@@ -7,20 +7,20 @@ import { UserCard } from '../components';
 function User({ isSpecial }) {
     return (
         <div className={combine(styles, 'content')}>
-                <div className={combine(styles, 'card')}>
-                    <UserCard isSpecial={isSpecial} />
-                </div>
-                <div className={combine(styles, 'events')}>Events</div>
+            <div className={combine(styles, 'card')}>
+                <UserCard isSpecial={isSpecial} />
+            </div>
+            <div className={combine(styles, 'events')}>Events</div>
         </div>
     );
 }
 
 User.propTypes = {
     isSpecial: PropTypes.bool.isRequired,
-}
+};
 
 User.defaultProps = {
-    isSpecial: false
-}
+    isSpecial: false,
+};
 
-export default User
+export default User;

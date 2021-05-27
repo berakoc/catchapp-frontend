@@ -22,7 +22,10 @@ export default function SignupForm(props) {
             <Spacer size={32} />
             <Input label='Name' placeholder='Enter your full name' />
             <Spacer size={24} />
-            <TextArea label='Description' placeholder='Tell us about yourself' />
+            <TextArea
+                label='Description'
+                placeholder='Tell us about yourself'
+            />
             <Spacer size={24} />
             <Input label='Email' placeholder='Enter your email address' />
             <Spacer size={24} />

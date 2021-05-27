@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import combine from '../../lib/style-composer';
 import genericStyles from '../../styles/atoms/Input.module.scss';
-import styles from '../../styles/atoms/TextArea.module.scss'
+import styles from '../../styles/atoms/TextArea.module.scss';
 
 function TextArea(props) {
     return (
@@ -21,12 +21,12 @@ TextArea.propTypes = {
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    numberOfColumns: PropTypes.number.isRequired
+    numberOfColumns: PropTypes.number.isRequired,
 };
 
 TextArea.defaultProps = {
     type: 'text',
-    numberOfColumns: 4
+    numberOfColumns: 4,
 };
 
 export default TextArea;

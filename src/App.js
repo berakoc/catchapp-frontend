@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 function App(props) {
     const { fetchSessionUser } = props;
-    const userId = useUserId()
+    const userId = useUserId();
     useEffect(() => {
         FirebaseAuthAPI.init(fetchSessionUser);
     }, [fetchSessionUser]);
@@ -26,7 +26,12 @@ function App(props) {
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
-            {userId && <ProtectedRoute path={`/user/${userId}`} component={Dashboard} />}
+            {userId && (
+                <ProtectedRoute
+                    path={`/user/${userId}`}
+                    component={Dashboard}
+                />
+            )}
         </>
     );
 }

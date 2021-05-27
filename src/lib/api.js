@@ -23,6 +23,14 @@ export const deleteRequest = () => ({
     },
 });
 
+export const putRequest = () => ({
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+        Accept: 'application/json',
+    },
+});
+
 export const fetchJSON = async (url, options) =>
     await (await fetch(url, options)).json();
 

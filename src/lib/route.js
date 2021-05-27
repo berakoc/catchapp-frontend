@@ -7,22 +7,26 @@ const mapStateToProps = ({ session }) => ({
 });
 
 const Auth = ({ loggedIn, path, component: Component }) => {
-    const userId = useUserId()
+    const userId = useUserId();
     return (
         <Route
             path={path}
             render={(props) =>
-                loggedIn ? userId && <Redirect to={`/user/${userId}`} /> : <Component {...props} />
+                loggedIn ? (
+                    userId && <Redirect to={`/user/${userId}`} />
+                ) : (
+                    <Component {...props} />
+                )
             }
         />
-    )
+    );
 };
 
 const Protected = ({ loggedIn, path, component: Component }) => (
     <Route
         path={path}
         render={(props) =>
-            loggedIn ? <Component {...props} />: <Redirect to='/login' />
+            loggedIn ? <Component {...props} /> : <Redirect to='/login' />
         }
     />
 );

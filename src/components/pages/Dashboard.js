@@ -19,10 +19,12 @@ function Dashboard({ logout }) {
     return (
         <div className={combine(styles, 'component')}>
             <User isSpecial />
-            <div className={combine(styles, 'navbar')}><button onClick={() => handleLogout()}>Logout</button></div>
+            <div className={combine(styles, 'navbar')}>
+                <button onClick={() => handleLogout()}>Logout</button>
+            </div>
             <EventButton />
         </div>
-    )
+    );
 }
 
-export default connect(null, mapDispatchToProps)(Dashboard)
+export default connect(null, mapDispatchToProps)(Dashboard);
