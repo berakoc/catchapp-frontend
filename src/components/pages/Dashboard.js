@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FirebaseAuthAPI from '../../api/firebase-auth';
 import combine from '../../lib/style-composer';
 import { logoutSession } from '../../redux/actions/session';
 import styles from '../../styles/pages/Dashboard.module.scss';
