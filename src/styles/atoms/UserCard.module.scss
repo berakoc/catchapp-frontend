@@ -5,3 +5,53 @@
     background-color: white;
     padding: 18px;
 }
+
+.info {
+    display: flex;
+    height: 12vh;
+}
+
+.image {
+    width: 32%;
+    height: 12vh;
+    margin-right: 4%;
+    background-color: $color-primary;
+    border-radius: $border-radius;
+}
+
+.block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.name {
+    font-size: $font-size-large * 1.2;
+    font-weight: 500;
+    color: $color-primary-dark;
+}
+
+.title {
+    font-size: 15px;
+}
+
+.buttons {
+    display: flex;
+    margin: 18px 0;
+}
+
+.spacer {
+    width: 6%;
+}
+
+.aboutTitle {
+    font-size: 24px;
+    color: $color-primary-dark;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.about {
+    color: $color-primary-light;
+}

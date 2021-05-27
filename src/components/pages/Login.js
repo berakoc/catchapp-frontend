@@ -17,9 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Login({ error, updateError, clearError }) {
-    useEffect(() => clearError(), [clearError])
+    useEffect(() => clearError(), [clearError]);
     const handleSubmit = async (e) => {
-        clearError()
+        clearError();
         e.preventDefault();
         const user = {
             email: e.target[0].value,

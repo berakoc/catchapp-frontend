@@ -72,5 +72,5 @@ SignupForm.propTypes = {
     error: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    clearError: PropTypes.func.isRequired
+    clearError: PropTypes.func.isRequired,
 };

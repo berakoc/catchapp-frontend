@@ -1,28 +1,66 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import User from '../../api/models/User'
-import UserAPI from '../../api/user'
-import styles from '../../styles/atoms/UserCard.module.scss'
-import combine from '../../lib/style-composer'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import User from '../../api/models/User';
+import UserAPI from '../../api/user';
+import styles from '../../styles/atoms/UserCard.module.scss';
+import combine from '../../lib/style-composer';
+import { FlexButton, Statistics } from '../components';
+import Colors from '../../lib/colors';
 
 const mapStateToProps = ({ session }) => ({
-    session
-})
+    session,
+});
 
 function UserCard({ session }) {
-    const [user, setUser] = useState(new User())
+    const [user, setUser] = useState(new User());
     useEffect(() => {
-        const email = session.email
+        const email = session.email;
         const fetchUser = async (email) => {
-            setUser(await UserAPI.getUser(email))
-        }
-        fetchUser(email)
-    }, [session.email])
+            setUser(await UserAPI.getUser(email));
+        };
+        fetchUser(email);
+    }, [session.email]);
     return (
         <div className={combine(styles, 'component')}>
-            {user.name}
+            <div className={combine(styles, 'info')}>
+                <div className={combine(styles, 'image')} />
+                <div className={combine(styles, 'block')}>
+                    <div>
+                        <div className={combine(styles, 'name')}>
+                            {user.name}
+                        </div>
+                        <div className={combine(styles, 'title')}>
+                            {user.title}
+                        </div>
+                    </div>
+                    <Statistics
+                        numberOfEvents={user.numberOfEventsCreated || 0}
+                        numberOfFollowers={user.numberOfFollowers || 0}
+                        rating={user.rating || 0}
+                    />
+                </div>
+            </div>
+            <div className={combine(styles, 'buttons')}>
+                <FlexButton
+                    text='Chat'
+                    color={Colors.primaryLight}
+                    backgroundColor={Colors.white}
+                    borderColor={Colors.gray}
+                    handleClick={() => console.log('Chat')}
+                />
+                <div className={combine(styles, 'spacer')} />
+                <FlexButton
+                    text='Follow'
+                    color={Colors.white}
+                    backgroundColor={Colors.primary}
+                    borderColor={Colors.primary}
+                    handleClick={() => console.log('Follow')}
+                />
+            </div>
+            <div className={combine(styles, 'aboutTitle')}>About</div>
+            <div className={combine(styles, 'about')}>{user.description}</div>
         </div>
-    )
+    );
 }
 
-export default connect(mapStateToProps)(UserCard)
+export default connect(mapStateToProps)(UserCard);

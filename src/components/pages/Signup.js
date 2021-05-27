@@ -13,13 +13,13 @@ const mapStateToProps = ({ error }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     updateError: (e) => dispatch(receiveError(e)),
-    clearError: () => dispatch(clearError())
+    clearError: () => dispatch(clearError()),
 });
 
 function Signup({ error, clearError, updateError }) {
-    useEffect(() => clearError(), [clearError])
+    useEffect(() => clearError(), [clearError]);
     const handleSubmit = async (e) => {
-        clearError()
+        clearError();
         e.preventDefault();
         const user = {
             name: e.target[0].value,

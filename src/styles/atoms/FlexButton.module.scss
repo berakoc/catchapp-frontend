@@ -1,0 +1,15 @@
+@import '../core/index';
+
+.component {
+    border-radius: $border-radius;
+    text-align: center;
+    padding: 12px 20px;
+    flex: 1;
+    cursor: pointer;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.component:hover {
+    opacity: 1;
+}
