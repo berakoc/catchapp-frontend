@@ -4,6 +4,7 @@ import combine from '../../lib/style-composer';
 import { logoutSession } from '../../redux/actions/session';
 import styles from '../../styles/pages/Dashboard.module.scss';
 import { UserCard } from '../components';
+import FirebaseAuthAPI from '../../api/firebase-auth'
 
 const mapStateToProps = ({ session }) => ({
     session,
@@ -14,11 +15,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Dashboard({ session, logout }) {
-    // const handleLogout = async () => {
-    //     FirebaseAuthAPI.logout();
-    //     await logout();
-    //     console.log('Successfully logged out');
-    // };
+    const handleLogout = async () => {
+        FirebaseAuthAPI.logout();
+        await logout();
+        console.log('Successfully logged out');
+    };
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'content')}>
@@ -27,7 +28,7 @@ function Dashboard({ session, logout }) {
                 </div>
                 <div className={combine(styles, 'events')}>Events</div>
             </div>
-            <div className={combine(styles, 'navbar')}>Navbar</div>
+            <div className={combine(styles, 'navbar')}><button onClick={() => handleLogout()}>Logout</button></div>
         </div>
     );
 }

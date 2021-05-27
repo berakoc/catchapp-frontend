@@ -1,0 +1,20 @@
+@import '../core/index';
+
+.textarea {
+    font-size: $font-size-normal;
+    width: 400px;
+    padding: 16px;
+    color: $color-primary-dark;
+    border-radius: $border-radius;
+    border: 2px solid lighten($color-primary-light, 20%);
+    resize: none;
+    font-family: Roboto;
+}
+
+.textarea:focus {
+    border-color: $color-primary;
+}
+
+.textarea::placeholder {
+    color: lighten($color-primary-light, 0.1)
+}

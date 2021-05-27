@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Colors from '../../lib/colors';
 import AuthButton from '../atoms/AuthButton';
 import Spacer from '../atoms/Spacer';
-import { Input, RadioButton } from '../components';
+import { Input, RadioButton, TextArea } from '../components';
 
 export default function SignupForm(props) {
     const [isPasswordHidden, setPasswordHidden] = useState(true);
@@ -22,7 +22,7 @@ export default function SignupForm(props) {
             <Spacer size={32} />
             <Input label='Name' placeholder='Enter your full name' />
             <Spacer size={24} />
-            <Input label='Description' placeholder='Tell us about yourself' />
+            <TextArea label='Description' placeholder='Tell us about yourself' />
             <Spacer size={24} />
             <Input label='Email' placeholder='Enter your email address' />
             <Spacer size={24} />

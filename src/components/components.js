@@ -10,6 +10,7 @@ import SignupForm from './organisms/SignupForm';
 import UserCard from './atoms/UserCard';
 import Statistics from './atoms/Statistics';
 import FlexButton from './atoms/FlexButton';
+import TextArea from './atoms/TextArea'
 
 export {
     Button,
@@ -24,4 +25,5 @@ export {
     UserCard,
     Statistics,
     FlexButton,
+    TextArea
 };
