@@ -11,6 +11,7 @@ import UserCard from './atoms/UserCard';
 import Statistics from './atoms/Statistics';
 import FlexButton from './atoms/FlexButton';
 import TextArea from './atoms/TextArea'
+import User from './pages/User'
 
 export {
     Button,
@@ -25,5 +26,6 @@ export {
     UserCard,
     Statistics,
     FlexButton,
-    TextArea
+    TextArea,
+    User
 };

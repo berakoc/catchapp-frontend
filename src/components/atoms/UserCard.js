@@ -6,12 +6,13 @@ import styles from '../../styles/atoms/UserCard.module.scss';
 import combine from '../../lib/style-composer';
 import { FlexButton, Statistics } from '../components';
 import Colors from '../../lib/colors';
+import PropTypes from 'prop-types'
 
 const mapStateToProps = ({ session }) => ({
     session,
 });
 
-function UserCard({ session }) {
+function UserCard({ session, isSpecial }) {
     const [user, setUser] = useState(new User());
     useEffect(() => {
         const email = session.email;
@@ -40,7 +41,7 @@ function UserCard({ session }) {
                     />
                 </div>
             </div>
-            <div className={combine(styles, 'buttons')}>
+            { !isSpecial && <div className={combine(styles, 'buttons')}>
                 <FlexButton
                     text='Chat'
                     color={Colors.primaryLight}
@@ -56,11 +57,16 @@ function UserCard({ session }) {
                     borderColor={Colors.primary}
                     handleClick={() => console.log('Follow')}
                 />
-            </div>
-            <div className={combine(styles, 'aboutTitle')}>About</div>
+            </div>}
+            <div className={combine(styles, 'aboutTitle', isSpecial ? 'marginTop' : ':null')}>About</div>
             <div className={combine(styles, 'about')}>{user.description}</div>
         </div>
     );
+}
+
+UserCard.propTypes = {
+    isSpecial: PropTypes.bool.isRequired,
+    session: PropTypes.object
 }
 
 export default connect(mapStateToProps)(UserCard);

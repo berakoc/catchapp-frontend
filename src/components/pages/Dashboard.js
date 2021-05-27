@@ -1,36 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import combine from '../../lib/style-composer';
-import { logoutSession } from '../../redux/actions/session';
-import styles from '../../styles/pages/Dashboard.module.scss';
-import { UserCard } from '../components';
-import FirebaseAuthAPI from '../../api/firebase-auth'
+import { User } from '../components';
 
-const mapStateToProps = ({ session }) => ({
-    session,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    logout: () => dispatch(logoutSession()),
-});
-
-function Dashboard({ session, logout }) {
-    const handleLogout = async () => {
-        FirebaseAuthAPI.logout();
-        await logout();
-        console.log('Successfully logged out');
-    };
+function Dashboard() {
     return (
-        <div className={combine(styles, 'component')}>
-            <div className={combine(styles, 'content')}>
-                <div className={combine(styles, 'card')}>
-                    <UserCard />
-                </div>
-                <div className={combine(styles, 'events')}>Events</div>
-            </div>
-            <div className={combine(styles, 'navbar')}><button onClick={() => handleLogout()}>Logout</button></div>
-        </div>
-    );
+        <User isSpecial />
+    )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard
