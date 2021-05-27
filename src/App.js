@@ -7,6 +7,7 @@ import Dashboard from './components/pages/Dashboard';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
+import useUserId from './hooks/useUserId';
 import { AuthRoute, ProtectedRoute } from './lib/route';
 import { getSessionUser } from './redux/actions/session';
 
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 function App(props) {
     const { fetchSessionUser } = props;
+    const userId = useUserId()
     useEffect(() => {
         FirebaseAuthAPI.init(fetchSessionUser);
     }, [fetchSessionUser]);
@@ -24,7 +26,7 @@ function App(props) {
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
-            <ProtectedRoute path='/dashboard' component={Dashboard} />
+            {userId && <ProtectedRoute path={`/user/${userId}`} component={Dashboard} />}
         </>
     );
 }
