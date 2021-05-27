@@ -7,7 +7,7 @@ import {
     putRequest,
 } from '../lib/api';
 
-const EVENT_API_URL = 'https://catchapp-user.herokuapp.com/api/v1/event';
+const EVENT_API_URL = 'https://catchapp-event.herokuapp.com/api/v1/event';
 
 export default class EventAPI {
     constructor() {

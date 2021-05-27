@@ -31,7 +31,6 @@ function Signup({ error, clearError, updateError }) {
             const { password, ...rest } = user;
             await FirebaseAuthAPI.signUp(...[user.email, user.password]);
             await UserAPI.createUser(rest);
-            console.log('Signed up');
         } catch (err) {
             updateError(err);
         }

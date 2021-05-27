@@ -27,7 +27,6 @@ function Login({ error, updateError, clearError }) {
         };
         try {
             await FirebaseAuthAPI.login(...values(user));
-            console.log('Logged in');
         } catch (err) {
             updateError(err);
         }

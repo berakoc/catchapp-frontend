@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import FirebaseAuthAPI from '../../api/firebase-auth';
 import combine from '../../lib/style-composer';
 import { logoutSession } from '../../redux/actions/session';
-import { EventButton, User } from '../components';
 import styles from '../../styles/pages/Dashboard.module.scss';
+import { EventButton, User } from '../components';
 
 const mapDispatchToProps = (dispatch) => ({
     logout: () => dispatch(logoutSession()),
