@@ -1,0 +1,48 @@
+@import '../core/index';
+
+.component {
+    position: absolute;
+    top: 18px;
+    right: 108px;
+}
+
+.icon {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+    padding: 12px;
+    background-color: white;
+    border-radius: $border-radius;
+
+    & svg {
+        opacity: 0.8;
+    }
+}
+
+.icon:hover {
+    cursor: pointer;
+
+    & svg {
+        opacity: 1;
+    }
+}
+
+.tooltip {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    background-color: white;
+    border-radius: $border-radius / 2;
+    border: 1px solid $color-primary;
+    padding: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 500;
+    color: $color-primary-dark;
+}
+
+.invisible {
+    display: none;
+}

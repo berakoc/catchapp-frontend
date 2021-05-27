@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import FirebaseAuthAPI from '../../api/firebase-auth';
 import combine from '../../lib/style-composer';
 import { logoutSession } from '../../redux/actions/session';
-import { User } from '../components';
+import { EventButton, User } from '../components';
 import styles from '../../styles/pages/Dashboard.module.scss';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -20,6 +20,7 @@ function Dashboard({ logout }) {
         <div className={combine(styles, 'component')}>
             <User isSpecial />
             <div className={combine(styles, 'navbar')}><button onClick={() => handleLogout()}>Logout</button></div>
+            <EventButton />
         </div>
     )
 }

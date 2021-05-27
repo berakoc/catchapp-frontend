@@ -18,15 +18,15 @@ body {
   outline: none;
 }
 
-*::-webkit-scrollbar {
-  width: 10px;               /* width of the entire scrollbar */
-}
+// *::-webkit-scrollbar {
+//   width: 10px;               /* width of the entire scrollbar */
+// }
 
-*::-webkit-scrollbar-track {
-  background: lighten($color-primary, 30%);        /* color of the tracking area */
-}
+// *::-webkit-scrollbar-track {
+//   background: lighten($color-primary, 30%);        /* color of the tracking area */
+// }
 
-*::-webkit-scrollbar-thumb {
-  background-color: $color-primary;    /* color of the scroll thumb */
-  border-radius: 12px;       /* roundness of the scroll thumb */
-}
+// *::-webkit-scrollbar-thumb {
+//   background-color: $color-primary;    /* color of the scroll thumb */
+//   border-radius: 12px;       /* roundness of the scroll thumb */
+// }

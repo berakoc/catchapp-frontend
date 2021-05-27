@@ -12,6 +12,7 @@ import Statistics from './atoms/Statistics';
 import FlexButton from './atoms/FlexButton';
 import TextArea from './atoms/TextArea'
 import User from './pages/User'
+import EventButton from './atoms/EventButton'
 
 export {
     Button,
@@ -27,5 +28,6 @@ export {
     Statistics,
     FlexButton,
     TextArea,
-    User
+    User,
+    EventButton
 };
