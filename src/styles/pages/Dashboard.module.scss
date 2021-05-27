@@ -8,8 +8,9 @@
 .content {
     flex: 1;
     display: flex;
+    justify-content: center;
     background-color: $color-gray;
-    padding: 10vh 6vw;
+    padding: 10vh 12vw;
 }
 
 .navbar {
@@ -17,7 +18,7 @@
 }
 
 .card {
-    flex: 3;
+    width: 440px;
     margin: 0 2vw;
 }
 
