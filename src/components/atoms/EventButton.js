@@ -22,6 +22,9 @@ export default function EventButton() {
             title: e.target[0].value,
             description: e.target[1].value,
             location: e.target[2].value,
+            startDate: e.target[3].value,
+            endDate: e.target[4].value,
+            perk: e.target[5].value
         };
         await EventAPI.createEvent(event);
     };
@@ -59,6 +62,12 @@ export default function EventButton() {
                         placeholder='Tell about the place'
                     />
                     <Spacer size={24} />
+                    <Input label='Start Date' placeholder='' type='date' />
+                    <Spacer size={24} />
+                    <Input label='End Date' placeholder='' type='date' />
+                    <Spacer size={24} />
+                    <Input label='Perk' placeholder='What bonus do you offer?' />
+                    <Spacer size={48} />
                     <AuthButton text='Create' />
                 </form>
             </div>
