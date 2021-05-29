@@ -7,6 +7,7 @@ export default class User {
      * @param {Number} numberOfEventsCreated
      * @param {Number} numberOfFollowers
      * @param {Number} rating
+     * @param {String} profilePicture
      */
     constructor(
         name,
@@ -15,7 +16,8 @@ export default class User {
         id,
         numberOfEventsCreated,
         numberOfFollowers,
-        rating
+        rating,
+        profilePicture
     ) {
         this.name = name;
         this.email = email;
@@ -24,15 +26,6 @@ export default class User {
         this.numberOfEventsCreated = numberOfEventsCreated;
         this.numberOfFollowers = numberOfFollowers;
         this.rating = rating;
-    }
-
-    /**
-     * Creates a new user model
-     * @param {String} name
-     * @param {String} email
-     * @param {String} description
-     */
-    static createUser(name, email, description) {
-        return new User(name, email, description);
+        this.profilePicture = profilePicture;
     }
 }

@@ -11,29 +11,39 @@ import { Input, Spacer, TextArea } from '../components';
 import AuthButton from './AuthButton';
 
 export default function EventButton() {
-    const userId = useUserId()
-    const clickRef = useRef()
-    const [isActive, setActive] = useState(false)
-    useOutsideDetector(clickRef, setActive)
+    const userId = useUserId();
+    const clickRef = useRef();
+    const [isActive, setActive] = useState(false);
+    useOutsideDetector(clickRef, setActive);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const event = {
             creatorId: userId,
             title: e.target[0].value,
             description: e.target[1].value,
-            location: e.target[2].value
-        }
-        await EventAPI.createEvent(event)
+            location: e.target[2].value,
+        };
+        await EventAPI.createEvent(event);
     };
     return (
         <div className={combine(styles, 'component')}>
-            <div onClick={() => setActive(!isActive)} className={combine(styles, 'icon')}>
+            <div
+                onClick={() => setActive(!isActive)}
+                className={combine(styles, 'icon')}
+            >
                 <FontAwesomeIcon
                     icon={faCalendarPlus}
                     color={isActive ? Colors.primary : Colors.primaryLight}
                 />
             </div>
-            <div  ref={clickRef} className={combine(styles, 'tooltip', isActive ? ':null' : 'invisible')}>
+            <div
+                ref={clickRef}
+                className={combine(
+                    styles,
+                    'tooltip',
+                    isActive ? ':null' : 'invisible'
+                )}
+            >
                 <div className={combine(styles, 'title')}>Create An Event</div>
                 <Spacer size={24} />
                 <form onSubmit={handleSubmit}>

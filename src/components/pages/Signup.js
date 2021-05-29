@@ -6,6 +6,7 @@ import { SignupForm } from '../components';
 import styles from '../../styles/pages/Auth.module.scss';
 import combine from '../../lib/style-composer';
 import UserAPI from '../../api/user';
+import { getRandomColor } from '../../lib/profile-picture';
 
 const mapStateToProps = ({ error }) => ({
     error,
@@ -26,6 +27,7 @@ function Signup({ error, clearError, updateError }) {
             description: e.target[1].value,
             email: e.target[2].value,
             password: e.target[3].value,
+            profilePicture: getRandomColor()
         };
         try {
             const { password, ...rest } = user;

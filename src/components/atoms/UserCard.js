@@ -24,7 +24,9 @@ function UserCard({ session, isSpecial }) {
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'info')}>
-                <div className={combine(styles, 'image')} />
+                <div style={{
+                    backgroundColor: user.profilePicture
+                }} className={combine(styles, 'image')} />
                 <div className={combine(styles, 'block')}>
                     <div>
                         <div className={combine(styles, 'name')}>
