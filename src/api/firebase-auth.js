@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { is } from '../lib/bool';
+import UserAPI from './user'
 
 export default class FirebaseAuthAPI {
     constructor() {
@@ -24,11 +25,11 @@ export default class FirebaseAuthAPI {
         return app;
     }
 
-    static init(fetchSessionUser) {
+    static init(fetchUser) {
         FirebaseAuthAPI.getInstance();
-        firebase.auth().onAuthStateChanged((firebaseUser) => {
+        firebase.auth().onAuthStateChanged(async (firebaseUser) => {
             if (firebaseUser) {
-                fetchSessionUser(firebaseUser);
+                await fetchUser(await UserAPI.getUser(firebaseUser.email));
             }
         });
         console.log('Firebase Auth is ready.');

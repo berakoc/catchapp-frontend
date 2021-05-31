@@ -13,6 +13,9 @@ import FlexButton from './atoms/FlexButton';
 import TextArea from './atoms/TextArea';
 import User from './pages/User';
 import EventButton from './atoms/EventButton';
+import Filter from './atoms/Filter';
+import EventCard from './atoms/EventCard';
+import EventList from './organisms/EventList';
 
 export {
     Button,
@@ -30,4 +33,7 @@ export {
     TextArea,
     User,
     EventButton,
+    Filter,
+    EventCard,
+    EventList,
 };

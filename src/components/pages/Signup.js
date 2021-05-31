@@ -27,12 +27,13 @@ function Signup({ error, clearError, updateError }) {
             description: e.target[1].value,
             email: e.target[2].value,
             password: e.target[3].value,
-            profilePicture: getRandomColor()
+            profilePicture: getRandomColor(),
         };
         try {
             const { password, ...rest } = user;
-            await FirebaseAuthAPI.signUp(...[user.email, user.password]);
             await UserAPI.createUser(rest);
+            await FirebaseAuthAPI.signUp(...[user.email, user.password]);
+            console.log('Created user')
         } catch (err) {
             updateError(err);
         }

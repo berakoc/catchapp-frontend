@@ -5,7 +5,7 @@ import { EMPTY_STRING } from '../lib/string';
 import rootReducer from './reducers/root';
 
 const initialState = {
-    session: null,
+    user: null,
     error: EMPTY_STRING,
 };
 const middlewares = [thunk];

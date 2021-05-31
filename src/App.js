@@ -7,33 +7,34 @@ import Dashboard from './components/pages/Dashboard';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
-import useUserId from './hooks/useUserId';
+import { coalesce } from './lib/object';
 import { AuthRoute, ProtectedRoute } from './lib/route';
-import { getSessionUser } from './redux/actions/session';
+import { fetchUser } from './redux/actions/user';
+
+const mapStateToProps = ({ user }) => ({
+    userId: coalesce(user, 'id')
+})
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchSessionUser: (sessionUser) => dispatch(getSessionUser(sessionUser)),
+    fetchUser: (user) => dispatch(fetchUser(user)),
 });
 
 function App(props) {
-    const { fetchSessionUser } = props;
-    const userId = useUserId();
+    const { fetchUser } = props;
     useEffect(() => {
-        FirebaseAuthAPI.init(fetchSessionUser);
-    }, [fetchSessionUser]);
+        FirebaseAuthAPI.init(fetchUser);
+    }, [fetchUser]);
     return (
         <>
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
-            {userId && (
-                <ProtectedRoute
-                    path={`/user/${userId}`}
+            <ProtectedRoute
+                    path={`/dashboard`}
                     component={Dashboard}
                 />
-            )}
         </>
     );
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

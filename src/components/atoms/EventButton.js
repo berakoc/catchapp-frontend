@@ -1,17 +1,21 @@
 import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import EventAPI from '../../api/event';
 import useOutsideDetector from '../../hooks/useOutsideDetector';
-import useUserId from '../../hooks/useUserId';
 import Colors from '../../lib/colors';
+import { coalesce } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventButton.module.scss';
 import { Input, Spacer, TextArea } from '../components';
 import AuthButton from './AuthButton';
 
-export default function EventButton() {
-    const userId = useUserId();
+const mapStateToProps = ({user}) => ({
+    userId: coalesce(user, 'id')
+})
+
+function EventButton({ userId }) {
     const clickRef = useRef();
     const [isActive, setActive] = useState(false);
     useOutsideDetector(clickRef, setActive);
@@ -24,7 +28,7 @@ export default function EventButton() {
             location: e.target[2].value,
             startDate: e.target[3].value,
             endDate: e.target[4].value,
-            perk: e.target[5].value
+            perk: e.target[5].value,
         };
         await EventAPI.createEvent(event);
     };
@@ -66,7 +70,10 @@ export default function EventButton() {
                     <Spacer size={24} />
                     <Input label='End Date' placeholder='' type='date' />
                     <Spacer size={24} />
-                    <Input label='Perk' placeholder='What bonus do you offer?' />
+                    <Input
+                        label='Perk'
+                        placeholder='What bonus do you offer?'
+                    />
                     <Spacer size={48} />
                     <AuthButton text='Create' />
                 </form>
@@ -74,3 +81,5 @@ export default function EventButton() {
         </div>
     );
 }
+
+export default connect(mapStateToProps)(EventButton)

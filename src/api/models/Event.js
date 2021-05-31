@@ -31,8 +31,8 @@ export default class Event {
         this.creationDate = creationDate;
         this.location = location;
         this.listAttendees = listAttendees;
-        this.startDate = startDate
-        this.endDate = endDate
-        this.perk = perk
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.perk = perk;
     }
 }

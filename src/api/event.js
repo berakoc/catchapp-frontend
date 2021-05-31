@@ -4,7 +4,6 @@ import {
     getRequest,
     injectQueryParams,
     postRequest,
-    putRequest,
 } from '../lib/api';
 
 const EVENT_API_URL = 'https://catchapp-event.herokuapp.com/api/v1/event';
@@ -33,7 +32,7 @@ export default class EventAPI {
     static addUserToEvent = async (eventId, userId) =>
         await fetchJSON(
             injectQueryParams(EVENT_API_URL, { eventId, userId }),
-            putRequest()
+            postRequest()
         );
 
     static removeUserFromEvent = async (eventId, userId) =>
@@ -42,7 +41,25 @@ export default class EventAPI {
                 eventId,
                 userId,
             }),
-            putRequest()
+            deleteRequest()
+        );
+
+    static addLike = async (eventId) =>
+        await fetchJSON(
+            injectQueryParams(EVENT_API_URL.concat('/like'), { eventId }),
+            postRequest()
+        );
+
+    static removeLike = async (eventId) =>
+        await fetchJSON(
+            injectQueryParams(EVENT_API_URL.concat('/like'), { eventId }),
+            deleteRequest()
+        );
+
+    static getEventPage = async (pageId) =>
+        await fetchJSON(
+            injectQueryParams(EVENT_API_URL.concat('/eventPage'), { pageId }),
+            getRequest()
         );
 }
 

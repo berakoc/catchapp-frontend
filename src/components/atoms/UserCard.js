@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import User from '../../api/models/User';
-import UserAPI from '../../api/user';
-import styles from '../../styles/atoms/UserCard.module.scss';
-import combine from '../../lib/style-composer';
-import { FlexButton, Statistics } from '../components';
-import Colors from '../../lib/colors';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
+import Colors from '../../lib/colors';
+import combine from '../../lib/style-composer';
+import styles from '../../styles/atoms/UserCard.module.scss';
+import { FlexButton, Statistics } from '../components';
 
-const mapStateToProps = ({ session }) => ({
-    session,
+const mapStateToProps = ({ user }) => ({
+    user,
 });
-
-function UserCard({ session, isSpecial }) {
-    const [user, setUser] = useState(new User());
-    useEffect(() => {
-        const email = session.email;
-        const fetchUser = async (email) => {
-            setUser(await UserAPI.getUser(email));
-        };
-        fetchUser(email);
-    }, [session.email]);
+function UserCard({ user, isSpecial }) {
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'info')}>
-                <div style={{
-                    backgroundColor: user.profilePicture
-                }} className={combine(styles, 'image')} />
+                <div
+                    style={{
+                        backgroundColor: user.profilePicture,
+                    }}
+                    className={combine(styles, 'image')}
+                />
                 <div className={combine(styles, 'block')}>
                     <div>
                         <div className={combine(styles, 'name')}>
@@ -78,7 +70,6 @@ function UserCard({ session, isSpecial }) {
 
 UserCard.propTypes = {
     isSpecial: PropTypes.bool.isRequired,
-    session: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(UserCard);
