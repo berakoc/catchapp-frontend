@@ -14,7 +14,6 @@ function Dashboard({ logout }) {
     const handleLogout = async () => {
         await FirebaseAuthAPI.logout();
         await logout();
-        console.log('Successfully logged out');
     };
     return (
         <div className={combine(styles, 'component')}>
