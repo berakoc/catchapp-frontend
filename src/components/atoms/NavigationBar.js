@@ -1,4 +1,8 @@
-import { faCalendarAlt, faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCalendarAlt,
+    faHome,
+    faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -11,21 +15,26 @@ import styles from '../../styles/atoms/NavigationBar.module.scss';
  * @typedef {import('../../api/models/User').default} User
  */
 const mapStateToProps = ({ user }) => ({
-    user
-})
+    user,
+});
 
 /**
- * @param {{user: User, handleLogout: Function}} props 
+ * @param {{user: User, handleLogout: Function}} props
  */
 function NavigationBar({ user, handleLogout }) {
     return (
         <div className={combine(styles, 'component')}>
-            <div style={{
-                backgroundColor: user.profilePicture
-            }} className={combine(styles, 'profilePicture')} />
+            <div
+                style={{
+                    backgroundColor: user.profilePicture,
+                }}
+                className={combine(styles, 'profilePicture')}
+            />
             <div className={combine(styles, 'options')}>
                 <FontAwesomeIcon icon={faHome} />
-                <Link to='/dashboard'><FontAwesomeIcon icon={faCalendarAlt} /></Link>
+                <Link to='/dashboard'>
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                </Link>
                 <FontAwesomeIcon onClick={handleLogout} icon={faSignOutAlt} />
             </div>
             <div className={combine(styles, 'null')}>Null</div>
@@ -34,9 +43,7 @@ function NavigationBar({ user, handleLogout }) {
 }
 
 NavigationBar.propTypes = {
-    handleLogout: PropTypes.func.isRequired
-}
-
-
+    handleLogout: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps)(NavigationBar);

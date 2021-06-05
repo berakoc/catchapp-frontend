@@ -12,8 +12,8 @@ import { AuthRoute, ProtectedRoute } from './lib/route';
 import { fetchUser } from './redux/actions/user';
 
 const mapStateToProps = ({ user }) => ({
-    userId: coalesce(user, 'id')
-})
+    userId: coalesce(user, 'id'),
+});
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: (user) => dispatch(fetchUser(user)),
@@ -29,10 +29,7 @@ function App(props) {
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
-            <ProtectedRoute
-                    path={`/dashboard`}
-                    component={Dashboard}
-                />
+            <ProtectedRoute path={`/dashboard`} component={Dashboard} />
         </>
     );
 }

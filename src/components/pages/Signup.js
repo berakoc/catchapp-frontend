@@ -6,7 +6,7 @@ import { SignupForm } from '../components';
 import styles from '../../styles/pages/Auth.module.scss';
 import combine from '../../lib/style-composer';
 import UserAPI from '../../api/user';
-import debug from '../../lib/debug'
+import debug from '../../lib/debug';
 import { getRandomColor } from '../../lib/profile-picture';
 
 const mapStateToProps = ({ error }) => ({
@@ -34,7 +34,7 @@ function Signup({ error, clearError, updateError }) {
             const { password, ...rest } = user;
             await UserAPI.createUser(rest);
             await FirebaseAuthAPI.signUp(...[user.email, user.password]);
-            debug('A new user is created.')
+            debug('A new user is created.');
         } catch (err) {
             updateError(err);
         }

@@ -1,10 +1,10 @@
-import { User } from "./types";
+import { User } from './types';
 
-export const fetchUser = user => ({
+export const fetchUser = (user) => ({
     type: User.FETCH_USER,
-    payload: user
-})
+    payload: user,
+});
 
 export const removeUser = () => ({
-    type: User.REMOVE_USER
-})
+    type: User.REMOVE_USER,
+});

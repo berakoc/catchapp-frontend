@@ -10,7 +10,9 @@ export default class Event {
      * @param {Array<String>} listAttendees
      * @param {Date} startDate
      * @param {Date} endDate
+     * @param {number} numberOfLikes
      * @param {String} perk
+     * 
      */
     constructor(
         id,
@@ -22,6 +24,7 @@ export default class Event {
         listAttendees,
         startDate,
         endDate,
+        numberOfLikes,
         perk
     ) {
         this.id = id;
@@ -33,6 +36,7 @@ export default class Event {
         this.listAttendees = listAttendees;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.numberOfLikes = numberOfLikes;
         this.perk = perk;
     }
 }

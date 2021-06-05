@@ -12,10 +12,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Dashboard({ logout }) {
-   const handleLogout = async () => {
+    const handleLogout = async () => {
         await FirebaseAuthAPI.logout();
         await logout();
-        debug('Logged out.')
+        debug('Logged out.');
     };
     return (
         <div className={combine(styles, 'component')}>

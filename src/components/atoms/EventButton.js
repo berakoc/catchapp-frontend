@@ -12,9 +12,9 @@ import styles from '../../styles/atoms/EventButton.module.scss';
 import { Input, Spacer, TextArea } from '../components';
 import AuthButton from './AuthButton';
 
-const mapStateToProps = ({user}) => ({
-    userId: coalesce(user, 'id')
-})
+const mapStateToProps = ({ user }) => ({
+    userId: coalesce(user, 'id'),
+});
 
 function EventButton({ userId }) {
     const clickRef = useRef();
@@ -33,9 +33,9 @@ function EventButton({ userId }) {
         };
         try {
             await EventAPI.createEvent(event);
-        } catch(err) {
-            setActive(false)
-            error(err.message)
+        } catch (err) {
+            setActive(false);
+            error(err.message);
         }
     };
     return (
@@ -88,4 +88,4 @@ function EventButton({ userId }) {
     );
 }
 
-export default connect(mapStateToProps)(EventButton)
+export default connect(mapStateToProps)(EventButton);

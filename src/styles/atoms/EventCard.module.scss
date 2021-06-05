@@ -1,0 +1,77 @@
+@import '../core/index';
+
+.component {
+    background-color: white;
+    padding: 32px 24px;
+    border-radius: $border-radius;
+    margin: 12px 0;
+    &:first-child {
+        margin: 0 0 12px 0;
+    }
+}
+
+.creator {
+    display: flex;
+    align-items: center;
+}
+
+.profilePicture {
+    width: 40px;
+    height: 40px;
+    border-radius: 99px;
+    margin-right: 8px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.fullName {
+    font-size: $font-size-normal;
+    color: $color-primary-dark;
+    font-weight: 400;
+}
+
+.endDate {
+    font-size: $font-size-small;
+    color: $color-primary-dark;
+    font-weight: 300;
+}
+
+.event {
+    margin: 24px 0 0 48px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: $color-primary-dark;
+}
+
+.description {
+    margin: 8px 0 32px 0;
+    font-size: $font-size-normal;
+    color: $color-primary-light;
+}
+
+.statistics {
+    display: flex;
+    margin-right: 12px;
+}
+
+.statistic {
+    display: flex;
+
+    & > svg {
+        margin-right: 6px;
+        color: $color-primary-light;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+}
+
+.likes {
+    font-size: $font-size-small;
+    color: $color-primary-light;
+}

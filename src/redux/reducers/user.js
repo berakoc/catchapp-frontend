@@ -1,13 +1,16 @@
-import { User } from "../actions/types"
+import { User } from '../actions/types';
 
-const initialState = null
+const initialState = null;
 
-const userReducer = (state=initialState, action) => {
+const userReducer = (state = initialState, action) => {
     switch (action.type) {
-        case User.FETCH_USER: return action.payload
-        case User.REMOVE_USER: return initialState
-        default: return state
+        case User.FETCH_USER:
+            return action.payload;
+        case User.REMOVE_USER:
+            return initialState;
+        default:
+            return state;
     }
-}
+};
 
-export default userReducer
+export default userReducer;

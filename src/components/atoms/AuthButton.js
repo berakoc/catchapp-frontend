@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import styles from '../../styles/atoms/AuthButton.module.scss';
 import combine from '../../lib/style-composer';
 
-function AuthButton({text, handleClick}) {
-    const clearInputs = (e) => {
-
-    }
+function AuthButton({ text, handleClick }) {
+    const clearInputs = (e) => {};
     return (
         <input
             onClick={() => {
-                clearInputs()
-                handleClick()
+                clearInputs();
+                handleClick();
             }}
             type='submit'
             className={combine(styles, 'component')}
@@ -22,11 +20,11 @@ function AuthButton({text, handleClick}) {
 
 AuthButton.propTypes = {
     text: PropTypes.string.isRequired,
-    handleClick: PropTypes.func.isRequired
+    handleClick: PropTypes.func.isRequired,
 };
 
 AuthButton.defaultProps = {
-    handleClick: () => null
-}
+    handleClick: () => null,
+};
 
 export default AuthButton;

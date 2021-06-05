@@ -10,7 +10,9 @@ function User({ isSpecial }) {
             <div className={combine(styles, 'card')}>
                 <UserCard isSpecial={isSpecial} />
             </div>
-            <div className={combine(styles, 'events')}><EventList /></div>
+            <div className={combine(styles, 'events')}>
+                <EventList />
+            </div>
         </div>
     );
 }

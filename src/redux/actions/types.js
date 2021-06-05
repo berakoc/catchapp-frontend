@@ -5,9 +5,9 @@ export const Error = {
 
 export const User = {
     FETCH_USER: 'FETCH_USER',
-    REMOVE_USER: 'REMOVE_USER'
-}
+    REMOVE_USER: 'REMOVE_USER',
+};
 
 export const undetectedType = {
-    type: 'Undetected'
-}
+    type: 'Undetected',
+};
