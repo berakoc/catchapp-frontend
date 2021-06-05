@@ -6,6 +6,7 @@ import styles from '../../styles/pages/Auth.module.scss';
 import { LoginForm } from '../components';
 import { values } from '../../lib/object';
 import FirebaseAuthAPI from '../../api/firebase-auth';
+import debug from '../../lib/debug'
 
 const mapStateToProps = ({ error }) => ({
     error,
@@ -27,6 +28,7 @@ function Login({ error, updateError, clearError }) {
         };
         try {
             await FirebaseAuthAPI.login(...values(user));
+            debug('User logged in.')
         } catch (err) {
             updateError(err);
         }

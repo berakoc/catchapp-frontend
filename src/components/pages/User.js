@@ -1,13 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/pages/User.module.scss';
 import { EventList, UserCard } from '../components';
 
 function User({ isSpecial }) {
-    useEffect(() => {
-        console.log('Rendered')
-    })
     return (
         <div className={combine(styles, 'content')}>
             <div className={combine(styles, 'card')}>

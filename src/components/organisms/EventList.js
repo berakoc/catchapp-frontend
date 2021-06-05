@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import EventAPI from '../../api/event';
 import { EventCard, Filter } from '../components';
+import debug from '../../lib/debug'
 
 const nullFunction = () => null;
 
@@ -13,16 +14,17 @@ export default function EventList() {
         const fetchEventsByPageId = async () => {
             if (isEventsConsumed) return
             const fetchedEvents = await EventAPI.getEventPage(pageId);
+            debug({fetchedEvents, pageId})
             if (!fetchedEvents.length) {
                 setEventsConsumed(true);
                 return;
             }
-            const fetchedIndexes = fetchedEvents.map(event => event.id) 
-            setEvents([...events.filter(event => !~fetchedIndexes.indexOf(event.id)), ...fetchedEvents]);
+            setEvents([...events, ...fetchedEvents]);
             setPageId(pageId + 1);
         };
         fetchEventsByPageId();
-    }, [pageId, isEventsConsumed, events]);
+        // eslint-disable-next-line
+    }, [pageId, isEventsConsumed]);
     return (
         <div>
             <Filter

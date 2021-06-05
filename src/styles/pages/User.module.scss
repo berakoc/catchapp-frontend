@@ -5,11 +5,11 @@
     display: flex;
     justify-content: center;
     background-color: $color-gray;
-    padding: 10vh 12vw;
+    padding: 10vh 8vw;
 }
 
 .card {
-    width: 400px;
+    width: clamp(400px, 32vw, 440px);
     margin: 0 2vw;
 }
 

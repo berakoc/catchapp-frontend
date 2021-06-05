@@ -30,6 +30,7 @@ function EventButton({ userId }) {
             endDate: e.target[4].value,
             perk: e.target[5].value,
         };
+        console.log(event)
         await EventAPI.createEvent(event);
     };
     return (
