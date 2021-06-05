@@ -1,6 +1,6 @@
 import Button from './atoms/Button';
 import Svg from './atoms/Svg';
-import NavigationBar from './organisms/NavigationBar';
+import NavigationBar from './atoms/NavigationBar';
 import Input from './atoms/Input';
 import LoginForm from './organisms/LoginForm';
 import Spacer from './atoms/Spacer';

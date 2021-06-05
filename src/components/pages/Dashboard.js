@@ -4,7 +4,7 @@ import FirebaseAuthAPI from '../../api/firebase-auth';
 import combine from '../../lib/style-composer';
 import { removeUser } from '../../redux/actions/user';
 import styles from '../../styles/pages/Dashboard.module.scss';
-import { EventButton, User } from '../components';
+import { EventButton, NavigationBar, User } from '../components';
 import debug from '../../lib/debug'
 
 const mapDispatchToProps = (dispatch) => ({
@@ -20,9 +20,7 @@ function Dashboard({ logout }) {
     return (
         <div className={combine(styles, 'component')}>
             <User isSpecial />
-            <div className={combine(styles, 'navbar')}>
-                <button onClick={() => handleLogout()}>Logout</button>
-            </div>
+            <NavigationBar handleLogout={handleLogout} />
             <EventButton />
         </div>
     );
