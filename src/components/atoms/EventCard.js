@@ -1,4 +1,4 @@
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -14,13 +14,13 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
  * @param {Date} date 
  * @returns {String}
  */
-const getDateString = date => `${monthNames[date.getMonth()]} ${date.getDay()} ${new Date().getFullYear() != date.getFullYear() ? date.getFullYear() : ''}`
+const getDateString = date => `${monthNames[date.getMonth()]} ${date.getDay()} ${new Date().getFullYear() !== date.getFullYear() ? date.getFullYear() : ''}`
 
 /**
  * @param {{event: import('../../api/models/Event').default}} props
  */
 function EventCard({ event }) {
-    const [creator, setCreator] = useState({
+    const [creator] = useState({
         profilePicture: '#4895ef',
         fullName: 'Allie Thomson',
     });

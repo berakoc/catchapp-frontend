@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid';
 import React, { useEffect, useRef, useState } from 'react';
 import EventAPI from '../../api/event';
-import useAsync from '../../hooks/useAsync';
 import useFlow from '../../hooks/useFlow';
 import { EventCard, Filter } from '../components';
 
