@@ -1,0 +1,39 @@
+@import '../core/index';
+
+.component {
+    display: flex;
+    font-size: $font-size-normal;
+    padding: 12px 24px;
+    background-color: white;
+    margin-bottom: 24px;
+    border-radius: $border-radius;
+    align-items: center;
+    width: 460px;
+}
+
+.title {
+    font-weight: 500;
+    color: $color-primary-dark;
+    margin-right: 50px;
+}
+
+.item {
+    color: $color-primary-light;
+    margin: 0 6px;
+    &:last-child {
+        margin-right: 0;
+    }
+    cursor: pointer;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    opacity: 0.6;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.active {
+    opacity: 1;
+    color: $color-primary-dark;
+    border-bottom: 2px solid $color-primary;
+}

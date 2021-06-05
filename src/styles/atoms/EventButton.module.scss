@@ -1,14 +1,14 @@
 @import '../core/index';
 
 .component {
-    position: absolute;
+    position: fixed;
     top: 18px;
-    right: 108px;
+    right: 140px;
 }
 
 .icon {
-    position: absolute;
-    right: 0;
+    position: fixed;
+    right: 120;
     display: inline-block;
     padding: 12px;
     background-color: white;
@@ -17,9 +17,9 @@
 }
 
 .tooltip {
-    position: absolute;
+    position: fixed;
     top: 48px;
-    right: 0;
+    right: 120;
     background-color: white;
     border-radius: $border-radius / 2;
     border: 1px solid $color-primary;
