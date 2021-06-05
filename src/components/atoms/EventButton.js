@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import EventAPI from '../../api/event';
 import useOutsideDetector from '../../hooks/useOutsideDetector';
 import Colors from '../../lib/colors';
+import { error } from '../../lib/debug';
 import { coalesce } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventButton.module.scss';
@@ -30,8 +31,12 @@ function EventButton({ userId }) {
             endDate: e.target[4].value,
             perk: e.target[5].value,
         };
-        console.log(event)
-        await EventAPI.createEvent(event);
+        try {
+            await EventAPI.createEvent(event);
+        } catch(err) {
+            setActive(false)
+            error(err.message)
+        }
     };
     return (
         <div className={combine(styles, 'component')}>

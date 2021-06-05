@@ -25,7 +25,7 @@ function NavigationBar({ user, handleLogout }) {
             }} className={combine(styles, 'profilePicture')} />
             <div className={combine(styles, 'options')}>
                 <FontAwesomeIcon icon={faHome} />
-                <Link exact to='/dashboard'><FontAwesomeIcon icon={faCalendarAlt} /></Link>
+                <Link to='/dashboard'><FontAwesomeIcon icon={faCalendarAlt} /></Link>
                 <FontAwesomeIcon onClick={handleLogout} icon={faSignOutAlt} />
             </div>
             <div className={combine(styles, 'null')}>Null</div>
