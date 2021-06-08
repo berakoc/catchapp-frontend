@@ -20,12 +20,14 @@ export default class EventAPI {
     static createEvent = async (event) =>
         await fetchJSON(EVENT_API_URL, postRequest(event));
 
-    static getEvent = async (id) =>
-        await fetchJSON(injectQueryParams(EVENT_API_URL, { id }, getRequest()));
-
-    static deleteEvent = async (id) =>
+    static getEvent = async (eventId) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL, { id }),
+            injectQueryParams(EVENT_API_URL, { eventId }, getRequest())
+        );
+
+    static deleteEvent = async (eventId) =>
+        await fetchJSON(
+            injectQueryParams(EVENT_API_URL, { eventId }),
             deleteRequest()
         );
 

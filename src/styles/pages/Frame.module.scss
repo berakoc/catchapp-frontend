@@ -1,0 +1,12 @@
+@import '../core/index';
+
+.component {
+    display: flex;
+    min-height: 100vh;
+    margin-right: 80px;
+    background-color: $color-gray;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 10vh 8vw;
+}

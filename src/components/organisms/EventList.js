@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
-import { warn } from '../../lib/debug';
 import { EventCard, Filter } from '../components';
 
 const nullFunction = () => null;
 
 export default function EventList() {
-    useEffect(() => {
-        warn('EventList rendered')
-    })
     const [events, setEvents] = useState([]);
     const [pageId, setPageId] = useState(0);
     const eventListRef = useRef();
-    const atomicLockRef = useRef(true)
-    useFlow(400, () => setPageId((pageId) => pageId + 1), eventListRef, atomicLockRef);
+    const atomicLockRef = useRef(true);
+    useFlow(
+        400,
+        () => setPageId((pageId) => pageId + 1),
+        eventListRef,
+        atomicLockRef
+    );
     const [isEventsConsumed, setEventsConsumed] = useState(false);
     useEffect(() => {
         const fetchEventsByPageId = async () => {
-            atomicLockRef.current = true
+            atomicLockRef.current = true;
             if (isEventsConsumed) return;
             const fetchedEvents = await EventAPI.getEventPage(pageId);
             if (!fetchedEvents.length) {
@@ -32,7 +33,7 @@ export default function EventList() {
             ]);
         };
         fetchEventsByPageId().then(() => {
-            atomicLockRef.current = false
+            atomicLockRef.current = false;
         });
         // eslint-disable-next-line
     }, [pageId, isEventsConsumed]);

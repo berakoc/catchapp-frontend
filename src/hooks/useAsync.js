@@ -1,11 +1,19 @@
 import { useEffect } from 'react';
+import { nullFn } from '../lib/object';
 
-export default function useAsync(asyncFn, onSuccess, deps=[]) {
+export default function useAsync(
+    asyncFn,
+    onSuccess,
+    onError = nullFn,
+    deps = []
+) {
     useEffect(() => {
         let isActive = true;
-        asyncFn().then((data) => {
-            if (isActive) onSuccess(data);
-        });
+        asyncFn()
+            .catch(onError)
+            .then((data) => {
+                if (isActive) onSuccess(data);
+            });
         return () => {
             isActive = false;
         };

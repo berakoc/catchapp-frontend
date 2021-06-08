@@ -7,7 +7,7 @@ const debug = (message, color = '#4ad66d', tag = 'Log') =>
 
 export const log = (message) => debug(message);
 export const error = (message) => debug(message, '#e63946', 'Error');
-export const warn = (message) => debug(message, '#ffb703', 'Warn')
-export const info = message => debug(message, '#4361ee', 'Debug')
+export const warn = (message) => debug(message, '#ffb703', 'Warn');
+export const info = (message) => debug(message, '#4361ee', 'Debug');
 
 export default log;

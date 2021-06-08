@@ -12,7 +12,7 @@ export default class Event {
      * @param {Date} endDate
      * @param {number} numberOfLikes
      * @param {String} perk
-     * 
+     *
      */
     constructor(
         id,

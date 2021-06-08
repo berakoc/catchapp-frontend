@@ -2,7 +2,12 @@ import { throttle } from 'lodash';
 import { useEffect } from 'react';
 import debug from '../lib/debug';
 
-export default function useFlow(limit, handleFlow, eventListRef, atomicLockRef) {
+export default function useFlow(
+    limit,
+    handleFlow,
+    eventListRef,
+    atomicLockRef
+) {
     useEffect(() => {
         let previousEventListHeight = 0;
         const checkIfLimitExceeded = throttle(() => {

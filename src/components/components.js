@@ -16,6 +16,8 @@ import EventButton from './atoms/EventButton';
 import Filter from './atoms/Filter';
 import EventCard from './atoms/EventCard';
 import EventList from './organisms/EventList';
+import Event from './pages/Event';
+import Frame from './pages/Frame';
 
 export {
     Button,
@@ -36,4 +38,6 @@ export {
     Filter,
     EventCard,
     EventList,
+    Event,
+    Frame,
 };

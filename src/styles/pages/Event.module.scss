@@ -1,0 +1,160 @@
+@import '../core/index';
+
+.component {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    & > div {
+        margin: 0 1vw;
+    }
+}
+
+.event {
+    flex: 5;
+    max-width: 960px;
+}
+
+.user {
+    width: clamp(300px, 18vw, 320px);
+}
+
+.userCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: $border-radius;
+    overflow: hidden;
+}
+
+.hero {
+    height: 40px;
+    background-color: rgba($color: $color-primary-dark, $alpha: 0.1);
+}
+
+.content {
+    padding: 20px;
+
+    & .name {
+        color: $color-primary-dark;
+        font-weight: 500;
+        font-size: $font-size-normal;
+        margin: 16px 0 6px 0;
+    }
+
+    & .description {
+        color: $color-primary-dark;
+    }
+}
+
+.circle {
+    border-radius: 99px;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 14px;
+}
+
+.eventCard {
+    display: flex;
+}
+
+.reaction {
+    background-color: white;
+    padding: 12px 8px;
+    border-radius: $border-radius;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 12px;
+
+    & > svg {
+        margin-bottom: 4px;
+        transform: scale(1.2);
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    & > * {
+        color: $color-primary-light;
+    }
+}
+
+.eventContent {
+    flex: 1;
+    background-color: white;
+    border-radius: $border-radius;
+    padding: 18px 32px;
+}
+
+.info {
+    display: flex;
+}
+
+.left {
+    flex: 5;
+}
+
+.right {
+    flex: 2;
+    margin-left: 12px;
+}
+
+.perkContainer {
+    margin: 4px;
+    padding: 12px;
+    border-radius: $border-radius;
+    background-color: rgba($color: $color-primary, $alpha: 0.04);
+}
+
+.perkTitle {
+    font-size: $font-size-normal;
+    font-weight: 500;
+    color: $color-primary-dark;
+}
+
+.perk {
+    font-size: $font-size-small;
+    color: rgba($color: $color-primary-dark, $alpha: 0.5);
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 500;
+    color: $color-primary-dark;
+}
+
+.startDate {
+    color: $color-primary-light;
+    font-size: $font-size-small;
+    font-weight: 500;
+}
+
+.description {
+    font-size: $font-size-normal;
+    color: rgba($color: $color-primary-dark, $alpha: 0.8);
+}
+
+.join {
+    display: flex;
+    align-items: center;
+}
+
+.endDateBlock {
+    margin-right: 48px;
+}
+
+.endDateTitle {
+    font-size: $font-size-small;
+    color: $color-primary-light;
+    font-weight: 500;   
+}
+
+.endDate {
+    font-size: 16px;
+    color: rgba($color: $color-primary-dark, $alpha: 0.7);
+}
