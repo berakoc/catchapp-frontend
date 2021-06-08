@@ -2,7 +2,7 @@ export default class Event {
     /**
      * Event Model
      * @param {String} id
-     * @param {String} creatorId
+     * @param {String} creatorEmail
      * @param {String} title
      * @param {String} description
      * @param {Date} creationDate
@@ -16,7 +16,7 @@ export default class Event {
      */
     constructor(
         id,
-        creatorId,
+        creatorEmail,
         title,
         description,
         creationDate,
@@ -28,7 +28,7 @@ export default class Event {
         perk
     ) {
         this.id = id;
-        this.creatorId = creatorId;
+        this.creatorEmail = creatorEmail;
         this.title = title;
         this.description = description;
         this.creationDate = creationDate;

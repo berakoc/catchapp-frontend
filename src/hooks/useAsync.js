@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function useAsync(asyncFn, onSuccess) {
+export default function useAsync(asyncFn, onSuccess, deps=[]) {
     useEffect(() => {
         let isActive = true;
         asyncFn().then((data) => {
@@ -9,5 +9,6 @@ export default function useAsync(asyncFn, onSuccess) {
         return () => {
             isActive = false;
         };
-    }, [asyncFn, onSuccess]);
+        // eslint-disable-next-line
+    }, [...deps]);
 }

@@ -21,7 +21,7 @@ export default function useFlow(limit, handleFlow, eventListRef, atomicLockRef) 
                 handleFlow();
                 previousEventListHeight = currentEventListHeight;
             }
-        }, 300);
+        }, 500);
         window.addEventListener('scroll', checkIfLimitExceeded);
         checkIfLimitExceeded();
         debug('Flow is constructed.');

@@ -1,7 +1,11 @@
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import UserAPI from '../../api/user';
+import useAsync from '../../hooks/useAsync';
+import { info } from '../../lib/debug';
+import { coalesce, compareProp } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventCard.module.scss';
 
@@ -20,18 +24,19 @@ const getDateString = date => `${monthNames[date.getMonth()]} ${date.getDay()} $
  * @param {{event: import('../../api/models/Event').default}} props
  */
 function EventCard({ event }) {
-    const [creator] = useState({
-        profilePicture: '#4895ef',
-        fullName: 'Allie Thomson',
-    });
+    useEffect(() => {
+        info(`${event.title} rendered`)
+    })
+    const [creator, setCreator] = useState(null);
+    useAsync(async () => await UserAPI.getUser(event.creatorEmail), (user) => setCreator(user), [event.id])
     return <div className={combine(styles, 'component')}>
         <div className={combine(styles, 'creator')}>
             <div style={{
-                backgroundColor: creator.profilePicture
+                backgroundColor: coalesce(creator, 'profilePicture')
             }} className={combine(styles, 'profilePicture')} />
             <div className={combine(styles, 'info')}>
-                <div className={combine(styles, 'fullName')}>{creator.fullName}</div>
-                <div className={combine(styles, 'endDate')}>{`${getDateString(new Date(event.startDate))} - ${getDateString(new Date(event.endDate))}`}</div>
+                <div className={combine(styles, 'fullName')}>{coalesce(creator, 'name')}</div>
+                <div className={combine(styles, 'endDate')}>{`${getDateString(new Date(coalesce(event, 'startDate')))} - ${getDateString(new Date(coalesce(event, 'endDate')))}`}</div>
             </div>
         </div>
         <div className={combine(styles, 'event')}>
@@ -52,4 +57,4 @@ EventCard.propTypes = {
     event: PropTypes.object.isRequired,
 };
 
-export default EventCard;
+export default memo(EventCard, compareProp('event', 'id'));

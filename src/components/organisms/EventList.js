@@ -1,12 +1,15 @@
-import { nanoid } from 'nanoid';
 import React, { useEffect, useRef, useState } from 'react';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
+import { warn } from '../../lib/debug';
 import { EventCard, Filter } from '../components';
 
 const nullFunction = () => null;
 
 export default function EventList() {
+    useEffect(() => {
+        warn('EventList rendered')
+    })
     const [events, setEvents] = useState([]);
     const [pageId, setPageId] = useState(0);
     const eventListRef = useRef();
@@ -40,8 +43,8 @@ export default function EventList() {
                 names={['Feed', 'Week', 'Month', 'Year', 'All', 'Latest']}
                 filters={Array(6).fill(nullFunction)}
             />
-            {events.map((event) => (
-                <EventCard key={nanoid()} event={event} />
+            {events.map((event, index) => (
+                <EventCard key={index} event={event} />
             ))}
         </div>
     );
