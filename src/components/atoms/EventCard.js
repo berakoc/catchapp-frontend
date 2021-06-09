@@ -31,15 +31,19 @@ function EventCard({ event }) {
     const cardRef = useRef();
     const deleteRef = useRef();
     const likeRef = useRef();
-    const isOutsideOfDelete = useIsOutside(cardRef, deleteRef)
-    const isOutsideOfLike = useIsOutside(cardRef, likeRef)
+    const isOutsideOfDelete = useIsOutside(cardRef, deleteRef);
+    const isOutsideOfLike = useIsOutside(cardRef, likeRef);
     const isSessionUser = is(
         useSelector(({ user }) => coalesce(user, 'email')),
         event.creatorEmail
     );
     return (
         <Link
-            to={isOutsideOfLike && isOutsideOfDelete ? `/event/${coalesce(event, 'id')}` : '#'}
+            to={
+                isOutsideOfLike && (isOutsideOfDelete || !isSessionUser)
+                    ? `/event/${coalesce(event, 'id')}`
+                    : '#'
+            }
             style={{
                 textDecoration: 'none',
                 cursor: 'default',
