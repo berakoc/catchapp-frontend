@@ -33,12 +33,16 @@
 .info {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .fullName {
     font-size: $font-size-normal;
     color: $color-primary-dark;
     font-weight: 400;
+    cursor: pointer;
+    display: inline-block;
 }
 
 .endDate {

@@ -1,4 +1,4 @@
-import crypto from 'crypto-js'
+import crypto from 'crypto-js';
 
 export const EMPTY_STRING = '';
 
@@ -36,23 +36,23 @@ export const getDateString = (date) =>
 export const convertNumberToString = (num) =>
     num < 1000 ? num : (num / 100).toFixed(0);
 
-export const encrypt = str => crypto.enc.Base64.stringify(crypto.enc.Utf8.parse(str))
-export const decrypt = secret => crypto.enc.Base64.parse(secret).toString(crypto.enc.Utf8)
+export const encrypt = (str) =>
+    crypto.enc.Base64.stringify(crypto.enc.Utf8.parse(str));
+export const decrypt = (secret) =>
+    crypto.enc.Base64.parse(secret).toString(crypto.enc.Utf8);
 
-const hashCode = str => {
+const hashCode = (str) => {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     return hash * 100;
-} 
+};
 
-const intToRGB = i => {
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
+const intToRGB = (i) => {
+    var c = (i & 0x00ffffff).toString(16).toUpperCase();
 
-    return '#' + ("00000".substring(0, 6 - c.length) + c);
-}
+    return '#' + ('00000'.substring(0, 6 - c.length) + c);
+};
 
-export const stringToRGB = string => intToRGB(hashCode(string))
+export const stringToRGB = (string) => intToRGB(hashCode(string));

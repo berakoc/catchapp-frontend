@@ -9,7 +9,7 @@ import { FlexButton, Statistics } from '../components';
 
 /**
  * @param {{user: User, isSessionUser: Boolean}} props
- * @returns 
+ * @returns
  */
 function UserCard({ user, isSessionUser }) {
     return (
@@ -72,7 +72,10 @@ function UserCard({ user, isSessionUser }) {
 
 UserCard.propTypes = {
     isSessionUser: PropTypes.bool.isRequired,
-    user: PropTypes.oneOfType([PropTypes.instanceOf(EmptyObject), PropTypes.instanceOf(User)]).isRequired
+    user: PropTypes.oneOfType([
+        PropTypes.instanceOf(EmptyObject),
+        PropTypes.instanceOf(User),
+    ]).isRequired,
 };
 
 export default UserCard;

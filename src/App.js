@@ -22,9 +22,9 @@ const mapDispatchToProps = (dispatch) => ({
     fetchUser: (user) => dispatch(fetchUser(user)),
 });
 
-const EnhancedUser = ({isSessionUser}) => (
+const EnhancedUser = ({ isSessionUser }) => (
     <Frame component={<User isSessionUser={isSessionUser} />} />
-)
+);
 
 function App({ userEmail, fetchUser }) {
     useEffect(() => {
@@ -35,13 +35,27 @@ function App({ userEmail, fetchUser }) {
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
-            <ProtectedRoute path={`/dashboard`} component={() => <Dashboard recovery={{
-                params: {
-                    id: encrypt(userEmail)
-                }
-            }} />}/>
+            <ProtectedRoute
+                path={`/dashboard`}
+                component={() => (
+                    <Dashboard
+                        recovery={{
+                            params: {
+                                id: encrypt(userEmail),
+                            },
+                        }}
+                    />
+                )}
+            />
             <Route path={'/event/:id'} render={Event} />
-            <Route path={'/user/:id'} render={({ match }) => <EnhancedUser isSessionUser={is(decrypt(match.params.id), userEmail)} />} />
+            <Route
+                path={'/user/:id'}
+                render={({ match }) => (
+                    <EnhancedUser
+                        isSessionUser={is(decrypt(match.params.id), userEmail)}
+                    />
+                )}
+            />
         </>
     );
 }

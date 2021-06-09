@@ -35,15 +35,29 @@ export default class User {
         this.numberOfFollowers = numberOfFollowers;
         this.rating = rating;
         this.profilePicture = profilePicture;
-        this.joinDate = joinDate
-        this.location = location
-        this.followersList = followersList
-        this.followingList = followingList
-        this.numberOfFollowing = numberOfFollowing
+        this.joinDate = joinDate;
+        this.location = location;
+        this.followersList = followersList;
+        this.followingList = followingList;
+        this.numberOfFollowing = numberOfFollowing;
     }
 
     static create = (o) => {
-        const keys = ['name', 'email', 'description', 'id', 'numberOfEventsCreated', 'followersList', 'followingList', 'numberOfFollowers', 'numberOfFollowing', 'rating', 'profilePicture', 'joinDate', 'location']
-        return new User(...keys.map(key => o[key]))
-    }
+        const keys = [
+            'name',
+            'email',
+            'description',
+            'id',
+            'numberOfEventsCreated',
+            'followersList',
+            'followingList',
+            'numberOfFollowers',
+            'numberOfFollowing',
+            'rating',
+            'profilePicture',
+            'joinDate',
+            'location',
+        ];
+        return new User(...keys.map((key) => o[key]));
+    };
 }

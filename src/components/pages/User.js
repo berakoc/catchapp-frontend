@@ -11,13 +11,23 @@ import styles from '../../styles/pages/User.module.scss';
 import { EventList, UserCard } from '../components';
 
 function User({ isSessionUser, match, recovery }) {
-    const userEmail = decrypt(match.params.id || (recovery && recovery.params.id))
-    const [user, setUser] = useState(new UserModel())
-    useAsync(() => UserAPI.getUser(userEmail), user => setUser(user), nullFn, [userEmail])
+    const userEmail = decrypt(
+        match.params.id || (recovery && recovery.params.id)
+    );
+    const [user, setUser] = useState(new UserModel());
+    useAsync(
+        () => UserAPI.getUser(userEmail),
+        (user) => setUser(user),
+        nullFn,
+        [userEmail]
+    );
     return (
         <div className={combine(styles, 'content')}>
             <div className={combine(styles, 'card')}>
-                <UserCard user={UserModel.create(user)} isSessionUser={isSessionUser} />
+                <UserCard
+                    user={UserModel.create(user)}
+                    isSessionUser={isSessionUser}
+                />
             </div>
             <div className={combine(styles, 'events')}>
                 <EventList />
@@ -28,7 +38,7 @@ function User({ isSessionUser, match, recovery }) {
 
 User.propTypes = {
     isSessionUser: PropTypes.bool.isRequired,
-    recovery: PropTypes.object
+    recovery: PropTypes.object,
 };
 
 User.defaultProps = {
