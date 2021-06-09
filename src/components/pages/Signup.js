@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import FirebaseAuthAPI from '../../api/firebase-auth';
-import { clearError, receiveError } from '../../redux/actions/error';
-import { SignupForm } from '../components';
-import styles from '../../styles/pages/Auth.module.scss';
-import combine from '../../lib/style-composer';
 import UserAPI from '../../api/user';
 import debug from '../../lib/debug';
-import { getRandomColor } from '../../lib/profile-picture';
+import { stringToRGB } from '../../lib/string';
+import combine from '../../lib/style-composer';
+import { clearError, receiveError } from '../../redux/actions/error';
+import styles from '../../styles/pages/Auth.module.scss';
+import { SignupForm } from '../components';
 
 const mapStateToProps = ({ error }) => ({
     error,
@@ -28,7 +28,7 @@ function Signup({ error, clearError, updateError }) {
             description: e.target[1].value,
             email: e.target[2].value,
             password: e.target[3].value,
-            profilePicture: getRandomColor(),
+            profilePicture: stringToRGB(e.target[0].value),
         };
         try {
             const { password, ...rest } = user;
