@@ -1,6 +1,7 @@
 import { throttle } from 'lodash';
 import { useEffect } from 'react';
 import debug from '../lib/debug';
+import { coalesce } from '../lib/object';
 
 export default function useFlow(
     limit,
@@ -15,7 +16,10 @@ export default function useFlow(
                 limit >=
                 document.body.scrollHeight -
                     (window.scrollY + window.innerHeight);
-            const currentEventListHeight = eventListRef.current.offsetHeight;
+            const currentEventListHeight = coalesce(
+                eventListRef.current,
+                'offsetHeight'
+            );
             const isPageLoaded = !!(currentEventListHeight - 38);
             if (
                 isLimitExceeded &&

@@ -1,6 +1,7 @@
 @import '../core/index';
 
 .component {
+    user-select: none;
     background-color: white;
     padding: 32px 24px;
     border-radius: $border-radius;
@@ -79,4 +80,24 @@
 .likes {
     font-size: $font-size-small;
     color: $color-primary-light;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete {
+    border-radius: $border-radius / 4;
+    display: inline-block;
+    padding: 8px 10px;
+    background-color: $color-red;
+    cursor: pointer;
+    opacity: 0.92;
+
+    &:hover {
+        box-shadow: 0 2px 8px 0 rgba($color: $color-red, $alpha: 0.2);
+        opacity: 1;
+    }
 }

@@ -10,6 +10,7 @@ function FlexButton(props) {
                 backgroundColor: props.backgroundColor,
                 color: props.color,
                 border: `2px solid ${props.borderColor}`,
+                maxWidth: props.maxWidth,
             }}
             className={combine(styles, 'component')}
             onClick={() => props.handleClick()}
@@ -25,6 +26,11 @@ FlexButton.propTypes = {
     text: PropTypes.string.isRequired,
     handleClick: PropTypes.func.isRequired,
     borderColor: PropTypes.string.isRequired,
+    maxWidth: PropTypes.number.isRequired,
+};
+
+FlexButton.defaultProps = {
+    maxWidth: 1000,
 };
 
 export default FlexButton;

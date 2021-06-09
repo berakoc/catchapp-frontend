@@ -72,11 +72,17 @@ const EventCard = ({ event, isSessionUser }) => {
                             {getDateString(new Date(event.startDate))}
                         </div>
                         <Spacer size={24} />
-                        <div className={combine(styles, 'description')}>{event.description}</div>
-                        <Spacer size={24} />
+                        <div className={combine(styles, 'description')}>
+                            {event.description}
+                        </div>
+                        <Spacer size={48} />
                         <div className={combine(styles, 'join')}>
                             <div className={combine(styles, 'endDateBlock')}>
-                                <div className={combine(styles, 'endDateTitle')}>Last Date</div>
+                                <div
+                                    className={combine(styles, 'endDateTitle')}
+                                >
+                                    Last Date
+                                </div>
                                 <div className={combine(styles, 'endDate')}>
                                     {getDateString(new Date(event.endDate))}
                                 </div>
@@ -87,6 +93,7 @@ const EventCard = ({ event, isSessionUser }) => {
                                 backgroundColor={Colors.green}
                                 borderColor={Colors.green}
                                 handleClick={() => console.log('Join Event')}
+                                maxWidth={180}
                             />
                         </div>
                     </div>
