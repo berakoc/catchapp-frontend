@@ -1,7 +1,10 @@
-import { faHeart as farHeart, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import {
+    faHeart as farHeart,
+    faTrashAlt,
+} from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, { memo, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import UserAPI from '../../api/user';
@@ -12,6 +15,7 @@ import { coalesce, compareProp, nullFn } from '../../lib/object';
 import { getDateString } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventCard.module.scss';
+import useIsOutside from '../../hooks/useIsOutside';
 
 /**
  * @param {{event: import('../../api/models/Event').default}} props
@@ -24,13 +28,24 @@ function EventCard({ event }) {
         nullFn,
         [event.id]
     );
-    const isSessionUser = is(useSelector(({ user }) => coalesce(user, 'email')), event.creatorEmail)
+    const cardRef = useRef();
+    const deleteRef = useRef();
+    const likeRef = useRef();
+    const isOutsideOfDelete = useIsOutside(cardRef, deleteRef)
+    const isOutsideOfLike = useIsOutside(cardRef, likeRef)
+    const isSessionUser = is(
+        useSelector(({ user }) => coalesce(user, 'email')),
+        event.creatorEmail
+    );
     return (
         <Link
-            to={`/event/${coalesce(event, 'id')}`}
-            style={{ textDecoration: 'none', cursor: 'default' }}
+            to={isOutsideOfLike && isOutsideOfDelete ? `/event/${coalesce(event, 'id')}` : '#'}
+            style={{
+                textDecoration: 'none',
+                cursor: 'default',
+            }}
         >
-            <div className={combine(styles, 'component')}>
+            <div ref={cardRef} className={combine(styles, 'component')}>
                 <div className={combine(styles, 'header')}>
                     <div className={combine(styles, 'creator')}>
                         <div
@@ -55,9 +70,19 @@ function EventCard({ event }) {
                             )}`}</div>
                         </div>
                     </div>
-                    { isSessionUser && <div className={combine(styles, 'delete')}>
-                        <FontAwesomeIcon icon={faTrashAlt} size={32} color={Colors.white} />
-                    </div>}
+                    {isSessionUser && (
+                        <div
+                            ref={deleteRef}
+                            className={combine(styles, 'delete')}
+                            onClick={() => console.log('Deleted Event')}
+                        >
+                            <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                size={'sm'}
+                                color={Colors.white}
+                            />
+                        </div>
+                    )}
                 </div>
                 <div className={combine(styles, 'event')}>
                     <div className={combine(styles, 'title')}>
@@ -67,7 +92,10 @@ function EventCard({ event }) {
                         {event.description}
                     </div>
                     <div className={combine(styles, 'statistics')}>
-                        <div className={combine(styles, 'statistic')}>
+                        <div
+                            ref={likeRef}
+                            className={combine(styles, 'statistic')}
+                        >
                             <FontAwesomeIcon
                                 icon={farHeart}
                                 onClick={() => console.log('Liked')}
