@@ -1,3 +1,5 @@
+import crypto from 'crypto-js'
+
 export const EMPTY_STRING = '';
 
 const monthNames = [
@@ -33,3 +35,6 @@ export const getDateString = (date) =>
  */
 export const convertNumberToString = (num) =>
     num < 1000 ? num : (num / 100).toFixed(0);
+
+export const encrypt = str => crypto.enc.Base64.stringify(crypto.enc.Utf8.parse(str))
+export const decrypt = secret => crypto.enc.Base64.parse(secret).toString(crypto.enc.Utf8)

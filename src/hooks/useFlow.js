@@ -1,6 +1,5 @@
 import { throttle } from 'lodash';
 import { useEffect } from 'react';
-import debug from '../lib/debug';
 import { coalesce } from '../lib/object';
 
 export default function useFlow(
@@ -33,7 +32,6 @@ export default function useFlow(
         }, 500);
         window.addEventListener('scroll', checkIfLimitExceeded);
         checkIfLimitExceeded();
-        debug('Flow is constructed.');
         return () => window.removeEventListener('scroll', checkIfLimitExceeded);
         // eslint-disable-next-line
     }, []);

@@ -2,6 +2,8 @@ export const values = (o) => Object.values(o);
 
 export const coalesce = (o, prop) => o && o[prop];
 
+export class EmptyObject {}
+
 export const deepCompare = (o1, o2) => {
     const o1Keys = Object.keys(o1);
     const o2Keys = Object.keys(o2);

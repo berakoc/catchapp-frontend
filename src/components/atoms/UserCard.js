@@ -1,15 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
+import User from '../../api/models/User';
 import Colors from '../../lib/colors';
+import { EmptyObject } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/UserCard.module.scss';
 import { FlexButton, Statistics } from '../components';
 
-const mapStateToProps = ({ user }) => ({
-    user,
-});
-function UserCard({ user, isSpecial }) {
+/**
+ * @param {{user: User, isSessionUser: Boolean}} props
+ * @returns 
+ */
+function UserCard({ user, isSessionUser }) {
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'info')}>
@@ -35,7 +37,7 @@ function UserCard({ user, isSpecial }) {
                     />
                 </div>
             </div>
-            {!isSpecial && (
+            {!isSessionUser && (
                 <div className={combine(styles, 'buttons')}>
                     <FlexButton
                         text='Chat'
@@ -58,7 +60,7 @@ function UserCard({ user, isSpecial }) {
                 className={combine(
                     styles,
                     'aboutTitle',
-                    isSpecial ? 'marginTop' : ':null'
+                    isSessionUser ? 'marginTop' : ':null'
                 )}
             >
                 About
@@ -69,7 +71,8 @@ function UserCard({ user, isSpecial }) {
 }
 
 UserCard.propTypes = {
-    isSpecial: PropTypes.bool.isRequired,
+    isSessionUser: PropTypes.bool.isRequired,
+    user: PropTypes.oneOfType([PropTypes.instanceOf(EmptyObject), PropTypes.instanceOf(User)]).isRequired
 };
 
-export default connect(mapStateToProps)(UserCard);
+export default UserCard;
