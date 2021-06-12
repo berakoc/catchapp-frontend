@@ -1,6 +1,17 @@
 export const values = (o) => Object.values(o);
 
-export const coalesce = (o, prop) => o && o[prop];
+const checkIfObjectAndNotEmpty = (o) =>
+    o && typeof o === 'object' && Object.keys(o).length !== 0;
+
+export const coalesce = (o, ...props) => {
+    if (!checkIfObjectAndNotEmpty(o)) return null;
+    if (props.length === 1) {
+        return checkIfObjectAndNotEmpty(o) && o[props[0]];
+    }
+    return (
+        checkIfObjectAndNotEmpty(o) && coalesce(o[props[0]], ...props.slice(1))
+    );
+};
 
 export class EmptyObject {}
 

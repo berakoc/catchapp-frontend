@@ -19,10 +19,6 @@ function Statistics(props) {
                     {convertNumberToString(props.numberOfFollowers)}
                 </div>
             </div>
-            <div className={combine(styles, 'block')}>
-                <div className={combine(styles, 'title')}>Rating</div>
-                <div className={combine(styles, 'content')}>{props.rating}</div>
-            </div>
         </div>
     );
 }
@@ -30,7 +26,6 @@ function Statistics(props) {
 Statistics.propTypes = {
     numberOfEvents: PropTypes.number.isRequired,
     numberOfFollowers: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
 };
 
 export default Statistics;

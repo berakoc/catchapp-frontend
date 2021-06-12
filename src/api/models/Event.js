@@ -12,7 +12,8 @@ export default class Event {
      * @param {Date} endDate
      * @param {number} numberOfLikes
      * @param {String} perk
-     *
+     * @param {String[]} listOfUsersWhoLiked
+     * @param {number} numberOfAttendees
      */
     constructor(
         id,
@@ -22,8 +23,10 @@ export default class Event {
         creationDate,
         location,
         listAttendees,
+        numberOfAttendees,
         startDate,
         endDate,
+        listOfUsersWhoLiked,
         numberOfLikes,
         perk
     ) {
@@ -34,9 +37,13 @@ export default class Event {
         this.creationDate = creationDate;
         this.location = location;
         this.listAttendees = listAttendees;
+        this.numberOfAttendees = numberOfAttendees;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.listOfUsersWhoLiked = listOfUsersWhoLiked;
         this.numberOfLikes = numberOfLikes;
         this.perk = perk;
     }
 }
+
+Object.freeze(Event.constructor);

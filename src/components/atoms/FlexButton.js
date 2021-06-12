@@ -2,16 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/FlexButton.module.scss';
+import { hexToRGB } from '../../lib/string';
+import Radium from 'radium';
+
+const fetchStyles = (props) => ({
+    backgroundColor: props.backgroundColor,
+    color: props.color,
+    border: `2px solid ${props.borderColor}`,
+    maxWidth: props.maxWidth,
+    ':hover': {
+        boxShadow: `0 2px 8px 1px rgba(${hexToRGB(props.backgroundColor).join(',')},0.2)`
+    }
+});
 
 function FlexButton(props) {
     return (
         <div
-            style={{
-                backgroundColor: props.backgroundColor,
-                color: props.color,
-                border: `2px solid ${props.borderColor}`,
-                maxWidth: props.maxWidth,
-            }}
+            style={fetchStyles(props)}
             className={combine(styles, 'component')}
             onClick={() => props.handleClick()}
         >
@@ -33,4 +40,4 @@ FlexButton.defaultProps = {
     maxWidth: 1000,
 };
 
-export default FlexButton;
+export default Radium(FlexButton);

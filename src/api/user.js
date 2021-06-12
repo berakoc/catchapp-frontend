@@ -42,6 +42,32 @@ export default class UserAPI {
             injectQueryParams(USER_API_URL, { email }),
             deleteRequest()
         );
+
+    static addFollower = async (userEmail, followerEmail) =>
+        await fetchJSON(
+            injectQueryParams(USER_API_URL.concat('/follower'), {
+                userEmail,
+                followerEmail,
+            }),
+            postRequest()
+        );
+
+    static deleteFollower = async (userEmail, followerEmail) =>
+        await fetchJSON(
+            injectQueryParams(USER_API_URL.concat('/follower'), {
+                userEmail,
+                followerEmail,
+            }),
+            deleteRequest()
+        );
+
+    static getCreatedEvents = async (userEmail) =>
+        await fetchJSON(
+            injectQueryParams(USER_API_URL.concat('/event'), {
+                userEmail,
+            }),
+            getRequest()
+        );
 }
 
 Object.freeze(UserAPI.prototype);

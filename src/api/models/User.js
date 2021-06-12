@@ -1,12 +1,12 @@
 export default class User {
     /**
-     * @param {String} name Required
-     * @param {String} email Required
-     * @param {String} description Required
+     * @param {String} name
+     * @param {String} email
+     * @param {String} description
      * @param {String} id
+     * @param {String[]} createdEvents
      * @param {Number} numberOfEventsCreated
      * @param {Number} numberOfFollowers
-     * @param {Number} rating
      * @param {String} profilePicture
      * @param {Number} numberOfFollowing
      * @param {String[]} followingList
@@ -17,12 +17,12 @@ export default class User {
         email,
         description,
         id,
+        createdEvents,
         numberOfEventsCreated,
         followersList,
         followingList,
         numberOfFollowers,
         numberOfFollowing,
-        rating,
         profilePicture,
         joinDate,
         location
@@ -31,9 +31,9 @@ export default class User {
         this.email = email;
         this.description = description;
         this.id = id;
+        this.createdEvents = createdEvents;
         this.numberOfEventsCreated = numberOfEventsCreated;
         this.numberOfFollowers = numberOfFollowers;
-        this.rating = rating;
         this.profilePicture = profilePicture;
         this.joinDate = joinDate;
         this.location = location;
@@ -48,12 +48,12 @@ export default class User {
             'email',
             'description',
             'id',
+            'createdEvents',
             'numberOfEventsCreated',
             'followersList',
             'followingList',
             'numberOfFollowers',
             'numberOfFollowing',
-            'rating',
             'profilePicture',
             'joinDate',
             'location',

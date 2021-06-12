@@ -19,10 +19,18 @@ export default class EventAPI {
      */
     static createEvent = async (event) =>
         await fetchJSON(EVENT_API_URL, postRequest(event));
-
-    static getEvent = async (eventId) =>
+    /**
+     * @typedef {import('./models/EnrichedEvent').default} EnrichedEvent
+     * @param {String} eventId
+     * @returns {Promise<EnrichedEvent>}
+     */
+    static getEnrichedEvent = async (eventId, requestUserEmail) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL, { eventId }, getRequest())
+            injectQueryParams(
+                EVENT_API_URL.concat('/enriched'),
+                { eventId, requestUserEmail },
+                getRequest()
+            )
         );
 
     static deleteEvent = async (eventId) =>
@@ -33,13 +41,16 @@ export default class EventAPI {
 
     static addUserToEvent = async (eventId, userId) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL, { eventId, userId }),
+            injectQueryParams(EVENT_API_URL.concat('/attendee'), {
+                eventId,
+                userId,
+            }),
             postRequest()
         );
 
     static removeUserFromEvent = async (eventId, userId) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL, {
+            injectQueryParams(EVENT_API_URL.concat('/attendee'), {
                 eventId,
                 userId,
             }),
@@ -58,9 +69,18 @@ export default class EventAPI {
             deleteRequest()
         );
 
-    static getEventPage = async (pageId) =>
+    /**
+     *
+     * @param {Number} pageId
+     * @param {String} requestUserEmail
+     * @returns {Promise<EnrichedEvent[]>}
+     */
+    static getEnrichedEventPage = async (pageId, requestUserEmail) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL.concat('/eventPage'), { pageId }),
+            injectQueryParams(EVENT_API_URL.concat('/enriched/page'), {
+                pageId,
+                requestUserEmail,
+            }),
             getRequest()
         );
 }

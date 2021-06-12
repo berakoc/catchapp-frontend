@@ -115,32 +115,36 @@ const EventCard = ({ event, isSessionUser }) => {
 };
 
 export default withRouter(function Event({ match }) {
-    const sessionUserId = useSelector(({ user }) => coalesce(user, 'id'));
+    const sessionUser = useSelector(({ user }) => user);
     const eventId = match.params.id;
-    const [event, setEvent] = useState({});
+    const [enrichedEvent, setenrichedEvent] = useState({});
     const [user, setUser] = useState({});
-    const isSessionUser = is(sessionUserId, coalesce(user, 'id'));
+    const isSessionUser = is(coalesce(sessionUser, 'id'), coalesce(user, 'id'));
     useEffect(() => {
-        EventAPI.getEvent(eventId).then(async (event) => {
-            setEvent(event);
-            const user = await UserAPI.getUser(event.creatorEmail);
-            setUser(user);
-        });
-    }, [eventId]);
+        EventAPI.getEnrichedEvent(eventId, coalesce(sessionUser, 'email')).then(
+            async (enrichedEvent) => {
+                setenrichedEvent(enrichedEvent);
+                const user = await UserAPI.getUser(
+                    enrichedEvent.event.creatorEmail
+                );
+                setUser(user);
+            }
+        );
+    }, [eventId, sessionUser]);
     return (
         match.isExact && (
             <Frame
                 component={
-                    event.id ? (
+                    coalesce(enrichedEvent, 'event', 'id') ? (
                         <div className={combine(styles, 'component')}>
                             <div className={combine(styles, 'event')}>
                                 <EventCard
-                                    event={event}
+                                    event={enrichedEvent.event}
                                     isSessionUser={isSessionUser}
                                 />
                             </div>
                             <div className={combine(styles, 'user')}>
-                                {event.id && (
+                                {coalesce(enrichedEvent, 'event', 'id') && (
                                     <User
                                         user={user}
                                         isSessionUser={isSessionUser}
@@ -150,7 +154,7 @@ export default withRouter(function Event({ match }) {
                         </div>
                     ) : (
                         <span>
-                            {Object.keys(event).length
+                            {Object.keys(enrichedEvent.event || {}).length
                                 ? 'Event is not found'
                                 : null}
                         </span>

@@ -8,25 +8,24 @@ import Dashboard from './components/pages/Dashboard';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
-import { is } from './lib/bool';
 import { coalesce } from './lib/object';
 import { AuthRoute, ProtectedRoute } from './lib/route';
-import { decrypt, encrypt } from './lib/string';
+import { encrypt } from './lib/string';
 import { fetchUser } from './redux/actions/user';
 
 const mapStateToProps = ({ user }) => ({
-    userEmail: coalesce(user, 'email'),
+    user,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     fetchUser: (user) => dispatch(fetchUser(user)),
 });
 
-const EnhancedUser = ({ isSessionUser }) => (
-    <Frame component={<User isSessionUser={isSessionUser} />} />
+const EnhancedUser = ({ sessionUser }) => (
+    <Frame component={<User sessionUser={sessionUser} />} />
 );
 
-function App({ userEmail, fetchUser }) {
+function App({ user, fetchUser }) {
     useEffect(() => {
         FirebaseAuthAPI.init(fetchUser);
     }, [fetchUser]);
@@ -41,7 +40,7 @@ function App({ userEmail, fetchUser }) {
                     <Dashboard
                         recovery={{
                             params: {
-                                id: encrypt(userEmail),
+                                id: encrypt(coalesce(user, 'email')),
                             },
                         }}
                     />
@@ -50,11 +49,7 @@ function App({ userEmail, fetchUser }) {
             <Route path={'/event/:id'} render={Event} />
             <Route
                 path={'/user/:id'}
-                render={({ match }) => (
-                    <EnhancedUser
-                        isSessionUser={is(decrypt(match.params.id), userEmail)}
-                    />
-                )}
+                render={() => <EnhancedUser sessionUser={user} />}
             />
         </>
     );

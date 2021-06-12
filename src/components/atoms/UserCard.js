@@ -33,7 +33,6 @@ function UserCard({ user, isSessionUser }) {
                     <Statistics
                         numberOfEvents={user.numberOfEventsCreated || 0}
                         numberOfFollowers={user.numberOfFollowers || 0}
-                        rating={user.rating || 0}
                     />
                 </div>
             </div>

@@ -22,7 +22,7 @@ import styles from '../../styles/atoms/EventCard.module.scss';
  */
 function EventCard({ event }) {
     const history = useHistory();
-    const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'))
+    const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [creator, setCreator] = useState(null);
     useAsync(
         async () => await UserAPI.getUser(event.creatorEmail),
@@ -69,8 +69,10 @@ function EventCard({ event }) {
                     <div className={combine(styles, 'info')}>
                         <div
                             onClick={() => {
-                                history.push(is(sessionUserEmail, event.creatorEmail) ? '/dashboard' :
-                                    `/user/${encrypt(event.creatorEmail)}`
+                                history.push(
+                                    is(sessionUserEmail, event.creatorEmail)
+                                        ? '/dashboard'
+                                        : `/user/${encrypt(event.creatorEmail)}`
                                 );
                             }}
                             ref={nameRef}
