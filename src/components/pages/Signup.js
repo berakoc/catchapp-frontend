@@ -25,10 +25,10 @@ function Signup({ error, clearError, updateError }) {
         e.preventDefault();
         const user = {
             name: e.target[0].value,
-            description: e.target[1].value,
-            email: e.target[2].value,
-            password: e.target[3].value,
-            location: e.target[4].value,
+            location: e.target[1].value,
+            description: e.target[2].value,
+            email: e.target[3].value,
+            password: e.target[4].value,
             profilePicture: getRandomColor(),
         };
         try {

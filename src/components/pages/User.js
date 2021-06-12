@@ -30,7 +30,7 @@ function User({ isSessionUser, match, recovery }) {
                 />
             </div>
             <div className={combine(styles, 'events')}>
-                <EventList />
+                <EventList title={'My Dashboard'} />
             </div>
         </div>
     );

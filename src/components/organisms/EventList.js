@@ -4,10 +4,13 @@ import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
 import { coalesce } from '../../lib/object';
 import { EventCard, Filter } from '../components';
+import PropTypes from 'prop-types'
 
-const nullFunction = () => null;
+EventList.propTypes = {
+    title: PropTypes.string.isRequired
+}
 
-export default function EventList() {
+export default function EventList({ title }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
     const [isEnrichedEventsConsumed, setEnrichedEventsConsumed] =
@@ -55,9 +58,7 @@ export default function EventList() {
     return (
         <div ref={eventListRef}>
             <Filter
-                title='Events'
-                names={['Feed', 'Week', 'Month', 'Year', 'All', 'Latest']}
-                filters={Array(6).fill(nullFunction)}
+                title={title}
             />
             {enrichedEvents.map((enrichedEvent, index) => {
                 const { event, ...metadata } = enrichedEvent;
@@ -68,3 +69,4 @@ export default function EventList() {
         </div>
     );
 }
+

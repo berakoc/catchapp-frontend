@@ -58,11 +58,11 @@ const EventCard = ({ event, sessionUser, metadata }) => {
     const [numberOfAttendees, setNumberOfAttendees] = useState(
         event.numberOfAttendees
     );
-    const sessionUserEmail = coalesce(sessionUser, 'email')
-    const isSessionUser = is(sessionUserEmail, event.creatorEmail)
+    const sessionUserEmail = coalesce(sessionUser, 'email');
+    const isSessionUser = is(sessionUserEmail, event.creatorEmail);
     useEffect(() => {
-        setSyntheticMetadata(metadata)
-    }, [metadata])
+        setSyntheticMetadata(metadata);
+    }, [metadata]);
     return (
         <div className={combine(styles, 'eventCard')}>
             <div>
@@ -236,10 +236,10 @@ export default withRouter(function Event({ match }) {
     const [enrichedEvent, setenrichedEvent] = useState({});
     const [user, setUser] = useState({});
     const isSessionUser = is(coalesce(sessionUser, 'id'), coalesce(user, 'id'));
-    const fetchMetadata = enrichedEvent => {
-        const { event, ...metadata } = enrichedEvent
-        return metadata
-    }
+    const fetchMetadata = (enrichedEvent) => {
+        const { event, ...metadata } = enrichedEvent;
+        return metadata;
+    };
     useEffect(() => {
         EventAPI.getEnrichedEvent(eventId, coalesce(sessionUser, 'email')).then(
             async (enrichedEvent) => {

@@ -14,7 +14,11 @@ import useIsOutside from '../../hooks/useIsOutside';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, compareProp, EmptyObject, nullFn } from '../../lib/object';
-import { convertNumberToString, encrypt, getDateString } from '../../lib/string';
+import {
+    convertNumberToString,
+    encrypt,
+    getDateString,
+} from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventCard.module.scss';
 import EventAPI from '../../api/event';

@@ -1,12 +1,12 @@
 @import '../core/index';
 
 .textarea {
-    font-size: $font-size-normal;
-    width: 400px;
+    font-size: $font-size-normal * 0.9;
+    width: 100%;
     padding: 16px;
     color: $color-primary-dark;
     border-radius: $border-radius;
-    border: 2px solid lighten($color-primary-light, 20%);
+    border: 1px solid lighten($color-primary-light, 20%);
     resize: none;
     font-family: Roboto;
 }

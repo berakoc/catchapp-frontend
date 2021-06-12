@@ -6,19 +6,23 @@
 }
 
 .label {
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 6px;
     font-size: $font-size-normal;
     color: $color-primary-dark;
 }
 
+.wrapper {
+    position: relative;
+}
+
 .input {
-    font-size: $font-size-normal;
-    width: 400px;
-    padding: 16px;
+    font-size: $font-size-normal * 0.9;
+    padding: 12px;
     color: $color-primary-dark;
     border-radius: $border-radius;
-    border: 2px solid lighten($color-primary-light, 20%);
+    min-width: 210px;
+    border: 1px solid lighten($color-primary-light, 20%);
 }
 
 .input:focus {
@@ -27,4 +31,23 @@
 
 .input::placeholder {
     color: lighten($color-primary-light, 0.1)
+}
+
+.check {
+    position: absolute;
+    right: 8px;
+    top: 30%;
+    cursor: pointer;
+}
+
+.active {
+    & > svg {
+        color: $color-primary;
+    }
+}
+
+.inactive {
+    & > svg {
+        color: $color-primary-light;
+    }
 }

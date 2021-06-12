@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Colors from '../../lib/colors';
+import combine from '../../lib/style-composer';
+import styles from '../../styles/pages/Auth.module.scss';
 import AuthButton from '../atoms/AuthButton';
 import Spacer from '../atoms/Spacer';
-import { Input, RadioButton } from '../components';
+import { Input } from '../components';
 
 export default function LoginForm(props) {
-    const [isPasswordHidden, setPasswordHidden] = useState(true);
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
             <div
                 style={{
                     fontWeight: 600,
@@ -20,18 +21,16 @@ export default function LoginForm(props) {
                 {props.title}
             </div>
             <Spacer size={32} />
-            <Input label='Email' placeholder='Enter your email address' />
+            <div className={combine(styles, 'row')}>
+                <Input label='Email' placeholder='Enter email address' />
+                <Input
+                    label='Password'
+                    placeholder='Enter password'
+                    isPassword
+                />
+            </div>
             <Spacer size={24} />
-            <Input
-                type={isPasswordHidden ? 'password' : 'text'}
-                label='Password'
-                placeholder='Enter your password'
-            />
-            <Spacer size={16} />
-            <RadioButton
-                info='Show Password'
-                handler={() => setPasswordHidden(!isPasswordHidden)}
-            />
+            <AuthButton text='Login' />
             <Spacer size={24} />
             <div
                 style={{
@@ -45,8 +44,6 @@ export default function LoginForm(props) {
             >
                 {props.error || 'No error'}
             </div>
-            <Spacer size={24} />
-            <AuthButton text='Login' />
             <Spacer size={32} />
             <Link
                 onClick={() => props.clearError()}

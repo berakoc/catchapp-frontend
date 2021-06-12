@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import Colors from '../../lib/colors';
+import combine from '../../lib/style-composer';
+import styles from '../../styles/pages/Auth.module.scss';
 import AuthButton from '../atoms/AuthButton';
 import Spacer from '../atoms/Spacer';
-import { Input, RadioButton, TextArea } from '../components';
+import { Input, TextArea } from '../components';
 
 export default function SignupForm(props) {
-    const [isPasswordHidden, setPasswordHidden] = useState(true);
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
             <div
                 style={{
                     fontWeight: 600,
@@ -20,25 +21,27 @@ export default function SignupForm(props) {
                 {props.title}
             </div>
             <Spacer size={32} />
-            <Input label='Name' placeholder='Enter your full name' />
+            <div className={combine(styles, 'row')}>
+                <Input label='Name' placeholder='Your fullname please' />
+                <Input label='Location' placeholder='Where do you live?' />
+            </div>
             <Spacer size={24} />
             <TextArea
                 label='Description'
                 placeholder='Tell us about yourself'
             />
             <Spacer size={24} />
-            <Input label='Email' placeholder='Enter your email address' />
+            <div className={combine(styles, 'row')}>
+                <Input label='Email' placeholder='Email matters' />
+                <Input
+                    isPassword
+                    label='Password'
+                    placeholder='Give us your secret'
+                />
+            </div>
+
             <Spacer size={24} />
-            <Input
-                type={isPasswordHidden ? 'password' : 'text'}
-                label='Password'
-                placeholder='Enter your password'
-            />
-            <Spacer size={16} />
-            <RadioButton
-                info='Show Password'
-                handler={() => setPasswordHidden(!isPasswordHidden)}
-            />
+            <AuthButton text='Sign up' />
             <Spacer size={24} />
             <div
                 style={{
@@ -53,8 +56,6 @@ export default function SignupForm(props) {
                 {props.error || 'No error'}
             </div>
             <Spacer size={24} />
-            <AuthButton text='Sign up' />
-            <Spacer size={32} />
             <Link
                 onClick={() => props.clearError()}
                 style={{

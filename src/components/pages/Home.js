@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ProtectedRoute } from '../../lib/route';
 
 function Home() {
     return (
