@@ -28,6 +28,7 @@ function Signup({ error, clearError, updateError }) {
             description: e.target[1].value,
             email: e.target[2].value,
             password: e.target[3].value,
+            location: e.target[4].value,
             profilePicture: getRandomColor(),
         };
         try {

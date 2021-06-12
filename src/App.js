@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router';
 import FirebaseAuthAPI from './api/firebase-auth';
 import './App.scss';
 import { Event, Frame, User } from './components/components';
@@ -30,7 +30,7 @@ function App({ user, fetchUser }) {
         FirebaseAuthAPI.init(fetchUser);
     }, [fetchUser]);
     return (
-        <>
+        <Switch>
             <Route exact path='/' component={Home} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRoute path='/login' component={Login} />
@@ -46,12 +46,12 @@ function App({ user, fetchUser }) {
                     />
                 )}
             />
-            <Route path={'/event/:id'} render={Event} />
-            <Route
+            <ProtectedRoute path={'/event/:id'} render={Event} />
+            <ProtectedRoute
                 path={'/user/:id'}
                 render={() => <EnhancedUser sessionUser={user} />}
             />
-        </>
+        </Switch>
     );
 }
 

@@ -8,7 +8,7 @@ function Home() {
             <h1>Welcome!</h1>
             <Link to='/login'>Login</Link>
             <Link to='/signup'>Sign up</Link>
-            <ProtectedRoute to='/dashboard'>Dashboard</ProtectedRoute>
+            <Link to='/dashboard'>Dashboard</Link>
         </>
     );
 }
