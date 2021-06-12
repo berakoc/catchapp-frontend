@@ -55,10 +55,27 @@ const intToRGB = (i) => {
     return '#' + ('00000'.substring(0, 6 - c.length) + c);
 };
 
+const colorSet = [
+    '#ef476f',
+    '#ffd166',
+    '#06d6a0',
+    '#3a86ff',
+    '#fed9b7',
+    '#00afb9',
+    '#ffa69e',
+    '#f95738',
+    '#c8b6ff',
+    '#bbd0ff',
+    '#9d4edd',
+];
+
+export const getRandomColor = () =>
+    colorSet[Math.floor(Math.random() * colorSet.length)];
+
 export const stringToRGB = (string) => intToRGB(hashCode(string));
 
 /**
- * @param {String} hex 
+ * @param {String} hex
  * @returns [Number]
  */
 export const hexToRGB = (hex) =>

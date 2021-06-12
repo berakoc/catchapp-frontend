@@ -75,18 +75,17 @@
 .statistic {
     user-select: none;
     display: flex;
+    margin-right: 16px;
 
     & > svg {
         margin-right: 6px;
-        color: $color-primary-light;
         transform: scale(1.2);
         cursor: pointer;
     }
 }
 
-.likes {
+.statisticsValue {
     font-size: $font-size-small;
-    color: $color-primary-light;
 }
 
 .header {
@@ -107,4 +106,12 @@
         box-shadow: 0 2px 8px 0 rgba($color: $color-red, $alpha: 0.2);
         opacity: 1;
     }
+}
+
+.active {
+    color: $color-primary;
+}
+
+.inactive {
+    color: $color-primary-light;
 }

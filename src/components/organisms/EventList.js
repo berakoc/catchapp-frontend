@@ -59,9 +59,12 @@ export default function EventList() {
                 names={['Feed', 'Week', 'Month', 'Year', 'All', 'Latest']}
                 filters={Array(6).fill(nullFunction)}
             />
-            {enrichedEvents.map((enrichedEvent, index) => (
-                <EventCard key={index} event={enrichedEvent.event} />
-            ))}
+            {enrichedEvents.map((enrichedEvent, index) => {
+                const { event, ...metadata } = enrichedEvent;
+                return (
+                    <EventCard key={index} event={event} metadata={metadata} />
+                );
+            })}
         </div>
     );
 }

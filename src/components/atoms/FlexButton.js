@@ -11,8 +11,10 @@ const fetchStyles = (props) => ({
     border: `2px solid ${props.borderColor}`,
     maxWidth: props.maxWidth,
     ':hover': {
-        boxShadow: `0 2px 8px 1px rgba(${hexToRGB(props.backgroundColor).join(',')},0.2)`
-    }
+        boxShadow: `0 2px 8px 1px rgba(${hexToRGB(props.backgroundColor).join(
+            ','
+        )},0.2)`,
+    },
 });
 
 function FlexButton(props) {

@@ -6,33 +6,31 @@ export const getRequest = () => ({
     },
 });
 
+export const ResponseType = {
+    JSON: 'json',
+};
+
 export const postRequest = (data) => ({
     method: 'POST',
     mode: 'cors',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data || {}),
 });
 
 export const deleteRequest = () => ({
     method: 'DELETE',
     mode: 'cors',
-    headers: {
-        Accept: 'application/json',
-    },
 });
 
 export const putRequest = () => ({
     method: 'PUT',
     mode: 'cors',
-    headers: {
-        Accept: 'application/json',
-    },
 });
 
-export const fetchJSON = async (url, options) =>
-    await (await fetch(url, options)).json();
+export const fetchJSON = async (url, options, type = 'text') =>
+    await (await fetch(url, options))[type]();
 
 /**
  * Updates url with given params

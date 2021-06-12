@@ -60,15 +60,24 @@
     display: flex;
 }
 
-.reaction {
+.reactionWrapper {
     background-color: white;
     padding: 12px 8px;
     border-radius: $border-radius;
+    flex-direction: column;
+    margin-right: 12px;
+}
+
+.reaction:last-child {
+    margin-bottom: 0;
+}
+
+.reaction {
+    margin-bottom: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-right: 12px;
 
     & > svg {
         margin-bottom: 4px;
@@ -158,4 +167,12 @@
 .endDate {
     font-size: 16px;
     color: rgba($color: $color-primary-dark, $alpha: 0.7);
+}
+
+.active {
+    color: $color-primary;
+}
+
+.inactive {
+    color: $color-primary-light;
 }

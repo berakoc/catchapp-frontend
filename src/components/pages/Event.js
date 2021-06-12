@@ -1,4 +1,4 @@
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import EventAPI from '../../api/event';
 import UserAPI from '../../api/user';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
-import { coalesce } from '../../lib/object';
+import { coalesce, nullFn } from '../../lib/object';
 import { convertNumberToString, getDateString } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/pages/Event.module.scss';
@@ -52,13 +52,129 @@ const User = ({ user, isSessionUser }) => {
 /**
  * @param {{ event: import('../../api/models/Event').default, isSessionUser: Boolean}} props
  */
-const EventCard = ({ event, isSessionUser }) => {
+const EventCard = ({ event, sessionUser, metadata }) => {
+    const [syntheticMetadata, setSyntheticMetadata] = useState(metadata);
+    const [numberOfLikes, setNumberOfLikes] = useState(event.numberOfLikes);
+    const [numberOfAttendees, setNumberOfAttendees] = useState(
+        event.numberOfAttendees
+    );
+    const sessionUserEmail = coalesce(sessionUser, 'email')
+    const isSessionUser = is(sessionUserEmail, event.creatorEmail)
+    useEffect(() => {
+        setSyntheticMetadata(metadata)
+    }, [metadata])
     return (
         <div className={combine(styles, 'eventCard')}>
             <div>
-                <div className={combine(styles, 'reaction')}>
-                    <FontAwesomeIcon icon={faHeart} />
-                    <div>{convertNumberToString(event.numberOfLikes)}</div>
+                <div className={combine(styles, 'reactionWrapper')}>
+                    <div className={combine(styles, 'reaction')}>
+                        <FontAwesomeIcon
+                            onClick={
+                                isSessionUser
+                                    ? nullFn
+                                    : () => {
+                                          if (
+                                              syntheticMetadata.isLikedByTheGivenUser
+                                          ) {
+                                              EventAPI.removeLike(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isLikedByTheGivenUser: false,
+                                              });
+                                              setNumberOfLikes(
+                                                  numberOfLikes - 1
+                                              );
+                                          } else {
+                                              EventAPI.addLike(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isLikedByTheGivenUser: true,
+                                              });
+                                              setNumberOfLikes(
+                                                  numberOfLikes + 1
+                                              );
+                                          }
+                                      }
+                            }
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isLikedByTheGivenUser
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                            icon={faHeart}
+                        />
+                        <div
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isLikedByTheGivenUser
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                        >
+                            {convertNumberToString(numberOfLikes)}
+                        </div>
+                    </div>
+                    <div className={combine(styles, 'reaction')}>
+                        <FontAwesomeIcon
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isTheGivenUserAttendee
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                            onClick={
+                                isSessionUser
+                                    ? nullFn
+                                    : () => {
+                                          if (
+                                              syntheticMetadata.isTheGivenUserAttendee
+                                          ) {
+                                              EventAPI.removeUserFromEvent(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isTheGivenUserAttendee: false,
+                                              });
+                                              setNumberOfAttendees(
+                                                  numberOfAttendees - 1
+                                              );
+                                          } else {
+                                              EventAPI.addUserToEvent(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isTheGivenUserAttendee: true,
+                                              });
+                                              setNumberOfAttendees(
+                                                  numberOfAttendees + 1
+                                              );
+                                          }
+                                      }
+                            }
+                            icon={faShareSquare}
+                        />
+                        <div
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isTheGivenUserAttendee
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                        >
+                            {convertNumberToString(numberOfAttendees)}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className={combine(styles, 'eventContent')}>
@@ -120,6 +236,10 @@ export default withRouter(function Event({ match }) {
     const [enrichedEvent, setenrichedEvent] = useState({});
     const [user, setUser] = useState({});
     const isSessionUser = is(coalesce(sessionUser, 'id'), coalesce(user, 'id'));
+    const fetchMetadata = enrichedEvent => {
+        const { event, ...metadata } = enrichedEvent
+        return metadata
+    }
     useEffect(() => {
         EventAPI.getEnrichedEvent(eventId, coalesce(sessionUser, 'email')).then(
             async (enrichedEvent) => {
@@ -140,7 +260,8 @@ export default withRouter(function Event({ match }) {
                             <div className={combine(styles, 'event')}>
                                 <EventCard
                                     event={enrichedEvent.event}
-                                    isSessionUser={isSessionUser}
+                                    sessionUser={sessionUser}
+                                    metadata={fetchMetadata(enrichedEvent)}
                                 />
                             </div>
                             <div className={combine(styles, 'user')}>

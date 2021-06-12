@@ -4,6 +4,7 @@ import {
     getRequest,
     injectQueryParams,
     postRequest,
+    ResponseType,
 } from '../lib/api';
 
 const USER_API_URL = 'https://catchapp-user.herokuapp.com/api/v1/user';
@@ -30,7 +31,8 @@ export default class UserAPI {
     static getUser = async (email) =>
         await fetchJSON(
             injectQueryParams(USER_API_URL, { email }),
-            getRequest()
+            getRequest(),
+            ResponseType.JSON
         );
 
     /**

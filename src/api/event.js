@@ -4,6 +4,7 @@ import {
     getRequest,
     injectQueryParams,
     postRequest,
+    ResponseType,
 } from '../lib/api';
 
 const EVENT_API_URL = 'https://catchapp-event.herokuapp.com/api/v1/event';
@@ -26,11 +27,12 @@ export default class EventAPI {
      */
     static getEnrichedEvent = async (eventId, requestUserEmail) =>
         await fetchJSON(
-            injectQueryParams(
-                EVENT_API_URL.concat('/enriched'),
-                { eventId, requestUserEmail },
-                getRequest()
-            )
+            injectQueryParams(EVENT_API_URL.concat('/enriched'), {
+                eventId,
+                requestUserEmail,
+            }),
+            getRequest(),
+            ResponseType.JSON
         );
 
     static deleteEvent = async (eventId) =>
@@ -39,33 +41,39 @@ export default class EventAPI {
             deleteRequest()
         );
 
-    static addUserToEvent = async (eventId, userId) =>
+    static addUserToEvent = async (eventId, userEmail) =>
         await fetchJSON(
             injectQueryParams(EVENT_API_URL.concat('/attendee'), {
                 eventId,
-                userId,
+                userEmail,
             }),
             postRequest()
         );
 
-    static removeUserFromEvent = async (eventId, userId) =>
+    static removeUserFromEvent = async (eventId, userEmail) =>
         await fetchJSON(
             injectQueryParams(EVENT_API_URL.concat('/attendee'), {
                 eventId,
-                userId,
+                userEmail,
             }),
             deleteRequest()
         );
 
-    static addLike = async (eventId) =>
+    static addLike = async (eventId, userEmail) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL.concat('/like'), { eventId }),
+            injectQueryParams(EVENT_API_URL.concat('/like'), {
+                eventId,
+                userEmail,
+            }),
             postRequest()
         );
 
-    static removeLike = async (eventId) =>
+    static removeLike = async (eventId, userEmail) =>
         await fetchJSON(
-            injectQueryParams(EVENT_API_URL.concat('/like'), { eventId }),
+            injectQueryParams(EVENT_API_URL.concat('/like'), {
+                eventId,
+                userEmail,
+            }),
             deleteRequest()
         );
 
@@ -81,7 +89,8 @@ export default class EventAPI {
                 pageId,
                 requestUserEmail,
             }),
-            getRequest()
+            getRequest(),
+            ResponseType.JSON
         );
 }
 

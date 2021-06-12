@@ -1,5 +1,6 @@
 import {
-    faHeart as farHeart,
+    faHeart,
+    faShareSquare,
     faTrashAlt,
 } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,18 +13,24 @@ import useAsync from '../../hooks/useAsync';
 import useIsOutside from '../../hooks/useIsOutside';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
-import { coalesce, compareProp, nullFn } from '../../lib/object';
-import { encrypt, getDateString } from '../../lib/string';
+import { coalesce, compareProp, EmptyObject, nullFn } from '../../lib/object';
+import { convertNumberToString, encrypt, getDateString } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventCard.module.scss';
+import EventAPI from '../../api/event';
 
 /**
- * @param {{event: import('../../api/models/Event').default}} props
+ * @param {{event: import('../../api/models/Event').default, metadata: {isLikedByTheGivenUser: boolean, isTheGivenUserAttendee: boolean}}} props
  */
-function EventCard({ event }) {
+function EventCard({ event, metadata }) {
     const history = useHistory();
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [creator, setCreator] = useState(null);
+    const [syntheticMetadata, setSyntheticMetadata] = useState(metadata);
+    const [numberOfLikes, setNumberOfLikes] = useState(event.numberOfLikes);
+    const [numberOfAttendees, setNumberOfAttendees] = useState(
+        event.numberOfAttendees
+    );
     useAsync(
         async () => await UserAPI.getUser(event.creatorEmail),
         (user) => setCreator(user),
@@ -32,11 +39,13 @@ function EventCard({ event }) {
     );
     const cardRef = useRef();
     const deleteRef = useRef();
+    const attendRef = useRef();
     const nameRef = useRef();
     const likeRef = useRef();
     const isOutsideOfName = useIsOutside(cardRef, nameRef);
     const isOutsideOfDelete = useIsOutside(cardRef, deleteRef);
     const isOutsideOfLike = useIsOutside(cardRef, likeRef);
+    const isOutsideOfAttend = useIsOutside(cardRef, attendRef);
     const isSessionUser = is(
         useSelector(({ user }) => coalesce(user, 'email')),
         event.creatorEmail
@@ -47,6 +56,7 @@ function EventCard({ event }) {
             onClick={() => {
                 if (
                     isOutsideOfLike &&
+                    isOutsideOfAttend &&
                     isOutsideOfName &&
                     (isOutsideOfDelete || !isSessionUser)
                 ) {
@@ -111,11 +121,116 @@ function EventCard({ event }) {
                 <div className={combine(styles, 'statistics')}>
                     <div ref={likeRef} className={combine(styles, 'statistic')}>
                         <FontAwesomeIcon
-                            icon={farHeart}
-                            onClick={() => console.log('Liked')}
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isLikedByTheGivenUser
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                            icon={faHeart}
+                            onClick={
+                                isSessionUser
+                                    ? nullFn
+                                    : () => {
+                                          if (
+                                              syntheticMetadata.isLikedByTheGivenUser
+                                          ) {
+                                              EventAPI.removeLike(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isLikedByTheGivenUser: false,
+                                              });
+                                              setNumberOfLikes(
+                                                  numberOfLikes - 1
+                                              );
+                                          } else {
+                                              EventAPI.addLike(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isLikedByTheGivenUser: true,
+                                              });
+                                              setNumberOfLikes(
+                                                  numberOfLikes + 1
+                                              );
+                                          }
+                                      }
+                            }
                         />
-                        <div className={combine(styles, 'likes')}>
-                            {event.numberOfLikes}
+                        <div
+                            className={combine(
+                                styles,
+                                'statisticsValue',
+                                syntheticMetadata.isLikedByTheGivenUser
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                        >
+                            {convertNumberToString(numberOfLikes)}
+                        </div>
+                    </div>
+                    <div
+                        ref={attendRef}
+                        className={combine(styles, 'statistic')}
+                    >
+                        <FontAwesomeIcon
+                            className={combine(
+                                styles,
+                                syntheticMetadata.isTheGivenUserAttendee
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                            fill={'#f00'}
+                            icon={faShareSquare}
+                            onClick={
+                                isSessionUser
+                                    ? nullFn
+                                    : () => {
+                                          if (
+                                              syntheticMetadata.isTheGivenUserAttendee
+                                          ) {
+                                              EventAPI.removeUserFromEvent(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isTheGivenUserAttendee: false,
+                                              });
+                                              setNumberOfAttendees(
+                                                  numberOfAttendees - 1
+                                              );
+                                          } else {
+                                              EventAPI.addUserToEvent(
+                                                  event.id,
+                                                  sessionUserEmail
+                                              );
+                                              setSyntheticMetadata({
+                                                  ...syntheticMetadata,
+                                                  isTheGivenUserAttendee: true,
+                                              });
+                                              setNumberOfAttendees(
+                                                  numberOfAttendees + 1
+                                              );
+                                          }
+                                      }
+                            }
+                        />
+                        <div
+                            className={combine(
+                                styles,
+                                'statisticsValue',
+                                syntheticMetadata.isTheGivenUserAttendee
+                                    ? 'active'
+                                    : 'inactive'
+                            )}
+                        >
+                            {convertNumberToString(numberOfAttendees)}
                         </div>
                     </div>
                 </div>
@@ -127,6 +242,13 @@ function EventCard({ event }) {
 
 EventCard.propTypes = {
     event: PropTypes.object.isRequired,
+    metadata: PropTypes.oneOfType([
+        PropTypes.instanceOf(EmptyObject),
+        PropTypes.shape({
+            isLikedByTheGivenUser: PropTypes.bool.isRequired,
+            isTheGivenUserAttendee: PropTypes.bool.isRequired,
+        }),
+    ]),
 };
 
 export default memo(EventCard, compareProp('event', 'id'));
