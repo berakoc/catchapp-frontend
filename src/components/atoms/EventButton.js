@@ -53,8 +53,8 @@ function EventButton({ userEmail, fetchEvent }) {
         const event = {
             creatorEmail: userEmail,
             title: e.target[0].value,
-            description: e.target[1].value,
-            location: e.target[2].value,
+            location: e.target[1].value,
+            description: e.target[2].value,
             startDate: new Date(e.target[3].value),
             endDate: new Date(e.target[4].value),
             perk: e.target[5].value,
