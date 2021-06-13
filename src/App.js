@@ -46,10 +46,10 @@ function App({ user, fetchUser }) {
                     />
                 )}
             />
-            <ProtectedRoute path={'/event/:id'} render={Event} />
+            <Route path={'/event/:id'} component={() => <Event />} />
             <ProtectedRoute
                 path={'/user/:id'}
-                render={() => <EnhancedUser sessionUser={user} />}
+                component={() => <EnhancedUser sessionUser={user} />}
             />
         </Switch>
     );

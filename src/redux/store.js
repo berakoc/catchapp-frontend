@@ -6,6 +6,7 @@ import rootReducer from './reducers/root';
 
 const initialState = {
     user: null,
+    event: null,
     error: EMPTY_STRING,
 };
 const middlewares = [thunk];

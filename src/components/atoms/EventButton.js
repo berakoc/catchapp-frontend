@@ -10,6 +10,7 @@ import Colors from '../../lib/colors';
 import { error } from '../../lib/debug';
 import { coalesce } from '../../lib/object';
 import combine from '../../lib/style-composer';
+import { fetchEvent } from '../../redux/actions/event';
 import styles from '../../styles/atoms/EventButton.module.scss';
 import { Input, Spacer, TextArea } from '../components';
 import AuthButton from './AuthButton';
@@ -19,7 +20,11 @@ const mapStateToProps = ({ user }) => ({
     userEmail: coalesce(user, 'email'),
 });
 
-function EventButton({ userEmail }) {
+const mapDispatchToProps = (dispatch) => ({
+    fetchEvent: event => dispatch(fetchEvent(event))
+})
+
+function EventButton({ userEmail, fetchEvent }) {
     const tooltipRef = useRef(node => {
         if (node) {
             setToastLeft(-width / 2 - toastRef.current.getBoundingClientRect().width / 2 + 120)
@@ -47,7 +52,7 @@ function EventButton({ userEmail }) {
             perk: e.target[5].value,
         };
         try {
-            await EventAPI.createEvent(event);
+            fetchEvent(await EventAPI.createEvent(event));
             setActive(false);
             setToastActive(true)
             setTimeout(() => setToastActive(false), 2000)
@@ -125,4 +130,4 @@ function EventButton({ userEmail }) {
     );
 }
 
-export default connect(mapStateToProps)(EventButton);
+export default connect(mapStateToProps, mapDispatchToProps)(EventButton);

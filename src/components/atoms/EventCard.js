@@ -107,7 +107,10 @@ function EventCard({ event, metadata }) {
                     <div
                         ref={deleteRef}
                         className={combine(styles, 'delete')}
-                        onClick={() => console.log('Deleted Event')}
+                        onClick={async () => {
+                            await EventAPI.deleteEvent(event.id)
+                            cardRef.current.style.display = 'none'
+                        }}
                     >
                         <FontAwesomeIcon
                             icon={faTrashAlt}
