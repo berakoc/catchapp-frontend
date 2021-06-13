@@ -66,7 +66,7 @@ export default function SignupForm(props) {
                 Already have an account?
             </Link>
             <Spacer size={24} />
-            <Link to='/' className={combine(styles, 'goHome')}><FontAwesomeIcon icon={faHome} size={'1s'} /></Link>
+            <Link to='/' className={combine(styles, 'goHome')}><FontAwesomeIcon icon={faHome} size={'1x'} /></Link>
         </form>
     );
 }

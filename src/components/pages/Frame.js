@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FirebaseAuthAPI from '../../api/firebase-auth';
 import debug from '../../lib/debug';
 import combine from '../../lib/style-composer';
@@ -13,15 +14,17 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function Frame({ logout, component: Component }) {
+    const history = useHistory();
     const handleLogout = async () => {
         await FirebaseAuthAPI.logout();
         await logout();
+        history.push('/login')
         debug('Logged out.');
     };
     return (
         <div className={combine(styles, 'component')}>
             {Component}
-            <NavigationBar handleLogout={handleLogout} />
+            <NavigationBar history={history} handleLogout={handleLogout} />
             <EventButton />
         </div>
     );
