@@ -139,7 +139,7 @@ function EventButton({ userEmail, fetchEvent }) {
                     <div className={combine(styles, 'row')}>
                         <Input
                             label='Perk'
-                            placeholder='What bonus do you offer?'
+                            placeholder='What is your charm?'
                         />
                     </div>
                     <Spacer size={24} />
