@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
 import { coalesce } from '../../lib/object';
@@ -10,7 +10,11 @@ EventList.propTypes = {
     title: PropTypes.string.isRequired,
 };
 
-export default function EventList({ title }) {
+const mapStateToProps = ({ event }) => ({
+    event
+})
+
+function EventList({ title, event }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
     const [isEnrichedEventsConsumed, setEnrichedEventsConsumed] =
@@ -24,6 +28,16 @@ export default function EventList({ title }) {
         eventListRef,
         atomicLockRef
     );
+    useEffect(() => {
+        if (event) {
+            setEnrichedEvents([{
+                event,
+                isLikedByTheGivenUser: false,
+                isTheGivenUserAttendee: false
+            }, ...enrichedEvents])
+        }
+        // eslint-disable-next-line
+    }, [event])
     useEffect(() => {
         const fetchEnrichedEventsByPageId = async () => {
             atomicLockRef.current = true;
@@ -67,3 +81,5 @@ export default function EventList({ title }) {
         </div>
     );
 }
+
+export default connect(mapStateToProps)(EventList)
