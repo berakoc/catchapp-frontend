@@ -40,7 +40,7 @@ function Home() {
         <div className={combine(styles, 'component')}>
             <NavigationBar />
             <div className={combine(styles, 'hero', 'paddy')} id='get_started'>
-                <Svg src={'/assets/hero.svg'} alt={'Hero'} size={'84vw'} />
+                <Svg src={'/assets/hero.svg'} alt={'Hero'} size={'72vw'} />
                 <Link
                     style={{
                         textDecoration: 'none',
