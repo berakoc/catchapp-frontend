@@ -1,3 +1,5 @@
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -10,7 +12,7 @@ import { Input } from '../components';
 
 export default function LoginForm(props) {
     return (
-        <form className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
+        <form autoComplete={'off'} className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
             <div
                 style={{
                     fontWeight: 600,
@@ -47,16 +49,13 @@ export default function LoginForm(props) {
             <Spacer size={32} />
             <Link
                 onClick={() => props.clearError()}
-                style={{
-                    color: Colors.primaryDark,
-                    textDecoration: 'none',
-                    paddingBottom: 2,
-                    borderBottom: `2px solid ${Colors.primary}`,
-                }}
+                className={combine(styles, 'helpLink')}
                 to='/signup'
             >
                 Not having an account?
             </Link>
+            <Spacer size={24} />
+            <Link to='/' className={combine(styles, 'goHome')}><FontAwesomeIcon icon={faHome} size={'1s'} /></Link>
         </form>
     );
 }

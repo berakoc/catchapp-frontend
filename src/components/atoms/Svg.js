@@ -6,7 +6,9 @@ import combine from '../../lib/style-composer';
 function Svg(props) {
     return (
         <img
-            width={props.size}
+            style={{
+                width: props.size,
+            }}
             src={props.src}
             alt={props.alt}
             className={combine(styles, 'component')}
@@ -16,8 +18,8 @@ function Svg(props) {
 
 Svg.propTypes = {
     src: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
     alt: PropTypes.string.isRequired,
+    size: PropTypes.string,
 };
 
 Svg.defaultProps = {

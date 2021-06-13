@@ -39,14 +39,6 @@ function UserCard({ user, isSessionUser }) {
             {!isSessionUser && (
                 <div className={combine(styles, 'buttons')}>
                     <FlexButton
-                        text='Chat'
-                        color={Colors.primaryLight}
-                        backgroundColor={Colors.white}
-                        borderColor={Colors.gray}
-                        handleClick={() => console.log('Chat')}
-                    />
-                    <div className={combine(styles, 'spacer')} />
-                    <FlexButton
                         text='Follow'
                         color={Colors.white}
                         backgroundColor={Colors.primary}

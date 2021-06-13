@@ -21,3 +21,30 @@
     display: flex;
     justify-content: space-between;
 }
+
+.helpLink {
+    color: $color-primary-dark;
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    &:hover {
+        border-bottom: 2px solid $color-primary;
+    }
+}
+
+.goHome {
+    color: white;
+    background-color: $color-primary;
+    display: inline-block;
+    font-size: $font-size-normal;
+    border-radius: $border-radius;
+    padding: 10px 12px;
+    user-select: none;
+    box-shadow: 0 0 0 0 rgba($color: #000000, $alpha: 0);
+    cursor: pointer;
+    font-weight: 500;
+
+    &:hover {
+        box-shadow: 0 4px 16px 1px rgba($color: $color-primary, $alpha: 0.2);
+    }
+}

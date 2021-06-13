@@ -21,25 +21,33 @@ const mapStateToProps = ({ user }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchEvent: event => dispatch(fetchEvent(event))
-})
+    fetchEvent: (event) => dispatch(fetchEvent(event)),
+});
 
 function EventButton({ userEmail, fetchEvent }) {
-    const tooltipRef = useRef(node => {
+    const tooltipRef = useRef((node) => {
         if (node) {
-            setToastLeft(-width / 2 - toastRef.current.getBoundingClientRect().width / 2 + 120)
+            setToastLeft(
+                -width / 2 -
+                    toastRef.current.getBoundingClientRect().width / 2 +
+                    120
+            );
         }
     });
     const formRef = useRef();
     const toastRef = useRef();
-    const [isToastActive, setToastActive] = useState(false)
-    const [toastLeft, setToastLeft] = useState(0)
+    const [isToastActive, setToastActive] = useState(false);
+    const [toastLeft, setToastLeft] = useState(0);
     const [isActive, setActive] = useState(false);
-    const {width} = useWindowSize()
-    useOutsideDetector(tooltipRef, setActive)
+    const { width } = useWindowSize();
+    useOutsideDetector(tooltipRef, setActive);
     useEffect(() => {
-        setToastLeft(-width / 2 - toastRef.current.getBoundingClientRect().width / 2 + 120)
-    }, [width])
+        setToastLeft(
+            -width / 2 -
+                toastRef.current.getBoundingClientRect().width / 2 +
+                120
+        );
+    }, [width]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const event = {
@@ -54,25 +62,37 @@ function EventButton({ userEmail, fetchEvent }) {
         try {
             fetchEvent(await EventAPI.createEvent(event));
             setActive(false);
-            setToastActive(true)
-            setTimeout(() => setToastActive(false), 2000)
-            formRef.current.reset()
+            setToastActive(true);
+            setTimeout(() => setToastActive(false), 2000);
+            formRef.current.reset();
         } catch (err) {
-            error(err)
+            error(err);
         }
     };
     return (
         <div className={combine(styles, 'component')}>
-            <div ref={toastRef} style={{
-                left: `${toastLeft}px`
-            }} className={combine(styles, 'toast', isToastActive ? 'activeToast' : 'inactiveToast')}>
-                <FontAwesomeIcon icon={faCheckCircle} size={'lg'} color={Colors.green} />
+            <div
+                ref={toastRef}
+                style={{
+                    left: `${toastLeft}px`,
+                }}
+                className={combine(
+                    styles,
+                    'toast',
+                    isToastActive ? 'activeToast' : 'inactiveToast'
+                )}
+            >
+                <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    size={'lg'}
+                    color={Colors.green}
+                />
                 <VSpacer size={8} />
                 <div>Event is successfully created</div>
             </div>
             <div
                 style={{
-                    pointerEvents: isActive ? 'none' : 'all'
+                    pointerEvents: isActive ? 'none' : 'all',
                 }}
                 onClick={() => !isActive && setActive(!isActive)}
                 className={combine(styles, 'icon')}

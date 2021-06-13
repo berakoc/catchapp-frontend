@@ -1,8 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import styles from '../../styles/atoms/Button.module.scss';
-import combine from '../../lib/style-composer';
 import Radium from 'radium';
+import React from 'react';
+import { hexToRGB } from '../../lib/string';
+import combine from '../../lib/style-composer';
+import styles from '../../styles/atoms/Button.module.scss';
 
 const createStyle = (props) => ({
     base: {
@@ -10,10 +11,11 @@ const createStyle = (props) => ({
         color: props.hasBorder ? props.color : 'white',
         borderStyle: 'solid',
         borderWidth: 2,
-        borderColor: props.hasBorder ? props.color : 'white',
+        borderColor: props.hasBorder ? props.color : 'transparent',
         width: props.width,
         height: props.height,
         borderRadius: props.borderRadius,
+        fontSize: props.fontSize,
     },
     borderless: {
         ':hover': {
@@ -22,9 +24,13 @@ const createStyle = (props) => ({
         },
     },
     normal: {
+        boxShadow: '0 0 0 0 rgba(0,0,0,0)',
         opacity: 0.85,
         ':hover': {
             opacity: 1,
+            boxShadow: `0 4px 16px 1px rgba(${hexToRGB(props.color).join(
+                ','
+            )},0.2)`,
         },
     },
 });
@@ -51,6 +57,7 @@ Button.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     borderRadius: PropTypes.number.isRequired,
+    fontSize: PropTypes.number,
 };
 
 Button.defaultProps = {
@@ -58,6 +65,7 @@ Button.defaultProps = {
     width: 120,
     height: 40,
     borderRadius: 6,
+    fontSize: 20,
 };
 
 export default Radium(Button);

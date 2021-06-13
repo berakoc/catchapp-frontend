@@ -11,8 +11,8 @@ EventList.propTypes = {
 };
 
 const mapStateToProps = ({ event }) => ({
-    event
-})
+    event,
+});
 
 function EventList({ title, event }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
@@ -30,14 +30,17 @@ function EventList({ title, event }) {
     );
     useEffect(() => {
         if (event) {
-            setEnrichedEvents([{
-                event,
-                isLikedByTheGivenUser: false,
-                isTheGivenUserAttendee: false
-            }, ...enrichedEvents])
+            setEnrichedEvents([
+                {
+                    event,
+                    isLikedByTheGivenUser: false,
+                    isTheGivenUserAttendee: false,
+                },
+                ...enrichedEvents,
+            ]);
         }
         // eslint-disable-next-line
-    }, [event])
+    }, [event]);
     useEffect(() => {
         const fetchEnrichedEventsByPageId = async () => {
             atomicLockRef.current = true;
@@ -82,4 +85,4 @@ function EventList({ title, event }) {
     );
 }
 
-export default connect(mapStateToProps)(EventList)
+export default connect(mapStateToProps)(EventList);

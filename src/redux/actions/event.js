@@ -1,10 +1,10 @@
-import { Event } from "./types";
+import { Event } from './types';
 
-export const fetchEvent = event => ({
+export const fetchEvent = (event) => ({
     type: Event.FETCH_EVENT,
-    payload: event
-})
+    payload: event,
+});
 
 export const removeEvent = () => ({
     type: Event.REMOVE_EVENT,
-})
+});

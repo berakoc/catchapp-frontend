@@ -10,8 +10,8 @@ export const User = {
 
 export const Event = {
     FETCH_EVENT: 'FETCH_EVENT',
-    REMOVE_EVENT: 'REMOVE_EVENT'
-}
+    REMOVE_EVENT: 'REMOVE_EVENT',
+};
 
 export const undetectedType = {
     type: 'Undetected',

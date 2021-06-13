@@ -18,3 +18,7 @@
 .textarea::placeholder {
     color: lighten($color-primary-light, 0.1)
 }
+
+.wrapper {
+    position: relative;
+}

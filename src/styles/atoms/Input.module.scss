@@ -5,10 +5,24 @@
 }
 
 .label {
+    position: absolute;
+    top: -8px;
     font-weight: 400;
     margin-bottom: 6px;
-    font-size: $font-size-normal;
+    font-size: $font-size-small;
+    left: 8px;
+    background-color: white;
+    padding: 0 2px;
     color: $color-primary-dark;
+    font-weight: 500;
+}
+
+.inactiveLabel {
+    color: $color-primary-light;
+}
+
+.activeLabel {
+    color: $color-primary;
 }
 
 .wrapper {
@@ -17,7 +31,7 @@
 
 .input {
     font-size: $font-size-normal * 0.9;
-    padding: 12px;
+    padding: 12px 14px;
     color: $color-primary-dark;
     border-radius: $border-radius;
     min-width: 210px;
@@ -38,7 +52,7 @@
 
 .check {
     position: absolute;
-    right: 8px;
+    right: 12px;
     top: 30%;
     cursor: pointer;
 }
