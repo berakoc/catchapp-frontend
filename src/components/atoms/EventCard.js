@@ -83,11 +83,7 @@ function EventCard({ event, metadata }) {
                     <div className={combine(styles, 'info')}>
                         <div
                             onClick={() => {
-                                history.push(
-                                    is(sessionUserEmail, event.creatorEmail)
-                                        ? '/dashboard'
-                                        : `/user/${encrypt(event.creatorEmail)}`
-                                );
+                                history.push(`/user/${encrypt(event.creatorEmail)}`);
                             }}
                             ref={nameRef}
                             className={combine(styles, 'fullName')}

@@ -1,6 +1,7 @@
 @import '../core/index';
 
 .component {
+    user-select: none;
     border-radius: $border-radius;
     text-align: center;
     padding: 12px 20px;

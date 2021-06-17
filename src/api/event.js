@@ -92,6 +92,13 @@ export default class EventAPI {
             getRequest(),
             ResponseType.JSON
         );
+
+    static getCreatedEnrichedEventPage = async (pageId, requestUserEmail, creatorUserEmail) => 
+            await fetchJSON(injectQueryParams(EVENT_API_URL.concat('/created/enriched/page'), {
+                pageId,
+                creatorUserEmail,
+                requestUserEmail
+            }), getRequest, ResponseType.JSON)
 }
 
 Object.freeze(EventAPI.prototype);

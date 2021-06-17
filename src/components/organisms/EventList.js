@@ -1,20 +1,22 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
 import { coalesce } from '../../lib/object';
 import { EventCard, Filter } from '../components';
-import PropTypes from 'prop-types';
 
 EventList.propTypes = {
     title: PropTypes.string.isRequired,
+    isDashboard: PropTypes.bool.isRequired,
+    userEmail: PropTypes.string
 };
 
 const mapStateToProps = ({ event }) => ({
     event,
 });
 
-function EventList({ title, event }) {
+function EventList({ title, event, isDashboard, userEmail }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
     const [isEnrichedEventsConsumed, setEnrichedEventsConsumed] =
@@ -47,9 +49,10 @@ function EventList({ title, event }) {
             if (isEnrichedEventsConsumed) return;
             let fetchedEnrichedEvents = [];
             if (sessionUserEmail) {
-                fetchedEnrichedEvents = await EventAPI.getEnrichedEventPage(
+                fetchedEnrichedEvents = await EventAPI[isDashboard ? 'getEnrichedEventPage' : 'getCreatedEnrichedEventPage'](
                     pageId,
-                    sessionUserEmail
+                    sessionUserEmail,
+                    !isDashboard ? userEmail : undefined
                 );
             }
             if (!fetchedEnrichedEvents.length && sessionUserEmail) {
@@ -71,7 +74,7 @@ function EventList({ title, event }) {
             atomicLockRef.current = false;
         });
         // eslint-disable-next-line
-    }, [pageId, isEnrichedEventsConsumed, sessionUserEmail]);
+    }, [pageId, isEnrichedEventsConsumed, sessionUserEmail, userEmail]);
     return (
         <div ref={eventListRef}>
             <Filter title={title} />

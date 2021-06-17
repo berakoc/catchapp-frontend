@@ -1,4 +1,4 @@
-import { faHeart, faShareSquare } from '@fortawesome/free-regular-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import UserAPI from '../../api/user';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, nullFn } from '../../lib/object';
-import { convertNumberToString, getDateString } from '../../lib/string';
+import { convertNumberToString, getDateString, hexToRGB } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/pages/Event.module.scss';
 import FlexButton from '../atoms/FlexButton';
@@ -22,7 +22,9 @@ import { Frame } from '../components';
 const User = ({ user, isSessionUser }) => {
     return (
         <div className={combine(styles, 'userCard')}>
-            <div className={combine(styles, 'hero')} />
+            <div style={{
+                backgroundColor: `rgba(${hexToRGB(user.profilePicture || '#fff').join(',')}, 0.4)`
+            }} className={combine(styles, 'hero')} />
             <div className={combine(styles, 'content')}>
                 <div
                     style={{ backgroundColor: user.profilePicture }}
@@ -44,6 +46,16 @@ const User = ({ user, isSessionUser }) => {
                         />
                     </>
                 )}
+                <Spacer size={24} />
+                <div className={combine(styles, 'block')}>
+                    <div className={combine(styles, 'blockTitle')}>Location</div>
+                    <div className={combine(styles, 'blockContent')}>{user.location}</div>
+                </div>
+                <div>
+                    <div className={combine(styles, 'blockTitle')}>Join Date</div>
+                    <div  className={combine(styles, 'blockContent')}>{getDateString(new Date(user.joinDate))}</div>
+                </div>
+                <Spacer size={8} />
             </div>
         </div>
     );
@@ -121,16 +133,42 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                             {convertNumberToString(numberOfLikes)}
                         </div>
                     </div>
-                    <div className={combine(styles, 'reaction')}>
-                        <FontAwesomeIcon
-                            className={combine(
-                                styles,
-                                syntheticMetadata.isTheGivenUserAttendee
-                                    ? 'active'
-                                    : 'inactive'
-                            )}
-                            onClick={
-                                isSessionUser
+                </div>
+            </div>
+            <div className={combine(styles, 'eventContent')}>
+                <div className={combine(styles, 'info')}>
+                    <div className={combine(styles, 'left')}>
+                        <div className={combine(styles, 'title')}>
+                            {event.title}
+                        </div>
+                        <Spacer size={48} />
+                        <div className={combine(styles, 'startDate')}>
+                            {getDateString(new Date(event.startDate))}
+                        </div>
+                        <Spacer size={24} />
+                        <div className={combine(styles, 'description')}>
+                            {event.description}
+                        </div>
+                        <Spacer size={24} />
+                        <div className={combine(styles, 'numberOfAttendees')}>{`${convertNumberToString(numberOfAttendees)} ${is(numberOfAttendees, 1) ? 'person is' : 'people are'} joining this event`}</div>
+                        <Spacer size={48} />
+                        <div className={combine(styles, 'join')}>
+                            <div className={combine(styles, 'endDateBlock')}>
+                                <div
+                                    className={combine(styles, 'endDateTitle')}
+                                >
+                                    Last Date
+                                </div>
+                                <div className={combine(styles, 'endDate')}>
+                                    {getDateString(new Date(event.endDate))}
+                                </div>
+                            </div>
+                            <FlexButton
+                                text={syntheticMetadata.isTheGivenUserAttendee || isSessionUser ? 'Joined' : 'Join Event'}
+                                color={Colors.white}
+                                backgroundColor={Colors.green}
+                                borderColor={Colors.green}
+                                handleClick={isSessionUser
                                     ? nullFn
                                     : () => {
                                           if (
@@ -162,53 +200,6 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                                           }
                                       }
                             }
-                            icon={faShareSquare}
-                        />
-                        <div
-                            className={combine(
-                                styles,
-                                syntheticMetadata.isTheGivenUserAttendee
-                                    ? 'active'
-                                    : 'inactive'
-                            )}
-                        >
-                            {convertNumberToString(numberOfAttendees)}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className={combine(styles, 'eventContent')}>
-                <div className={combine(styles, 'info')}>
-                    <div className={combine(styles, 'left')}>
-                        <div className={combine(styles, 'title')}>
-                            {event.title}
-                        </div>
-                        <Spacer size={48} />
-                        <div className={combine(styles, 'startDate')}>
-                            {getDateString(new Date(event.startDate))}
-                        </div>
-                        <Spacer size={24} />
-                        <div className={combine(styles, 'description')}>
-                            {event.description}
-                        </div>
-                        <Spacer size={48} />
-                        <div className={combine(styles, 'join')}>
-                            <div className={combine(styles, 'endDateBlock')}>
-                                <div
-                                    className={combine(styles, 'endDateTitle')}
-                                >
-                                    Last Date
-                                </div>
-                                <div className={combine(styles, 'endDate')}>
-                                    {getDateString(new Date(event.endDate))}
-                                </div>
-                            </div>
-                            <FlexButton
-                                text='Join Event'
-                                color={Colors.white}
-                                backgroundColor={Colors.green}
-                                borderColor={Colors.green}
-                                handleClick={() => console.log('Join Event')}
                                 maxWidth={180}
                             />
                         </div>
