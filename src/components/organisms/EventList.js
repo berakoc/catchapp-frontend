@@ -4,6 +4,7 @@ import { connect, useSelector } from 'react-redux';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
 import { coalesce } from '../../lib/object';
+import { removeEvent } from '../../redux/actions/event';
 import { EventCard, Filter } from '../components';
 
 EventList.propTypes = {
@@ -16,7 +17,11 @@ const mapStateToProps = ({ event }) => ({
     event,
 });
 
-function EventList({ title, event, isDashboard, userEmail }) {
+const mapDispatchToProps = (dispatch) => ({
+    clearEvent: () => dispatch(removeEvent())
+})
+
+function EventList({ title, event, isDashboard, userEmail, clearEvent }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
     const [createdEvents, setCreatedEvents] = useState([]);
@@ -41,6 +46,7 @@ function EventList({ title, event, isDashboard, userEmail }) {
                 },
                 ...createdEvents,
             ]);
+            clearEvent()
         }
         // eslint-disable-next-line
     }, [event]);
@@ -99,4 +105,4 @@ function EventList({ title, event, isDashboard, userEmail }) {
     );
 }
 
-export default connect(mapStateToProps)(EventList);
+export default connect(mapStateToProps, mapDispatchToProps)(EventList);
