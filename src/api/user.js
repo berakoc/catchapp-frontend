@@ -70,6 +70,11 @@ export default class UserAPI {
             }),
             getRequest()
         );
+
+    static getEnrichedUser = async (userEmail, requestedUserEmail) => await fetchJSON(injectQueryParams(USER_API_URL.concat('/enriched'), {
+        userEmail,
+        requestedUserEmail
+    }), getRequest(), ResponseType.JSON)
 }
 
 Object.freeze(UserAPI.prototype);

@@ -1,17 +1,27 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import User from '../../api/models/User';
+import React, { useEffect, useState } from 'react';
+import EnrichedUser from '../../api/models/EnrichedUser';
+import UserAPI from '../../api/user';
+import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
-import { EmptyObject } from '../../lib/object';
+import { coalesce, EmptyObject } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/UserCard.module.scss';
 import { FlexButton, Statistics } from '../components';
 
 /**
- * @param {{user: User, isSessionUser: Boolean}} props
+ * @param {{enrichedUser: EnrichedUser, isSessionUser: Boolean, sessionUserEmail: String}} props
  * @returns
  */
-function UserCard({ user, isSessionUser }) {
+function UserCard({ enrichedUser, isSessionUser, sessionUserEmail }) {
+    const user = enrichedUser.user
+    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed)
+    useEffect(() => {
+        if (is(isFollowed, undefined)) {
+            setFollowed(enrichedUser.isFollowed)
+        }
+        // eslint-disable-next-line
+    }, [enrichedUser.isFollowed])
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'info')}>
@@ -39,11 +49,19 @@ function UserCard({ user, isSessionUser }) {
             {!isSessionUser && (
                 <div className={combine(styles, 'buttons')}>
                     <FlexButton
-                        text='Follow'
+                        text={isFollowed ? 'Following' : 'Follow'}
                         color={Colors.white}
                         backgroundColor={Colors.primary}
                         borderColor={Colors.primary}
-                        handleClick={() => console.log('Follow')}
+                        handleClick={async () => {
+                            if (isFollowed) {
+                                await UserAPI.deleteFollower(user.email, sessionUserEmail)
+                                setFollowed(false)
+                            } else {
+                                await UserAPI.addFollower(user.email, sessionUserEmail)
+                                setFollowed(true)
+                            }
+                        }}
                     />
                 </div>
             )}
@@ -63,9 +81,9 @@ function UserCard({ user, isSessionUser }) {
 
 UserCard.propTypes = {
     isSessionUser: PropTypes.bool.isRequired,
-    user: PropTypes.oneOfType([
+    enrichedUser: PropTypes.oneOfType([
         PropTypes.instanceOf(EmptyObject),
-        PropTypes.instanceOf(User),
+        PropTypes.instanceOf(EnrichedUser),
     ]).isRequired,
 };
 

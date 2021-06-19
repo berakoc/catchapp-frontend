@@ -17,10 +17,19 @@ import Spacer from '../atoms/Spacer';
 import { Frame } from '../components';
 
 /**
- * @param {{user: import('../../api/models/User.js').default}} props
+ * @param {{enrichedUser: import('../../api/models/EnrichedUser.js').default}} props
  * @returns
  */
-const User = ({ user, isSessionUser }) => {
+const User = ({ enrichedUser, sessionUser }) => {
+    const isSessionUser = is(coalesce(sessionUser, 'email'), coalesce(enrichedUser, 'user', 'email'))
+    const user = coalesce(enrichedUser, 'user') || {}
+    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed)
+    useEffect(() => {
+        if (is(isFollowed, undefined)) {
+            setFollowed(enrichedUser.isFollowed)
+        }
+        // eslint-disable-next-line
+    }, [enrichedUser.isFollowed])
     return (
         <div className={combine(styles, 'userCard')}>
             <div style={{
@@ -41,11 +50,19 @@ const User = ({ user, isSessionUser }) => {
                     <>
                         <Spacer size={32} />
                         <FlexButton
-                            text='Follow'
+                            text={isFollowed ? 'Following' : 'Follow'}
                             color={Colors.white}
                             backgroundColor={Colors.primary}
                             borderColor={Colors.primary}
-                            handleClick={() => console.log('Follow')}
+                            handleClick={async () => {
+                                if (isFollowed) {
+                                    await UserAPI.deleteFollower(user.email, coalesce(sessionUser, 'email'))
+                                    setFollowed(false)
+                                } else {
+                                    await UserAPI.addFollower(user.email, coalesce(sessionUser, 'email'))
+                                    setFollowed(true)
+                                }
+                            }}
                         />
                     </>
                 )}
@@ -228,8 +245,7 @@ export default withRouter(function Event({ match }) {
     const sessionUser = useSelector(({ user }) => user);
     const eventId = match.params.id;
     const [enrichedEvent, setenrichedEvent] = useState({});
-    const [user, setUser] = useState({});
-    const isSessionUser = is(coalesce(sessionUser, 'id'), coalesce(user, 'id'));
+    const [enrichedUser, setEnrichedUser] = useState({});
     const fetchMetadata = (enrichedEvent) => {
         const { event, ...metadata } = enrichedEvent;
         return metadata;
@@ -238,10 +254,10 @@ export default withRouter(function Event({ match }) {
         EventAPI.getEnrichedEvent(eventId, coalesce(sessionUser, 'email')).then(
             async (enrichedEvent) => {
                 setenrichedEvent(enrichedEvent);
-                const user = await UserAPI.getUser(
-                    enrichedEvent.event.creatorEmail
+                const enrichedUser = await UserAPI.getEnrichedUser(
+                    enrichedEvent.event.creatorEmail, coalesce(sessionUser, 'email')
                 );
-                setUser(user);
+                setEnrichedUser(enrichedUser);
             }
         );
     }, [eventId, sessionUser]);
@@ -261,8 +277,8 @@ export default withRouter(function Event({ match }) {
                             <div className={combine(styles, 'user')}>
                                 {coalesce(enrichedEvent, 'event', 'id') && (
                                     <User
-                                        user={user}
-                                        isSessionUser={isSessionUser}
+                                        enrichedUser={enrichedUser}
+                                        sessionUser={sessionUser}
                                     />
                                 )}
                             </div>
