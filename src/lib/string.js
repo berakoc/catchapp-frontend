@@ -23,7 +23,7 @@ const monthNames = [
  * @returns {String}
  */
 export const getDateString = (date) =>
-    `${monthNames[date.getMonth()]} ${date.getDay()} ${
+    `${monthNames[date.getMonth()]} ${date.getDate()} ${
         new Date().getFullYear() !== date.getFullYear()
             ? date.getFullYear()
             : ''

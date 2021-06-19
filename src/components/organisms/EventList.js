@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createElement, useEffect, useRef, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
@@ -9,7 +9,7 @@ import { EventCard, Filter } from '../components';
 EventList.propTypes = {
     title: PropTypes.string.isRequired,
     isDashboard: PropTypes.bool.isRequired,
-    userEmail: PropTypes.string
+    userEmail: PropTypes.string,
 };
 
 const mapStateToProps = ({ event }) => ({
@@ -19,6 +19,7 @@ const mapStateToProps = ({ event }) => ({
 function EventList({ title, event, isDashboard, userEmail }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
+    const [createdEvents, setCreatedEvents] = useState([])
     const [isEnrichedEventsConsumed, setEnrichedEventsConsumed] =
         useState(false);
     const [pageId, setPageId] = useState(0);
@@ -32,13 +33,13 @@ function EventList({ title, event, isDashboard, userEmail }) {
     );
     useEffect(() => {
         if (event) {
-            setEnrichedEvents([
+            setCreatedEvents([
                 {
                     event: JSON.parse(event),
                     isLikedByTheGivenUser: false,
                     isTheGivenUserAttendee: false,
                 },
-                ...enrichedEvents,
+                ...createdEvents,
             ]);
         }
         // eslint-disable-next-line
@@ -49,7 +50,11 @@ function EventList({ title, event, isDashboard, userEmail }) {
             if (isEnrichedEventsConsumed) return;
             let fetchedEnrichedEvents = [];
             if (sessionUserEmail) {
-                fetchedEnrichedEvents = await EventAPI[isDashboard ? 'getEnrichedEventPage' : 'getCreatedEnrichedEventPage'](
+                fetchedEnrichedEvents = await EventAPI[
+                    isDashboard
+                        ? 'getEnrichedEventPage'
+                        : 'getCreatedEnrichedEventPage'
+                ](
                     pageId,
                     sessionUserEmail,
                     !isDashboard ? userEmail : undefined
@@ -78,6 +83,12 @@ function EventList({ title, event, isDashboard, userEmail }) {
     return (
         <div ref={eventListRef}>
             <Filter title={title} />
+            {createdEvents.map((enrichedEvent, index) => {
+                const { event, ...metadata } = enrichedEvent;
+                return (
+                    <EventCard key={index} event={event} metadata={metadata} />
+                );
+            })}
             {enrichedEvents.map((enrichedEvent, index) => {
                 const { event, ...metadata } = enrichedEvent;
                 return (

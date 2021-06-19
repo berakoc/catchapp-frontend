@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import FirebaseAuthAPI from '../../api/firebase-auth';
 import UserAPI from '../../api/user';
-import debug from '../../lib/debug';
+import { info } from '../../lib/debug';
 import { getRandomColor } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import { clearError, receiveError } from '../../redux/actions/error';
@@ -35,7 +35,7 @@ function Signup({ error, clearError, updateError }) {
             const { password, ...rest } = user;
             await UserAPI.createUser(rest);
             await FirebaseAuthAPI.signUp(...[user.email, user.password]);
-            debug('A new user is created.');
+            info('A new user is created');
         } catch (err) {
             updateError(err);
         }

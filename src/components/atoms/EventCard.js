@@ -5,12 +5,13 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, { memo, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import UserAPI from '../../api/user';
 import useAsync from '../../hooks/useAsync';
 import useIsOutside from '../../hooks/useIsOutside';
+import { Button } from '../components';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, compareProp, EmptyObject, nullFn } from '../../lib/object';
@@ -29,15 +30,23 @@ import EventAPI from '../../api/event';
 function EventCard({ event, metadata }) {
     const history = useHistory();
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
-    const [creator, setCreator] = useState(null);
+    const [enrichedCreator, setEnrichedCreator] = useState({});
+    const [isFollowed, setFollowed] = useState(enrichedCreator.isFollowed);
+    const creator = enrichedCreator.user
+    useEffect(() => {
+        if (is(isFollowed, undefined)) {
+            setFollowed(enrichedCreator.isFollowed);
+        }
+        // eslint-disable-next-line
+    }, [enrichedCreator.isFollowed]);
     const [syntheticMetadata, setSyntheticMetadata] = useState(metadata);
     const [numberOfLikes, setNumberOfLikes] = useState(event.numberOfLikes);
     const [numberOfAttendees, setNumberOfAttendees] = useState(
         event.numberOfAttendees
     );
     useAsync(
-        async () => await UserAPI.getUser(event.creatorEmail),
-        (user) => setCreator(user),
+        async () => await UserAPI.getEnrichedUser(event.creatorEmail, sessionUserEmail),
+        (enrichedUser) => setEnrichedCreator(enrichedUser),
         nullFn,
         [event.id]
     );
@@ -46,10 +55,12 @@ function EventCard({ event, metadata }) {
     const attendRef = useRef();
     const nameRef = useRef();
     const likeRef = useRef();
+    const followRef = useRef();
     const isOutsideOfName = useIsOutside(cardRef, nameRef);
     const isOutsideOfDelete = useIsOutside(cardRef, deleteRef);
     const isOutsideOfLike = useIsOutside(cardRef, likeRef);
     const isOutsideOfAttend = useIsOutside(cardRef, attendRef);
+    const isOutsideOfFollow = useIsOutside(cardRef, followRef)
     const isSessionUser = is(
         useSelector(({ user }) => coalesce(user, 'email')),
         event.creatorEmail
@@ -62,7 +73,8 @@ function EventCard({ event, metadata }) {
                     isOutsideOfLike &&
                     isOutsideOfAttend &&
                     isOutsideOfName &&
-                    (isOutsideOfDelete || !isSessionUser)
+                    isOutsideOfDelete &&
+                    isOutsideOfFollow
                 ) {
                     history.push(`/event/${coalesce(event, 'id')}`);
                 }
@@ -83,7 +95,9 @@ function EventCard({ event, metadata }) {
                     <div className={combine(styles, 'info')}>
                         <div
                             onClick={() => {
-                                history.push(`/user/${encrypt(event.creatorEmail)}`);
+                                history.push(
+                                    `/user/${encrypt(event.creatorEmail)}`
+                                );
                             }}
                             ref={nameRef}
                             className={combine(styles, 'fullName')}
@@ -99,24 +113,51 @@ function EventCard({ event, metadata }) {
                         )}`}</div>
                     </div>
                 </div>
-                {isSessionUser && (
-                    <div
-                        ref={deleteRef}
-                        className={combine(styles, 'delete')}
+
+                <div
+
+                >
+                    {isSessionUser ? (
+                        <div ref={deleteRef}
                         onClick={async () => {
                             await EventAPI.deleteEvent(event.id);
                             cardRef.current.style.display = 'none';
+                        }} className={combine(styles, 'delete')}>
+                            <FontAwesomeIcon
+                                icon={faTrashAlt}
+                                size={'sm'}
+                                color={Colors.white}
+                            />{' '}
+                        </div>
+                    ) : (
+                        <div ref={followRef}><Button
+                        fontSize={14}
+                        color={Colors.primary}
+                        text={isFollowed ? 'Following' : 'Follow'}
+                        width={120}
+                        height={35}
+                        borderRadius={3}
+                        handleClick={async () => {
+                            if (isFollowed) {
+                                await UserAPI.deleteFollower(
+                                    coalesce(creator, 'email'),
+                                    sessionUserEmail
+                                );
+                                setFollowed(false);
+                            } else {
+                                await UserAPI.addFollower(
+                                    coalesce(creator, 'email'),
+                                    sessionUserEmail
+                                );
+                                setFollowed(true);
+                            }
                         }}
-                    >
-                        <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            size={'sm'}
-                            color={Colors.white}
-                        />
-                    </div>
-                )}
+                    /></div>
+                    )}
+                </div>
             </div>
             <div className={combine(styles, 'event')}>
+                <div className={combine(styles, 'location')}>{event.location}</div>
                 <div className={combine(styles, 'title')}>{event.title}</div>
                 <div className={combine(styles, 'description')}>
                     {event.description}

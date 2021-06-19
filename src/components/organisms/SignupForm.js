@@ -12,7 +12,11 @@ import { Input, TextArea } from '../components';
 
 export default function SignupForm(props) {
     return (
-        <form autoComplete={'off'} className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
+        <form
+            autoComplete={'off'}
+            className={combine(styles, 'form')}
+            onSubmit={props.handleSubmit}
+        >
             <div
                 style={{
                     fontWeight: 600,
@@ -66,7 +70,9 @@ export default function SignupForm(props) {
                 Already have an account?
             </Link>
             <Spacer size={24} />
-            <Link to='/' className={combine(styles, 'goHome')}><FontAwesomeIcon icon={faHome} size={'1x'} /></Link>
+            <Link to='/' className={combine(styles, 'goHome')}>
+                <FontAwesomeIcon icon={faHome} size={'1x'} />
+            </Link>
         </form>
     );
 }

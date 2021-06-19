@@ -12,7 +12,11 @@ import { Input } from '../components';
 
 export default function LoginForm(props) {
     return (
-        <form autoComplete={'off'} className={combine(styles, 'form')} onSubmit={props.handleSubmit}>
+        <form
+            autoComplete={'off'}
+            className={combine(styles, 'form')}
+            onSubmit={props.handleSubmit}
+        >
             <div
                 style={{
                     fontWeight: 600,
@@ -55,7 +59,9 @@ export default function LoginForm(props) {
                 Not having an account?
             </Link>
             <Spacer size={24} />
-            <Link to='/' className={combine(styles, 'goHome')}><FontAwesomeIcon icon={faHome} size={'1x'} /></Link>
+            <Link to='/' className={combine(styles, 'goHome')}>
+                <FontAwesomeIcon icon={faHome} size={'1x'} />
+            </Link>
         </form>
     );
 }

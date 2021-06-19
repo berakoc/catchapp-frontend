@@ -14,14 +14,20 @@ import { FlexButton, Statistics } from '../components';
  * @returns
  */
 function UserCard({ enrichedUser, isSessionUser, sessionUserEmail }) {
-    const user = enrichedUser.user
-    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed)
+    const user = enrichedUser.user;
+    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed);
+    const [numberOfFollowers, setNumberOfFollowers] = useState(
+        coalesce(user, 'numberOfFollowers')
+    );
     useEffect(() => {
         if (is(isFollowed, undefined)) {
-            setFollowed(enrichedUser.isFollowed)
+            setFollowed(enrichedUser.isFollowed);
+        }
+        if (is(numberOfFollowers, undefined)) {
+            setNumberOfFollowers(coalesce(user, 'numberOfFollowers'));
         }
         // eslint-disable-next-line
-    }, [enrichedUser.isFollowed])
+    }, [enrichedUser.isFollowed, user.numberOfFollowers]);
     return (
         <div className={combine(styles, 'component')}>
             <div className={combine(styles, 'info')}>
@@ -42,7 +48,7 @@ function UserCard({ enrichedUser, isSessionUser, sessionUserEmail }) {
                     </div>
                     <Statistics
                         numberOfEvents={user.numberOfEventsCreated || 0}
-                        numberOfFollowers={user.numberOfFollowers || 0}
+                        numberOfFollowers={numberOfFollowers || 0}
                     />
                 </div>
             </div>
@@ -55,11 +61,19 @@ function UserCard({ enrichedUser, isSessionUser, sessionUserEmail }) {
                         borderColor={Colors.primary}
                         handleClick={async () => {
                             if (isFollowed) {
-                                await UserAPI.deleteFollower(user.email, sessionUserEmail)
-                                setFollowed(false)
+                                await UserAPI.deleteFollower(
+                                    user.email,
+                                    sessionUserEmail
+                                );
+                                setFollowed(false);
+                                setNumberOfFollowers(numberOfFollowers - 1);
                             } else {
-                                await UserAPI.addFollower(user.email, sessionUserEmail)
-                                setFollowed(true)
+                                await UserAPI.addFollower(
+                                    user.email,
+                                    sessionUserEmail
+                                );
+                                setFollowed(true);
+                                setNumberOfFollowers(numberOfFollowers + 1);
                             }
                         }}
                     />

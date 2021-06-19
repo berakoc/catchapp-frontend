@@ -2,9 +2,9 @@ import User from './User';
 
 export default class EnrichedUser {
     /**
-     * 
-     * @param {import('./User').default} user 
-     * @param {Boolean} isFollowed 
+     *
+     * @param {import('./User').default} user
+     * @param {Boolean} isFollowed
      */
     constructor(user, isFollowed) {
         this.user = user;

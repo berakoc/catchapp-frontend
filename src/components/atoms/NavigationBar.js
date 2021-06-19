@@ -1,7 +1,4 @@
-import {
-    faHome,
-    faSignOutAlt
-} from '@fortawesome/free-solid-svg-icons';
+import { faHome, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -26,7 +23,9 @@ function NavigationBar({ user, handleLogout, history }) {
     return (
         <div className={combine(styles, 'component')}>
             <div
-                onClick={() => history.push(`/user/${encrypt(coalesce(user, 'email'))}`)}
+                onClick={() =>
+                    history.push(`/user/${encrypt(coalesce(user, 'email'))}`)
+                }
                 style={{
                     cursor: 'pointer',
                     backgroundColor: coalesce(user, 'profilePicture'),
@@ -46,7 +45,7 @@ function NavigationBar({ user, handleLogout, history }) {
 
 NavigationBar.propTypes = {
     handleLogout: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps)(NavigationBar);

@@ -1,8 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { is } from '../lib/bool';
+import debug, { info } from '../lib/debug';
 import UserAPI from './user';
-import debug from '../lib/debug';
 
 export default class FirebaseAuthAPI {
     constructor() {
@@ -31,10 +31,10 @@ export default class FirebaseAuthAPI {
         firebase.auth().onAuthStateChanged(async (firebaseUser) => {
             if (firebaseUser) {
                 await fetchUser(await UserAPI.getUser(firebaseUser.email));
-                debug('Fetched the user.');
+                info('Fetched the user');
             }
         });
-        debug('Firebase Auth is ready.');
+        debug('Firebase Auth is ready');
     }
 
     static login = async (email, password) =>

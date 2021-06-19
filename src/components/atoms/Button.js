@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import React from 'react';
+import { nullFn } from '../../lib/object';
 import { hexToRGB } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/Button.module.scss';
@@ -39,6 +40,7 @@ function Button(props) {
     const innerStyle = createStyle(props);
     return (
         <div
+            onClick={props.handleClick}
             className={combine(styles, 'component')}
             style={[
                 innerStyle.base,
@@ -58,6 +60,7 @@ Button.propTypes = {
     height: PropTypes.number.isRequired,
     borderRadius: PropTypes.number.isRequired,
     fontSize: PropTypes.number,
+    handleClick: PropTypes.func.isRequired
 };
 
 Button.defaultProps = {
@@ -66,6 +69,7 @@ Button.defaultProps = {
     height: 40,
     borderRadius: 6,
     fontSize: 20,
+    handleClick: nullFn
 };
 
 export default Radium(Button);

@@ -16,24 +16,52 @@ function User({ sessionUser, isDashboard, match, recovery }) {
         match.params.id || (recovery && recovery.params.id)
     );
     const [enrichedUser, setEnrichedUser] = useState(new EnrichedUserModel());
-    const isSessionUser = is(coalesce(sessionUser, 'email'), coalesce(enrichedUser, 'user', 'email'))
+    const isSessionUser = is(
+        coalesce(sessionUser, 'email'),
+        coalesce(enrichedUser, 'user', 'email')
+    );
     useAsync(
-        () => UserAPI.getEnrichedUser(userEmail, coalesce(sessionUser, 'email')),
+        () =>
+            UserAPI.getEnrichedUser(userEmail, coalesce(sessionUser, 'email')),
         (enrichedUser) => setEnrichedUser(enrichedUser),
         nullFn,
         [userEmail]
     );
     return (
-        <div className={combine(styles, 'content', isDashboard ? 'dashboard' : 'user')}>
+        <div
+            className={combine(
+                styles,
+                'content',
+                isDashboard ? 'dashboard' : 'user'
+            )}
+        >
             <div className={combine(styles, isDashboard ? 'card' : 'userCard')}>
                 <UserCard
-                    enrichedUser={new EnrichedUserModel(EnrichedUserModel.create(enrichedUser.user || {}), enrichedUser.isFollowed)}
+                    enrichedUser={
+                        new EnrichedUserModel(
+                            EnrichedUserModel.create(enrichedUser.user || {}),
+                            enrichedUser.isFollowed
+                        )
+                    }
                     isSessionUser={isSessionUser}
                     sessionUserEmail={coalesce(sessionUser, 'email')}
                 />
             </div>
             <div className={combine(styles, 'events')}>
-                <EventList userEmail={coalesce(enrichedUser, 'user', 'email')} isDashboard={isDashboard} title={isDashboard ? 'My Dashboard' : `${coalesce(enrichedUser.user, 'name') && (coalesce(enrichedUser.user, 'name')).split(' ')[0]}'s Events`} />
+                <EventList
+                    userEmail={coalesce(enrichedUser, 'user', 'email')}
+                    isDashboard={isDashboard}
+                    title={
+                        isDashboard
+                            ? 'My Dashboard'
+                            : `${
+                                  coalesce(enrichedUser.user, 'name') &&
+                                  coalesce(enrichedUser.user, 'name').split(
+                                      ' '
+                                  )[0]
+                              }'s Events`
+                    }
+                />
             </div>
         </div>
     );
@@ -47,7 +75,7 @@ User.propTypes = {
 
 User.defaultProps = {
     isSessionUser: false,
-    isDashboard: false
+    isDashboard: false,
 };
 
 export default withRouter(User);

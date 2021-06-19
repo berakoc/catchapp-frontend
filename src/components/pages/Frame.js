@@ -18,8 +18,8 @@ function Frame({ logout, component: Component }) {
     const handleLogout = async () => {
         await FirebaseAuthAPI.logout();
         await logout();
-        history.push('/login')
-        debug('Logged out.');
+        history.push('/login');
+        debug('Logged out');
     };
     return (
         <div className={combine(styles, 'component')}>

@@ -7,7 +7,7 @@ import EventAPI from '../../api/event';
 import useOutsideDetector from '../../hooks/useOutsideDetector';
 import useWindowSize from '../../hooks/useWindowSize';
 import Colors from '../../lib/colors';
-import { error } from '../../lib/debug';
+import { error, info } from '../../lib/debug';
 import { coalesce } from '../../lib/object';
 import combine from '../../lib/style-composer';
 import { fetchEvent } from '../../redux/actions/event';
@@ -65,6 +65,7 @@ function EventButton({ userEmail, fetchEvent }) {
             setToastActive(true);
             setTimeout(() => setToastActive(false), 2000);
             formRef.current.reset();
+            info('Event is created');
         } catch (err) {
             error(err);
         }
@@ -137,10 +138,7 @@ function EventButton({ userEmail, fetchEvent }) {
                     </div>
                     <Spacer size={24} />
                     <div className={combine(styles, 'row')}>
-                        <Input
-                            label='Perk'
-                            placeholder='What is your charm?'
-                        />
+                        <Input label='Perk' placeholder='What is your charm?' />
                     </div>
                     <Spacer size={24} />
                     <AuthButton text='Create' />

@@ -8,7 +8,7 @@ import styles from '../../styles/atoms/Input.module.scss';
 
 function Input(props) {
     const [isPasswordHidden, setPasswordHidden] = useState(true);
-    const [isInputActive, setInputActive] = useState(false)
+    const [isInputActive, setInputActive] = useState(false);
     return (
         <div className={combine(styles, 'component')}>
             <div>
@@ -30,7 +30,15 @@ function Input(props) {
                             }
                         />
                     </div>
-                    <div className={combine(styles, 'label', isInputActive ? 'activeLabel' : 'inactiveLabel')}>{props.label}</div>
+                    <div
+                        className={combine(
+                            styles,
+                            'label',
+                            isInputActive ? 'activeLabel' : 'inactiveLabel'
+                        )}
+                    >
+                        {props.label}
+                    </div>
                     <input
                         onBlur={() => setInputActive(false)}
                         onFocus={() => setInputActive(true)}

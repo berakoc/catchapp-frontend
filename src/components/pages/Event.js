@@ -9,7 +9,12 @@ import UserAPI from '../../api/user';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, nullFn } from '../../lib/object';
-import { convertNumberToString, encrypt, getDateString, hexToRGB } from '../../lib/string';
+import {
+    convertNumberToString,
+    encrypt,
+    getDateString,
+    hexToRGB,
+} from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/pages/Event.module.scss';
 import FlexButton from '../atoms/FlexButton';
@@ -21,28 +26,41 @@ import { Frame } from '../components';
  * @returns
  */
 const User = ({ enrichedUser, sessionUser }) => {
-    const isSessionUser = is(coalesce(sessionUser, 'email'), coalesce(enrichedUser, 'user', 'email'))
-    const user = coalesce(enrichedUser, 'user') || {}
-    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed)
+    const isSessionUser = is(
+        coalesce(sessionUser, 'email'),
+        coalesce(enrichedUser, 'user', 'email')
+    );
+    const user = coalesce(enrichedUser, 'user') || {};
+    const [isFollowed, setFollowed] = useState(enrichedUser.isFollowed);
     useEffect(() => {
         if (is(isFollowed, undefined)) {
-            setFollowed(enrichedUser.isFollowed)
+            setFollowed(enrichedUser.isFollowed);
         }
         // eslint-disable-next-line
-    }, [enrichedUser.isFollowed])
+    }, [enrichedUser.isFollowed]);
     return (
         <div className={combine(styles, 'userCard')}>
-            <div style={{
-                backgroundColor: `rgba(${hexToRGB(user.profilePicture || '#fff').join(',')}, 0.4)`
-            }} className={combine(styles, 'hero')} />
+            <div
+                style={{
+                    backgroundColor: `rgba(${hexToRGB(
+                        user.profilePicture || '#fff'
+                    ).join(',')}, 0.4)`,
+                }}
+                className={combine(styles, 'hero')}
+            />
             <div className={combine(styles, 'content')}>
                 <div
                     style={{ backgroundColor: user.profilePicture }}
                     className={combine(styles, 'circle')}
                 />
-                <Link to={`/user/${encrypt(user.email)}`} style={{
-                    textDecoration: 'none'
-                }}><div className={combine(styles, 'name')}>{user.name}</div></Link>
+                <Link
+                    to={`/user/${encrypt(user.email)}`}
+                    style={{
+                        textDecoration: 'none',
+                    }}
+                >
+                    <div className={combine(styles, 'name')}>{user.name}</div>
+                </Link>
                 <div className={combine(styles, 'description')}>
                     {user.description}
                 </div>
@@ -56,11 +74,17 @@ const User = ({ enrichedUser, sessionUser }) => {
                             borderColor={Colors.primary}
                             handleClick={async () => {
                                 if (isFollowed) {
-                                    await UserAPI.deleteFollower(user.email, coalesce(sessionUser, 'email'))
-                                    setFollowed(false)
+                                    await UserAPI.deleteFollower(
+                                        user.email,
+                                        coalesce(sessionUser, 'email')
+                                    );
+                                    setFollowed(false);
                                 } else {
-                                    await UserAPI.addFollower(user.email, coalesce(sessionUser, 'email'))
-                                    setFollowed(true)
+                                    await UserAPI.addFollower(
+                                        user.email,
+                                        coalesce(sessionUser, 'email')
+                                    );
+                                    setFollowed(true);
                                 }
                             }}
                         />
@@ -68,12 +92,20 @@ const User = ({ enrichedUser, sessionUser }) => {
                 )}
                 <Spacer size={24} />
                 <div className={combine(styles, 'block')}>
-                    <div className={combine(styles, 'blockTitle')}>Location</div>
-                    <div className={combine(styles, 'blockContent')}>{user.location}</div>
+                    <div className={combine(styles, 'blockTitle')}>
+                        Location
+                    </div>
+                    <div className={combine(styles, 'blockContent')}>
+                        {user.location}
+                    </div>
                 </div>
                 <div>
-                    <div className={combine(styles, 'blockTitle')}>Join Date</div>
-                    <div  className={combine(styles, 'blockContent')}>{getDateString(new Date(user.joinDate))}</div>
+                    <div className={combine(styles, 'blockTitle')}>
+                        Join Date
+                    </div>
+                    <div className={combine(styles, 'blockContent')}>
+                        {getDateString(new Date(user.joinDate))}
+                    </div>
                 </div>
                 <Spacer size={8} />
             </div>
@@ -162,6 +194,7 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                             {event.title}
                         </div>
                         <Spacer size={48} />
+                        <div className={combine(styles, 'location')}>{event.location}</div>
                         <div className={combine(styles, 'startDate')}>
                             {getDateString(new Date(event.startDate))}
                         </div>
@@ -170,7 +203,13 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                             {event.description}
                         </div>
                         <Spacer size={24} />
-                        <div className={combine(styles, 'numberOfAttendees')}>{`${convertNumberToString(numberOfAttendees)} ${is(numberOfAttendees, 1) ? 'person is' : 'people are'} joining this event`}</div>
+                        <div
+                            className={combine(styles, 'numberOfAttendees')}
+                        >{`${convertNumberToString(numberOfAttendees)} ${
+                            is(numberOfAttendees, 1)
+                                ? 'person is'
+                                : 'people are'
+                        } joining this event`}</div>
                         <Spacer size={48} />
                         <div className={combine(styles, 'join')}>
                             <div className={combine(styles, 'endDateBlock')}>
@@ -184,42 +223,48 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                                 </div>
                             </div>
                             <FlexButton
-                                text={syntheticMetadata.isTheGivenUserAttendee || isSessionUser ? 'Joined' : 'Join Event'}
+                                text={
+                                    syntheticMetadata.isTheGivenUserAttendee ||
+                                    isSessionUser
+                                        ? 'Joined'
+                                        : 'Join Event'
+                                }
                                 color={Colors.white}
                                 backgroundColor={Colors.green}
                                 borderColor={Colors.green}
-                                handleClick={isSessionUser
-                                    ? nullFn
-                                    : () => {
-                                          if (
-                                              syntheticMetadata.isTheGivenUserAttendee
-                                          ) {
-                                              EventAPI.removeUserFromEvent(
-                                                  event.id,
-                                                  sessionUserEmail
-                                              );
-                                              setSyntheticMetadata({
-                                                  ...syntheticMetadata,
-                                                  isTheGivenUserAttendee: false,
-                                              });
-                                              setNumberOfAttendees(
-                                                  numberOfAttendees - 1
-                                              );
-                                          } else {
-                                              EventAPI.addUserToEvent(
-                                                  event.id,
-                                                  sessionUserEmail
-                                              );
-                                              setSyntheticMetadata({
-                                                  ...syntheticMetadata,
-                                                  isTheGivenUserAttendee: true,
-                                              });
-                                              setNumberOfAttendees(
-                                                  numberOfAttendees + 1
-                                              );
+                                handleClick={
+                                    isSessionUser
+                                        ? nullFn
+                                        : () => {
+                                              if (
+                                                  syntheticMetadata.isTheGivenUserAttendee
+                                              ) {
+                                                  EventAPI.removeUserFromEvent(
+                                                      event.id,
+                                                      sessionUserEmail
+                                                  );
+                                                  setSyntheticMetadata({
+                                                      ...syntheticMetadata,
+                                                      isTheGivenUserAttendee: false,
+                                                  });
+                                                  setNumberOfAttendees(
+                                                      numberOfAttendees - 1
+                                                  );
+                                              } else {
+                                                  EventAPI.addUserToEvent(
+                                                      event.id,
+                                                      sessionUserEmail
+                                                  );
+                                                  setSyntheticMetadata({
+                                                      ...syntheticMetadata,
+                                                      isTheGivenUserAttendee: true,
+                                                  });
+                                                  setNumberOfAttendees(
+                                                      numberOfAttendees + 1
+                                                  );
+                                              }
                                           }
-                                      }
-                            }
+                                }
                                 maxWidth={180}
                             />
                         </div>
@@ -255,7 +300,8 @@ export default withRouter(function Event({ match }) {
             async (enrichedEvent) => {
                 setenrichedEvent(enrichedEvent);
                 const enrichedUser = await UserAPI.getEnrichedUser(
-                    enrichedEvent.event.creatorEmail, coalesce(sessionUser, 'email')
+                    enrichedEvent.event.creatorEmail,
+                    coalesce(sessionUser, 'email')
                 );
                 setEnrichedUser(enrichedUser);
             }
