@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { createElement, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import EventAPI from '../../api/event';
 import useFlow from '../../hooks/useFlow';
