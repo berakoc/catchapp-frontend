@@ -194,7 +194,9 @@ const EventCard = ({ event, sessionUser, metadata }) => {
                             {event.title}
                         </div>
                         <Spacer size={48} />
-                        <div className={combine(styles, 'location')}>{event.location}</div>
+                        <div className={combine(styles, 'location')}>
+                            {event.location}
+                        </div>
                         <div className={combine(styles, 'startDate')}>
                             {getDateString(new Date(event.startDate))}
                         </div>

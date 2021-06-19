@@ -19,7 +19,7 @@ const mapStateToProps = ({ event }) => ({
 function EventList({ title, event, isDashboard, userEmail }) {
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
     const [enrichedEvents, setEnrichedEvents] = useState([]);
-    const [createdEvents, setCreatedEvents] = useState([])
+    const [createdEvents, setCreatedEvents] = useState([]);
     const [isEnrichedEventsConsumed, setEnrichedEventsConsumed] =
         useState(false);
     const [pageId, setPageId] = useState(0);

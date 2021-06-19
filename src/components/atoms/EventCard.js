@@ -5,13 +5,12 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import UserAPI from '../../api/user';
 import useAsync from '../../hooks/useAsync';
 import useIsOutside from '../../hooks/useIsOutside';
-import { Button } from '../components';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, compareProp, EmptyObject, nullFn } from '../../lib/object';
@@ -23,30 +22,21 @@ import {
 import combine from '../../lib/style-composer';
 import styles from '../../styles/atoms/EventCard.module.scss';
 import EventAPI from '../../api/event';
-
 /**
  * @param {{event: import('../../api/models/Event').default, metadata: {isLikedByTheGivenUser: boolean, isTheGivenUserAttendee: boolean}}} props
  */
 function EventCard({ event, metadata }) {
     const history = useHistory();
     const sessionUserEmail = useSelector(({ user }) => coalesce(user, 'email'));
-    const [enrichedCreator, setEnrichedCreator] = useState({});
-    const [isFollowed, setFollowed] = useState(enrichedCreator.isFollowed);
-    const creator = enrichedCreator.user
-    useEffect(() => {
-        if (is(isFollowed, undefined)) {
-            setFollowed(enrichedCreator.isFollowed);
-        }
-        // eslint-disable-next-line
-    }, [enrichedCreator.isFollowed]);
+    const [creator, setCreator] = useState(null);
     const [syntheticMetadata, setSyntheticMetadata] = useState(metadata);
     const [numberOfLikes, setNumberOfLikes] = useState(event.numberOfLikes);
     const [numberOfAttendees, setNumberOfAttendees] = useState(
         event.numberOfAttendees
     );
     useAsync(
-        async () => await UserAPI.getEnrichedUser(event.creatorEmail, sessionUserEmail),
-        (enrichedUser) => setEnrichedCreator(enrichedUser),
+        async () => await UserAPI.getUser(event.creatorEmail),
+        (user) => setCreator(user),
         nullFn,
         [event.id]
     );
@@ -55,12 +45,10 @@ function EventCard({ event, metadata }) {
     const attendRef = useRef();
     const nameRef = useRef();
     const likeRef = useRef();
-    const followRef = useRef();
     const isOutsideOfName = useIsOutside(cardRef, nameRef);
     const isOutsideOfDelete = useIsOutside(cardRef, deleteRef);
     const isOutsideOfLike = useIsOutside(cardRef, likeRef);
     const isOutsideOfAttend = useIsOutside(cardRef, attendRef);
-    const isOutsideOfFollow = useIsOutside(cardRef, followRef)
     const isSessionUser = is(
         useSelector(({ user }) => coalesce(user, 'email')),
         event.creatorEmail
@@ -73,8 +61,7 @@ function EventCard({ event, metadata }) {
                     isOutsideOfLike &&
                     isOutsideOfAttend &&
                     isOutsideOfName &&
-                    isOutsideOfDelete &&
-                    isOutsideOfFollow
+                    (isOutsideOfDelete || !isSessionUser)
                 ) {
                     history.push(`/event/${coalesce(event, 'id')}`);
                 }
@@ -113,51 +100,27 @@ function EventCard({ event, metadata }) {
                         )}`}</div>
                     </div>
                 </div>
-
-                <div
-
-                >
-                    {isSessionUser ? (
-                        <div ref={deleteRef}
+                {isSessionUser && (
+                    <div
+                        ref={deleteRef}
+                        className={combine(styles, 'delete')}
                         onClick={async () => {
                             await EventAPI.deleteEvent(event.id);
                             cardRef.current.style.display = 'none';
-                        }} className={combine(styles, 'delete')}>
-                            <FontAwesomeIcon
-                                icon={faTrashAlt}
-                                size={'sm'}
-                                color={Colors.white}
-                            />{' '}
-                        </div>
-                    ) : (
-                        <div ref={followRef}><Button
-                        fontSize={14}
-                        color={Colors.primary}
-                        text={isFollowed ? 'Following' : 'Follow'}
-                        width={120}
-                        height={35}
-                        borderRadius={3}
-                        handleClick={async () => {
-                            if (isFollowed) {
-                                await UserAPI.deleteFollower(
-                                    coalesce(creator, 'email'),
-                                    sessionUserEmail
-                                );
-                                setFollowed(false);
-                            } else {
-                                await UserAPI.addFollower(
-                                    coalesce(creator, 'email'),
-                                    sessionUserEmail
-                                );
-                                setFollowed(true);
-                            }
                         }}
-                    /></div>
-                    )}
-                </div>
+                    >
+                        <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            size={'sm'}
+                            color={Colors.white}
+                        />
+                    </div>
+                )}
             </div>
             <div className={combine(styles, 'event')}>
-                <div className={combine(styles, 'location')}>{event.location}</div>
+                <div className={combine(styles, 'location')}>
+                    {event.location}
+                </div>
                 <div className={combine(styles, 'title')}>{event.title}</div>
                 <div className={combine(styles, 'description')}>
                     {event.description}
@@ -283,7 +246,6 @@ function EventCard({ event, metadata }) {
         </div>
     );
 }
-
 EventCard.propTypes = {
     event: PropTypes.object.isRequired,
     metadata: PropTypes.oneOfType([
@@ -294,5 +256,4 @@ EventCard.propTypes = {
         }),
     ]),
 };
-
 export default memo(EventCard, compareProp('event', 'id'));

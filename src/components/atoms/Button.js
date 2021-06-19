@@ -60,7 +60,7 @@ Button.propTypes = {
     height: PropTypes.number.isRequired,
     borderRadius: PropTypes.number.isRequired,
     fontSize: PropTypes.number,
-    handleClick: PropTypes.func.isRequired
+    handleClick: PropTypes.func.isRequired,
 };
 
 Button.defaultProps = {
@@ -69,7 +69,7 @@ Button.defaultProps = {
     height: 40,
     borderRadius: 6,
     fontSize: 20,
-    handleClick: nullFn
+    handleClick: nullFn,
 };
 
 export default Radium(Button);
