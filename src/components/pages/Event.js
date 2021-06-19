@@ -3,12 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import EventAPI from '../../api/event';
 import UserAPI from '../../api/user';
 import { is } from '../../lib/bool';
 import Colors from '../../lib/colors';
 import { coalesce, nullFn } from '../../lib/object';
-import { convertNumberToString, getDateString, hexToRGB } from '../../lib/string';
+import { convertNumberToString, encrypt, getDateString, hexToRGB } from '../../lib/string';
 import combine from '../../lib/style-composer';
 import styles from '../../styles/pages/Event.module.scss';
 import FlexButton from '../atoms/FlexButton';
@@ -30,7 +31,9 @@ const User = ({ user, isSessionUser }) => {
                     style={{ backgroundColor: user.profilePicture }}
                     className={combine(styles, 'circle')}
                 />
-                <div className={combine(styles, 'name')}>{user.name}</div>
+                <Link to={`/user/${encrypt(user.email)}`} style={{
+                    textDecoration: 'none'
+                }}><div className={combine(styles, 'name')}>{user.name}</div></Link>
                 <div className={combine(styles, 'description')}>
                     {user.description}
                 </div>

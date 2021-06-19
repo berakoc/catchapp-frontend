@@ -34,7 +34,7 @@ function EventList({ title, event, isDashboard, userEmail }) {
         if (event) {
             setEnrichedEvents([
                 {
-                    event,
+                    event: JSON.parse(event),
                     isLikedByTheGivenUser: false,
                     isTheGivenUserAttendee: false,
                 },
